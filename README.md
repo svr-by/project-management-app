@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+#  Project Management System
+
+**Project management system** is an application that helps a team or group of developers achieve their goals.
+Link to the [task](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/project-management-system-EN.md)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
