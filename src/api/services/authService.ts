@@ -1,11 +1,19 @@
-import { api } from 'api/api';
+import axios from 'axios';
+import { TUserReq, TUserRes, TSignInRes } from 'api/types';
+import { SERVER_URL, LOCAL_STORAGE } from 'core/constants';
+import { setLocalValue } from 'core/services/storageService';
 
-export function signIn(login: string, password: string) {
+export const authAPI = axios.create({ baseURL: SERVER_URL });
+
+export async function signIn(login: string, password: string): Promise<TSignInRes> {
   const body = { login, password };
-  return api.post('/auth/signin', body).then((res) => res.data);
+  const token = await authAPI.post('/auth/signin', body).then((res) => res.data);
+  if (token) {
+    setLocalValue<string>(LOCAL_STORAGE.TOKEN, token);
+  }
+  return token;
 }
 
-export function signUp(name: string, login: string, password: string) {
-  const body = { name, login, password };
-  return api.post('/auth/signup', body).then((res) => res.data);
+export function signUp(user: TUserReq): Promise<TUserRes> {
+  return authAPI.post('/auth/signup', user).then((res) => res.data);
 }
