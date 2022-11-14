@@ -1,0 +1,32 @@
+.main {
+  display: flex;
+  background-color: #ececec;
+  margin-bottom: 700px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 3rem;
+  width: 30%;
+
+  &__header {
+    font-size: 3rem;
+    font-weight: bold;
+    font-style: oblique;
+    color: #313131;
+    text-shadow: 2px 2px 2px #313131;
+    letter-spacing: 0.1rem;
+  }
+
+  &__text {
+    font-size: 1.4rem;
+    color: #313131;
+    letter-spacing: 0.05rem;
+  }
+}
+
+.image {
+  width: 70%;
+}
