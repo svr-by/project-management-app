@@ -76,3 +76,17 @@ export type TTaskSet = {
   order: number;
   columnId: string;
 };
+
+export type TFileRes = {
+  _id: string;
+  name: string;
+  taskId: string;
+  boardId: string;
+  path: string;
+};
+
+export type TFileParams = {
+  boardId: string;
+  taskId: string;
+  file: File;
+};
