@@ -1,0 +1,110 @@
+ul {
+  list-style: none;
+}
+
+li {
+  display: block;
+}
+
+.container-tasks {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  padding: 10px 20px;
+  height: calc(100vh - 150px);
+  overflow: auto;
+}
+
+.container-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.column {
+  width: 300px;
+}
+
+.card-task {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #f9f7fa;
+  box-shadow: 0 0 10px 0 #d2d7e0;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.title-task {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0 10px;
+  gap: 15px;
+  margin-bottom: 15px;
+  border-bottom: solid 2px #000;
+}
+
+.title-input {
+  padding: 5px 8px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 7px;
+  font-size: 20px;
+  cursor: pointer;
+  resize: none;
+  overflow: hidden;
+}
+
+.close-button {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  background: url(../../../../public/svg/close.svg) no-repeat 50%;
+  border: none;
+  cursor: pointer;
+  transition: .2s linear;
+}
+
+.tasks-list {
+  min-height: 1px;
+  margin-bottom: 10px;
+  padding: 2px;
+  display: flex;
+  grid-gap: 7px;
+  gap: 7px;
+  flex-direction: column;
+  overflow: hidden auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 10%);
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.task-title {
+  max-width: 200px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.container-add-button {
+  width: 280px;
+}
+
+.add-button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  color: #5a5a5a;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s linear;
+}
