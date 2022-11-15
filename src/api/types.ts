@@ -90,3 +90,23 @@ export type TFileParams = {
   taskId: string;
   file: File;
 };
+
+export type TPointRes = {
+  _id: string;
+  title: string;
+  taskId: string;
+  boardId: string;
+  done: boolean;
+};
+
+export type TListPointParams = {
+  _id: string;
+  done: boolean;
+};
+
+export type TPointParams = {
+  title: string;
+  done: boolean;
+};
+
+export type TPointParamsExt = TPointParams & { taskId: string; boardId: string };
