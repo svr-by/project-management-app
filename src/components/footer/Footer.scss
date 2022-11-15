@@ -1,3 +1,5 @@
+@import "src/scss/variables";
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -30,7 +32,7 @@
 
   &__text {
     margin: 0;
-    color: #000000;
+    color: $black;
     font-size: 1.4rem;
   }
 }

@@ -1,8 +1,10 @@
+@import "src/scss/variables";
+
 .header {
   display: flex;
   padding: 1rem 3rem;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: $white;
   transition: background-color 300ms ease-in-out;
   position: fixed;
   left: 0;
@@ -11,7 +13,7 @@
 }
 
 .scroll {
-  background-color: #ffc9c3;
+  background-color: $background-red;
 }
 
 .logo {

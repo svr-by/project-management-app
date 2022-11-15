@@ -1,6 +1,8 @@
+@import "src/scss/variables";
+
 .main {
   display: flex;
-  background-color: #ececec;
+  background-color: $background-gray;
 }
 
 .description {
@@ -14,14 +16,14 @@
     font-size: 3rem;
     font-weight: bold;
     font-style: oblique;
-    color: #313131;
-    text-shadow: 2px 2px 2px #313131;
+    color: $dark-gray;
+    text-shadow: 2px 2px 2px $dark-gray;
     letter-spacing: 0.1rem;
   }
 
   &__text {
     font-size: 1.4rem;
-    color: #313131;
+    color: $dark-gray;
     letter-spacing: 0.05rem;
   }
 }
