@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import LogoKanban from '../../assets/img/kanban-1.svg';
 import { Button } from '../button/Button';
 import './Header.scss';
+import CustomizedSwitches from '../switch/Switch';
 
 export const Header = () => {
   const [backColor, setBackColor] = useState(0);
@@ -22,9 +23,9 @@ export const Header = () => {
         <p className="logo__description">Kanban</p>
       </div>
       <nav className="navigation">
+        <CustomizedSwitches />
         <Button naming="Sign in" />
         <Button naming="Sign up" />
-        <Button naming="Change language" />
       </nav>
     </header>
   );

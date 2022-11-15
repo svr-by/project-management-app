@@ -1,16 +1,16 @@
 .header {
   display: flex;
-  padding: 1rem;
+  padding: 1rem 3rem;
   justify-content: space-between;
+  background-color: #ffffff;
   transition: background-color 300ms ease-in-out;
-}
-
-.scroll {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
-  opacity: 0.7;
+}
+
+.scroll {
   background-color: #ffc9c3;
 }
 
