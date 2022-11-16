@@ -1,0 +1,52 @@
+@import "src/scss/variables";
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 3rem;
+}
+
+.school {
+  &__image {
+    width: 150px;
+  }
+}
+
+.github {
+  display: flex;
+  gap: 3rem;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__image {
+    width: 40px;
+  }
+
+  &__text {
+    margin: 0;
+    color: $black;
+    font-size: 1.4rem;
+  }
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  &__image {
+    width: 30px;
+  }
+
+  &__text {
+    margin: 0;
+  }
+}
