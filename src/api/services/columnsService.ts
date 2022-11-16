@@ -1,5 +1,5 @@
 import API from 'api/api';
-import { TColRes, TColParams, TColParamsExt, TListColParams } from 'api/types';
+import { TColRes, TColParams, TColParamsExt, TListColParams } from 'core/types/server';
 
 export function getColumnInBoard(boardId: string): Promise<TColRes[]> {
   return API.get(`/boards/${boardId}/columns`).then((res) => res.data);

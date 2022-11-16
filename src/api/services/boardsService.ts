@@ -1,5 +1,5 @@
 import API from 'api/api';
-import { TBoardParams, TBoardRes } from 'api/types';
+import { TBoardParams, TBoardRes } from 'core/types/server';
 
 export function getAllBoards(): Promise<TBoardRes[]> {
   return API.get('/boards').then((res) => res.data);

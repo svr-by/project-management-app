@@ -1,5 +1,5 @@
 import API from 'api/api';
-import { TTaskRes, TTaskResExt, TTaskParams, TTaskParamsExt, TTaskSet } from 'api/types';
+import { TTaskRes, TTaskResExt, TTaskParams, TTaskParamsExt, TTaskSet } from 'core/types/server';
 
 export function getTasksByColumn(boardId: string, columnId: string): Promise<TTaskResExt[]> {
   return API.get(`/boards/${boardId}/columns/${columnId}/tasks`).then((res) => res.data);

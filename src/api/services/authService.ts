@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TSignInParams, TSignInRes, TUserPrams, TUserRes } from 'api/types';
+import { TSignInParams, TSignInRes, TUserPrams, TUserRes } from 'core/types/server';
 import { SERVER_URL, LOCAL_STORAGE } from 'core/constants';
 import { setLocalValue } from 'core/services/storageService';
 

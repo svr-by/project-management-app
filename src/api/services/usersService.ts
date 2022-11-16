@@ -1,5 +1,5 @@
 import API from 'api/api';
-import { TUserPrams, TUserRes } from 'api/types';
+import { TUserPrams, TUserRes } from 'core/types/server';
 
 export function getAllUsers(): Promise<TUserRes[]> {
   return API.get('/users').then((res) => res.data);

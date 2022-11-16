@@ -1,5 +1,5 @@
 import API from 'api/api';
-import { TFileRes, TFileParams } from 'api/types';
+import { TFileRes, TFileParams } from 'core/types/server';
 
 export function getFiles(ids?: string[], userId?: string, taskId?: string): Promise<TFileRes[]> {
   return API.get(`/file`, { params: { ids, userId, taskId } }).then((res) => res.data);
