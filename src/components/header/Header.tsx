@@ -24,8 +24,8 @@ export const Header = () => {
       </div>
       <nav className="navigation">
         <CustomizedSwitches />
-        <Button>Sign in</Button>
-        <Button>Sign up</Button>
+        <Button style="shadow">Sign in</Button>
+        <Button style="shadow">Sign up</Button>
       </nav>
     </header>
   );

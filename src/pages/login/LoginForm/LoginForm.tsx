@@ -77,7 +77,7 @@ export const LoginForm = () => {
           minLength: { value: 8, message: ErrorMes.minPass },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
+      <Button type="submit" className="login-form__btn" style="flare" disabled={hasErrors}>
         Sign up
       </Button>
     </form>
