@@ -5,25 +5,31 @@ import { Button } from 'components/button/Button';
 
 enum ErrorMes {
   empty = 'This field is required',
+  minName = 'Min 4 letters for username',
+  minLogin = 'Min 4 letters for login',
+  minPass = 'Min  8 letters for password',
+  pattern = 'Invalid characters',
 }
 
 enum InputNames {
+  name = 'name',
   login = 'login',
   password = 'password',
 }
 
-interface ILoginForm {
+interface ISignupForm {
+  name: string;
   login: string;
   password: string;
 }
 
-export const LoginForm = () => {
+export const SignupForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<ILoginForm>();
+  } = useForm<ISignupForm>();
 
   const hasErrors = errors && Object.keys(errors).length !== 0;
 
@@ -33,12 +39,22 @@ export const LoginForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: ILoginForm) => {
-    console.log('LoginForm submit', data);
+  const onSubmit = (data: ISignupForm) => {
+    console.log('SignupForm submit', data);
   };
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <TextField
+        label="Name"
+        autoComplete="off"
+        error={!!errors[InputNames.name]}
+        helperText={errors[InputNames.name] ? errors[InputNames.name]?.message : ''}
+        {...register(InputNames.name, {
+          required: { value: true, message: ErrorMes.empty },
+          minLength: { value: 4, message: ErrorMes.minName },
+        })}
+      />
       <TextField
         label="Login"
         autoComplete="off"
@@ -46,6 +62,7 @@ export const LoginForm = () => {
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
         {...register(InputNames.login, {
           required: { value: true, message: ErrorMes.empty },
+          minLength: { value: 4, message: ErrorMes.minLogin },
         })}
       />
       <TextField
@@ -56,10 +73,11 @@ export const LoginForm = () => {
         helperText={errors[InputNames.password] ? errors[InputNames.password]?.message : ''}
         {...register(InputNames.password, {
           required: { value: true, message: ErrorMes.empty },
+          minLength: { value: 8, message: ErrorMes.minPass },
         })}
       />
       <Button type="submit" style="flare" disabled={hasErrors}>
-        Sign in
+        Sign up
       </Button>
     </form>
   );

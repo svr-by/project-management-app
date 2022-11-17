@@ -1,14 +1,13 @@
 import { LoginForm } from './LoginForm/LoginForm';
-import './LoginPage.scss';
 
 export const LoginPage = () => {
   return (
-    <div className="login">
-      <h1 className="login__title">Create account</h1>
+    <div className="page">
+      <h1 className="page__title">Sign in to your account</h1>
       <LoginForm />
-      <p className="login__question">
-        Already have an account?
-        <a href="">Sing in</a>
+      <p>
+        No account?
+        <a href="">Sign up!</a>
       </p>
     </div>
   );
