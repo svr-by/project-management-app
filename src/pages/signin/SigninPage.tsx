@@ -1,10 +1,10 @@
-import { LoginForm } from './LoginForm/LoginForm';
+import { SigninForm } from './SigninForm/SigninForm';
 
 export const LoginPage = () => {
   return (
     <div className="page">
       <h1 className="page__title">Sign in to your account</h1>
-      <LoginForm />
+      <SigninForm />
       <p>
         No account?
         <a href="">Sign up!</a>
