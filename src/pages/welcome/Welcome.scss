@@ -2,7 +2,7 @@
 
 .welcome {
   display: flex;
-  background-color: $background-gray;
+  background-color: $background-element-two;
 }
 
 .description {
@@ -16,14 +16,14 @@
     font-size: 3rem;
     font-weight: bold;
     font-style: oblique;
-    color: $dark-gray;
-    text-shadow: 2px 2px 2px $dark-gray;
+    color: $text-color;
+    text-shadow: 2px 2px 2px $text-color;
     letter-spacing: 0.1rem;
   }
 
   &__text {
     font-size: 1.4rem;
-    color: $dark-gray;
+    color: $text-color;
     letter-spacing: 0.05rem;
   }
 }

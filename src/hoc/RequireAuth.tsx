@@ -9,8 +9,8 @@ export const RequireAuth = ({ children }: ComponentProps) => {
   const auth = false;
 
   if (!auth) {
-    return <Navigate to="/welcome" />;
+    return <Navigate to="/sign-up" />;
   }
 
-  return <>children</>;
+  return <>{children}</>;
 };

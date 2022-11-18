@@ -3,7 +3,7 @@
 .link {
   text-decoration: none;
   background-color: $white;
-  border: 3px solid $red;
+  border: 3px solid $marker;
   border-radius: 0.6em;
   padding: 0.5rem;
   font-size: 1.2rem;
@@ -13,7 +13,11 @@
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 
   &:hover {
-    box-shadow: 0 0 40px 40px $red inset;
+    box-shadow: 0 0 40px 40px $marker inset;
     color: $white;
   }
+}
+
+.active {
+  color: #e3cc00;
 }

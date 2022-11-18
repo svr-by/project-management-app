@@ -2,9 +2,12 @@ $tablet: 1024px;
 $mobile: 767px;
 $small-screen: 480px;
 
+// todo пересмотреть названия
+//если будут темы то переменные в js в var
+
 $white: #ffffff;
 $black: #000000;
-$red: #e74c3c;
-$background-red: #ffc9c3;
-$background-gray: #ececec;
-$dark-gray: #313131;
+$marker: #e74c3c;
+$background-element-one: #ffc9c3;
+$background-element-two: #ececec;
+$text-color: #313131;
