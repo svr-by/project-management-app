@@ -58,7 +58,7 @@ export const SigninForm = () => {
           required: { value: true, message: ErrorMes.empty },
         })}
       />
-      <Button type="submit" style="flare" disabled={hasErrors}>
+      <Button type="submit" disabled={hasErrors}>
         Sign in
       </Button>
     </form>

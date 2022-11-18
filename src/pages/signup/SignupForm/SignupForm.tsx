@@ -76,7 +76,7 @@ export const SignupForm = () => {
           minLength: { value: 8, message: ErrorMes.minPass },
         })}
       />
-      <Button type="submit" style="flare" disabled={hasErrors}>
+      <Button type="submit" disabled={hasErrors}>
         Sign up
       </Button>
     </form>
