@@ -1,79 +1,50 @@
 import './Board.scss';
-import { useRef, useEffect } from 'react';
-import { Column } from '../Column/Column';
+import { useEffect } from 'react';
+import { Column } from 'app/components/Column/Column';
+import { useAppDispatch, useAppSelector, selectColumnsInBoardId } from 'redux/hooks';
+import { getColumnsInBoardId } from 'redux/slices/columnsSlice';
+import { TColParams } from 'core/types/server';
+import { createColumn } from 'api/services/columnsService';
 
-function Board() {
-  const listColumnsRef = useRef<HTMLUListElement>(null);
-  const data = [
-    {
-      id: 'sbalgr',
-      title: 'some',
-      order: 1,
-      tasks: [
-        {
-          id: 'sbalgr',
-          title: 'some',
-          order: 1,
-          description: 'kjrgn',
-          userID: null,
-        },
-      ],
-    },
-    {
-      id: 'sbalgr',
-      title: 'some',
-      order: 2,
-      tasks: [
-        {
-          id: 'sbalgr',
-          title: 'some',
-          order: 1,
-          description: 'kjrgn',
-          userID: null,
-        },
-      ],
-    },
-  ];
+type boardProps = {
+  boardId: string;
+};
 
-  // useEffect(() => {
-  //   dispatch(fetchCards({ limitData, currentPage, searchString }));
-  // }, [limitData, currentPage, searchString, dispatch]);
+const Board = (props: boardProps) => {
+  const dispatch = useAppDispatch();
+  const { data /*error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
 
-  const addColumn = () => {
-    const x = {
-      id: '6666',
-      title: '6666',
-      order: 1,
-      tasks: [
-        {
-          id: '6666',
-          title: '66666',
-          order: 1,
-          description: '66666',
-          userID: null,
-        },
-      ],
+  useEffect(() => {
+    dispatch(getColumnsInBoardId(props.boardId));
+  }, [props.boardId, dispatch]);
+
+  const handleAddColumnId = async () => {
+    const newColumn: TColParams = {
+      title: 'New Title',
+      order: 0,
     };
-    data.push(x);
-    console.log(data);
+
+    await createColumn(props.boardId, newColumn);
+
+    dispatch(getColumnsInBoardId(props.boardId));
   };
 
   return (
     <div className="container-tasks">
-      <ul className="container-columns" ref={listColumnsRef}>
-        {data.map((el, ind) => (
-          <li className="column" key={ind}>
-            <Column dataColumn={el} />
+      <ul className="container-columns">
+        {data.map((el) => (
+          <li className="column" key={el._id}>
+            <Column columnId={el._id} boardId={el.boardId} title={el.title} />
           </li>
         ))}
       </ul>
       <div className="container-add-button">
-        <button className="add-button" onClick={addColumn}>
+        <button className="add-button" onClick={handleAddColumnId}>
           + Add column
         </button>
       </div>
     </div>
   );
-}
+};
 
 export { Board };

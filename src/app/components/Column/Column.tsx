@@ -1,28 +1,28 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Task } from '../Task/Task';
+import { useAppDispatch, useAppSelector, selectTasksInColumnId } from 'redux/hooks';
+import { getTasksInColumnId } from 'redux/slices/tasksSlice';
+import { getColumnsInBoardId } from 'redux/slices/columnsSlice';
+import { deleteColumnById } from 'api/services/columnsService';
+import { createTask } from 'api/services/tasksService';
+import { TTaskParams } from 'core/types/server';
 
-export type ITask = {
-  id: string;
+type TaskProps = {
+  boardId: string;
+  columnId: string;
   title: string;
-  order: number;
-  description: string;
-  userID: string | null;
 };
 
-type IColumn = {
-  id: string;
-  title: string;
-  order: number;
-  tasks: ITask[];
-};
-
-type ColumnProps = {
-  dataColumn: IColumn;
-};
-
-function Column(props: ColumnProps) {
+const Column = (props: TaskProps) => {
+  const { boardId, columnId, title } = props;
+  const dispatch = useAppDispatch();
+  const { data /*error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(title);
+
+  useEffect(() => {
+    dispatch(getTasksInColumnId({ boardId, columnId }));
+  }, [boardId, columnId, dispatch]);
 
   const autosize = () => {
     if (textAreaRef.current) {
@@ -38,6 +38,26 @@ function Column(props: ColumnProps) {
     }
   };
 
+  const handleDeleteColumnId = async () => {
+    await deleteColumnById(boardId, columnId);
+
+    dispatch(getColumnsInBoardId(boardId));
+  };
+
+  const handleAddTaskId = async () => {
+    const newTask: TTaskParams = {
+      title: '',
+      order: 0,
+      description: '',
+      userId: '',
+      users: [''],
+    };
+
+    await createTask(boardId, columnId, newTask);
+
+    dispatch(getTasksInColumnId({ boardId, columnId }));
+  };
+
   return (
     <div className="card-task">
       <div className="title-task">
@@ -46,18 +66,20 @@ function Column(props: ColumnProps) {
           spellCheck="false"
           ref={textAreaRef}
           onChange={handleChange}
-          value={props.dataColumn.title}
+          value={value}
         ></textarea>
-        <button className="close-button"></button>
+        <button className="close-button" onClick={handleDeleteColumnId}></button>
       </div>
       <ul className="tasks-list">
-        {props.dataColumn.tasks.map((el, ind) => (
-          <Task key={ind} dataTask={el} />
+        {data.map((el) => (
+          <Task key={el._id} boardId={boardId} columnId={columnId} dataTask={el} />
         ))}
       </ul>
-      <button className="add-button">+ Add task</button>
+      <button className="add-button" onClick={handleAddTaskId}>
+        + Add task
+      </button>
     </div>
   );
-}
+};
 
 export { Column };
