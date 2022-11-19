@@ -3,6 +3,7 @@ import LogoKanban from '../../assets/img/kanban-1.svg';
 import { Button } from '../button/Button';
 import './Header.scss';
 import CustomizedSwitches from '../switch/Switch';
+import CustomLink from '../customLink/CustomLink';
 
 export const Header = () => {
   const [backColor, setBackColor] = useState(0);
@@ -24,8 +25,8 @@ export const Header = () => {
       </div>
       <nav className="navigation">
         <CustomizedSwitches />
-        <Button style="shadow">Sign in</Button>
-        <Button style="shadow">Sign up</Button>
+        <CustomLink to="/sign-in" child="Sign in" />
+        <CustomLink to="/sign-up" child="Sign up" />
       </nav>
     </header>
   );
