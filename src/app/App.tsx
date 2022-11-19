@@ -1,16 +1,36 @@
+import { Route, Routes } from 'react-router-dom';
+import { Welcome, Main, NotFoundPage, SignIn, SignUp, Board } from '../pages';
+import { Layout } from '../layout/Layout';
+import { RequireAuth } from '../hoc/RequireAuth';
 import './App.scss';
-import { Footer } from '../components/footer/Footer';
-import { Header } from '../components/header/Header';
-import { Main } from '../pages/main/Main';
-import { Board } from 'app/components/Board/Board';
 
 function App() {
   return (
     <div className="app">
-      <Header />
-      {/* <Main /> */}
-      <Board boardId={boardId} />
-      <Footer />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="welcome" element={<Welcome />} />
+          <Route path="sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
+          <Route
+            index
+            element={
+              <RequireAuth>
+                <Main />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="board"
+            element={
+              <RequireAuth>
+                <Board />
+              </RequireAuth>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
