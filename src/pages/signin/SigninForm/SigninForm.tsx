@@ -1,4 +1,7 @@
 import { useEffect } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { singIn } from 'redux/slices/userSlice';
+import { TSignInParams } from 'core/types/server';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Button } from 'components/button/Button';
@@ -18,6 +21,8 @@ interface ISignInForm {
 }
 
 export const SignInForm = () => {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -33,8 +38,9 @@ export const SignInForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: ISignInForm) => {
+  const onSubmit = (data: TSignInParams) => {
     console.log('LoginForm submit', data);
+    dispatch(singIn(data));
   };
 
   return (

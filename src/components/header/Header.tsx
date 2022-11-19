@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 import { Link, NavLink } from 'react-router-dom';
 import { PATHS } from 'core/constants';
 import { CustomizedSwitches } from 'components';
@@ -6,6 +8,8 @@ import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
 
 export const Header = () => {
+  const user = useSelector((state: RootState) => state.user);
+
   const [backColor, setBackColor] = useState(0);
 
   useEffect(() => {
@@ -27,12 +31,18 @@ export const Header = () => {
       </div>
       <nav className="nav">
         <CustomizedSwitches />
-        <NavLink to={PATHS.SIGN_IN} className="custom-link">
-          Sign in
-        </NavLink>
-        <NavLink to={PATHS.SIGN_UP} className="custom-link">
-          Sign up
-        </NavLink>
+        {!user.id ? (
+          <>
+            <NavLink to={PATHS.SIGN_IN} className="custom-link">
+              Sign in
+            </NavLink>
+            <NavLink to={PATHS.SIGN_UP} className="custom-link">
+              Sign up
+            </NavLink>
+          </>
+        ) : (
+          <a className="custom-link">Sign out</a>
+        )}
       </nav>
     </header>
   );
