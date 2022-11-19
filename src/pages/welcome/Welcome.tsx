@@ -1,5 +1,7 @@
-import CustomLink from '../../components/customLink/CustomLink';
-import KanbanBeautifulPicture from '../../assets/img/kanban-g96044c9d3_1920.jpg';
+// import CustomLink from '../../components/customLink/CustomLink';
+import { Link } from 'react-router-dom';
+import { PATHS } from 'core/constants';
+import KanbanBeautifulPicture from 'assets/img/kanban-g96044c9d3_1920.jpg';
 import './Welcome.scss';
 
 export const Welcome = () => {
@@ -12,7 +14,9 @@ export const Welcome = () => {
           timely completion. Trackers are widely used in project management, because they allow you
           to easily monitor all work processes and control the work of the team
         </p>
-        <CustomLink to="/sign-up" child="Get started" />
+        <Link to={PATHS.BOARD} className="custom-link">
+          Get started
+        </Link>
       </div>
       <img className="image" src={KanbanBeautifulPicture} alt="KanbanBeautifulPicture" />
     </div>

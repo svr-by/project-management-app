@@ -1,13 +1,16 @@
-import { SigninForm } from './SigninForm/SigninForm';
+import { Link } from 'react-router-dom';
+import { PATHS } from 'core/constants';
+import { SignInForm } from './SignInForm/SignInForm';
+import './SignInPage.scss';
 
-export const LoginPage = () => {
+export const SignInPage = () => {
   return (
-    <div className="page">
-      <h1 className="page__title">Sign in to your account</h1>
-      <SigninForm />
+    <div className="signin">
+      <h1>Sign in to your account</h1>
+      <SignInForm />
       <p>
         No account?
-        <a href="">Sign up!</a>
+        <Link to={`/${PATHS.SIGN_UP}`}>Sign up!</Link>
       </p>
     </div>
   );

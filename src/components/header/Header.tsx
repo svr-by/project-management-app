@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import LogoKanban from '../../assets/img/kanban-1.svg';
-import { Button } from '../button/Button';
+import { Link, NavLink } from 'react-router-dom';
+import { PATHS } from 'core/constants';
+import { CustomizedSwitches } from 'components';
+import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
-import CustomizedSwitches from '../switch/Switch';
-import CustomLink from '../customLink/CustomLink';
 
 export const Header = () => {
   const [backColor, setBackColor] = useState(0);
@@ -20,13 +20,19 @@ export const Header = () => {
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
-        <img src={LogoKanban} alt="LogoKanban" className="logo__image" />
-        <p className="logo__description">Kanban</p>
+        <Link to={PATHS.HOME} className="logo__link">
+          <img src={LogoKanban} alt="LogoKanban" className="logo__image" />
+          <p className="logo__description">Kanban</p>
+        </Link>
       </div>
-      <nav className="navigation">
+      <nav className="nav">
         <CustomizedSwitches />
-        <CustomLink to="/sign-in" child="Sign in" />
-        <CustomLink to="/sign-up" child="Sign up" />
+        <NavLink to={PATHS.SIGN_IN} className="custom-link">
+          Sign in
+        </NavLink>
+        <NavLink to={PATHS.SIGN_UP} className="custom-link">
+          Sign up
+        </NavLink>
       </nav>
     </header>
   );

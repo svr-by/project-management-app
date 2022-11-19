@@ -12,18 +12,18 @@ enum InputNames {
   password = 'password',
 }
 
-interface ISigninForm {
+interface ISignInForm {
   login: string;
   password: string;
 }
 
-export const SigninForm = () => {
+export const SignInForm = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<ISigninForm>();
+  } = useForm<ISignInForm>();
 
   const hasErrors = errors && Object.keys(errors).length !== 0;
 
@@ -33,7 +33,7 @@ export const SigninForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: ISigninForm) => {
+  const onSubmit = (data: ISignInForm) => {
     console.log('LoginForm submit', data);
   };
 

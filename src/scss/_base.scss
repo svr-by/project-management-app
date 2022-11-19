@@ -11,8 +11,14 @@ html {
   font-family: "Open Sans";
 }
 
-.page {
-  margin-top: 100px;
+header,
+main,
+footer {
+  padding: 1rem 3rem;
+}
+
+main {
+  height: 100%;
 }
 
 .form {
@@ -27,4 +33,22 @@ html {
   box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px,
               rgb(0 0 0 / 14%) 0px 3px 4px 0px, 
               rgb(0 0 0 / 12%) 0px 1px 8px 0px;
+}
+
+.custom-link {
+  text-decoration: none;
+  background-color: $white;
+  border: 3px solid $marker;
+  border-radius: 0.6em;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000000;
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 40px 40px $marker inset;
+    color: $white;
+  }
 }

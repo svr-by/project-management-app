@@ -12,9 +12,9 @@
   cursor: pointer;
 
   &:disabled {
-    background-color: $gray;
-    border-color: $gray;
-    color: $dark-gray;
+    background-color: $grey;
+    border-color: $grey;
+    color: $dark-grey;
     cursor: default;
   }
 

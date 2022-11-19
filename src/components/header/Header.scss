@@ -2,7 +2,6 @@
 
 .header {
   display: flex;
-  padding: 1rem 3rem;
   justify-content: space-between;
   background-color: $white;
   transition: background-color 300ms ease-in-out;
@@ -12,16 +11,16 @@
   width: 100%;
 }
 
-.scroll {
-  position: fixed;
-  background-color: $background-element;
-}
-
 .logo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 200px;
+  
+  &__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: $black;
+  }
 
   &__image {
     width: 50px;
@@ -37,9 +36,13 @@
   }
 }
 
-.navigation {
+.nav {
   display: flex;
   width: 330px;
   justify-content: space-between;
+}
 
+.scroll {
+  position: fixed;
+  background-color: $background-element;
 }
