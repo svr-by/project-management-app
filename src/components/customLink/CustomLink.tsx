@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink as ReactRouterLink, useMatch } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './CustomLink.scss';
 
 type CustomLinkProps = {
@@ -9,9 +9,9 @@ type CustomLinkProps = {
 
 const CustomLink = ({ child, to }: CustomLinkProps) => {
   return (
-    <ReactRouterLink className="link" to={to}>
+    <NavLink className="link" to={to}>
       {child}
-    </ReactRouterLink>
+    </NavLink>
   );
 };
 
