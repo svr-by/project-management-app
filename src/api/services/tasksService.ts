@@ -9,7 +9,7 @@ export function createTask(
   boardId: string,
   columnId: string,
   task: TTaskParams
-): Promise<TTaskRes> {
+): Promise<TTaskResExt> {
   return API.post(`/boards/${boardId}/columns/${columnId}/tasks`, task).then((res) => res.data);
 }
 

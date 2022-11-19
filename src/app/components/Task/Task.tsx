@@ -1,7 +1,6 @@
 import { TTaskResExt } from 'core/types/server';
 import { useAppDispatch } from 'redux/hooks';
-import { getTasksInColumnId } from 'redux/slices/tasksSlice';
-import { deleteTaskById } from 'api/services/tasksService';
+import { deleteTasksInColumnId } from 'redux/slices/tasksSlice';
 
 type TaskProps = {
   boardId: string;
@@ -11,17 +10,17 @@ type TaskProps = {
 
 function Task(props: TaskProps) {
   const { boardId, columnId, dataTask } = props;
+  const taskId = dataTask._id;
+  const title = dataTask.title;
   const dispatch = useAppDispatch();
 
   const handleDeleteTaskId = async () => {
-    await deleteTaskById(boardId, columnId, dataTask._id);
-
-    dispatch(getTasksInColumnId({ boardId, columnId }));
+    dispatch(deleteTasksInColumnId({ boardId, columnId, taskId }));
   };
 
   return (
     <li className="task-item">
-      <div className="task-title">{dataTask.title}</div>
+      <div className="task-title">{title}</div>
       <button className="close-button" onClick={handleDeleteTaskId}></button>
     </li>
   );

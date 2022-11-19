@@ -1,22 +1,23 @@
 import './Board.scss';
 import { useEffect } from 'react';
 import { Column } from 'app/components/Column/Column';
-import { useAppDispatch, useAppSelector, selectColumnsInBoardId } from 'redux/hooks';
-import { getColumnsInBoardId } from 'redux/slices/columnsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { selectColumnsInBoardId } from 'redux/selectors';
+import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TColParams } from 'core/types/server';
-import { createColumn } from 'api/services/columnsService';
 
 type boardProps = {
   boardId: string;
 };
 
 const Board = (props: boardProps) => {
+  const { boardId } = props;
   const dispatch = useAppDispatch();
-  const { data /*error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
+  const { data/*, error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
 
   useEffect(() => {
-    dispatch(getColumnsInBoardId(props.boardId));
-  }, [props.boardId, dispatch]);
+    dispatch(getColumnsInBoardId(boardId));
+  }, [boardId, dispatch]);
 
   const handleAddColumnId = async () => {
     const newColumn: TColParams = {
@@ -24,9 +25,7 @@ const Board = (props: boardProps) => {
       order: 0,
     };
 
-    await createColumn(props.boardId, newColumn);
-
-    dispatch(getColumnsInBoardId(props.boardId));
+    dispatch(creatColumnInBoardId({ boardId, newColumn}));
   };
 
   return (

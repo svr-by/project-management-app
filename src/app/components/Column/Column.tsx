@@ -1,10 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 import { Task } from '../Task/Task';
-import { useAppDispatch, useAppSelector, selectTasksInColumnId } from 'redux/hooks';
-import { getTasksInColumnId } from 'redux/slices/tasksSlice';
-import { getColumnsInBoardId } from 'redux/slices/columnsSlice';
-import { deleteColumnById } from 'api/services/columnsService';
-import { createTask } from 'api/services/tasksService';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { selectTasksInColumnId } from 'redux/selectors';
+import { getTasksInColumnId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
+import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
 
 type TaskProps = {
@@ -16,7 +15,7 @@ type TaskProps = {
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title } = props;
   const dispatch = useAppDispatch();
-  const { data /*error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
+  const { data/*, error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState(title);
 
@@ -33,15 +32,13 @@ const Column = (props: TaskProps) => {
 
   const handleChange = () => {
     if (textAreaRef.current) {
-      setValue(textAreaRef.current.value);
       autosize();
+      setValue(textAreaRef.current.value);
     }
   };
 
   const handleDeleteColumnId = async () => {
-    await deleteColumnById(boardId, columnId);
-
-    dispatch(getColumnsInBoardId(boardId));
+    dispatch(deleteColumnInBoardId({boardId, columnId}));
   };
 
   const handleAddTaskId = async () => {
@@ -53,9 +50,7 @@ const Column = (props: TaskProps) => {
       users: [''],
     };
 
-    await createTask(boardId, columnId, newTask);
-
-    dispatch(getTasksInColumnId({ boardId, columnId }));
+    dispatch(creatTasksInColumnId({boardId, columnId, newTask}));
   };
 
   return (
