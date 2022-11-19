@@ -1,9 +1,5 @@
 export const SERVER_URL = 'https://pma-backend-svr.up.railway.app/';
 
-export enum LOCAL_STORAGE {
-  TOKEN = 'token',
-}
-
 export enum PATHS {
   HOME = '',
   SIGN_UP = 'signup',
@@ -11,4 +7,9 @@ export enum PATHS {
   BOARD = 'board',
   MAIN = 'main',
   NOT_FOUND = '*',
+}
+
+export enum LOCAL_STORAGE {
+  TOKEN = 'token',
+  USER = 'user',
 }

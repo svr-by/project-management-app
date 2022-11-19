@@ -39,7 +39,6 @@ export const SignInForm = () => {
   }, [isSubmitSuccessful, reset]);
 
   const onSubmit = (data: TSignInParams) => {
-    console.log('LoginForm submit', data);
     dispatch(singIn(data));
   };
 

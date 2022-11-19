@@ -1,11 +1,19 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { useAppDispatch } from 'redux/hooks';
+import { checkUser } from 'redux/slices/userSlice';
 import { Welcome, MainPage, NotFoundPage, SignInPage, SignUpPage, BoardPage } from 'pages';
 import { Layout, ProtectedRoute } from 'components';
 import { PATHS } from 'core/constants';
-
 import './App.scss';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkUser());
+  }, [dispatch]);
+
   return (
     <div className="app">
       <Routes>

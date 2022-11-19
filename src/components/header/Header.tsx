@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'redux/hooks';
+import { signOut } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
 import { Link, NavLink } from 'react-router-dom';
 import { PATHS } from 'core/constants';
@@ -9,6 +11,7 @@ import './Header.scss';
 
 export const Header = () => {
   const user = useSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
 
   const [backColor, setBackColor] = useState(0);
 
@@ -19,6 +22,10 @@ export const Header = () => {
 
   const handleScroll = () => {
     setBackColor(window.scrollY);
+  };
+
+  const handleSignOut = () => {
+    dispatch(signOut());
   };
 
   return (
@@ -41,7 +48,9 @@ export const Header = () => {
             </NavLink>
           </>
         ) : (
-          <a className="custom-link">Sign out</a>
+          <a className="custom-link" onClick={handleSignOut}>
+            Sign out
+          </a>
         )}
       </nav>
     </header>
