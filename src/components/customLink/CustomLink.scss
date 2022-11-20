@@ -1,6 +1,6 @@
 @import "src/scss/variables";
 
-.link {
+.custom-link {
   text-decoration: none;
   background-color: $white;
   border: 3px solid $marker;
@@ -9,15 +9,15 @@
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  color: #000000;
+  color: $black;
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 
   &:hover {
     box-shadow: 0 0 40px 40px $marker inset;
     color: $white;
   }
-}
-
-.active {
-  color: #e3cc00;
+  
+  .active {
+    color: $yellow;
+  }
 }

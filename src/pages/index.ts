@@ -1,6 +1,6 @@
-export { Board } from './board/Board';
-export { Main } from './main/Main';
-export { NotFoundPage } from './notFoundPage/NotFoundPage';
-export { SignIn } from './signIn/SignIn';
-export { SignUp } from './signUp/SignUp';
+export { BoardPage } from './board/BoardPage';
+export { MainPage } from './main/MainPage';
+export { NotFoundPage } from './notFound/NotFoundPage';
+export { SignInPage } from './signIn/SignInPage';
+export { SignUpPage } from './signUp/SignUpPage';
 export { Welcome } from './welcome/Welcome';

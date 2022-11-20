@@ -1,36 +1,22 @@
 import { Route, Routes } from 'react-router-dom';
-
-import { Welcome, Main, NotFoundPage, SignIn, SignUp, Board } from '../pages';
-import { Layout } from '../layout/Layout';
-import { RequireAuth } from '../hoc/RequireAuth';
-
+import { Welcome, MainPage, NotFoundPage, SignInPage, SignUpPage, BoardPage } from 'pages';
+import { Layout, ProtectedRoute } from 'components';
+import { PATHS } from 'core/constants';
 import './App.scss';
 
 function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="welcome" element={<Welcome />} />
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="sign-up" element={<SignUp />} />
-          <Route
-            index
-            element={
-              <RequireAuth>
-                <Main />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="board"
-            element={
-              <RequireAuth>
-                <Board />
-              </RequireAuth>
-            }
-          />
-          <Route path="*" element={<NotFoundPage />} />
+        <Route path={PATHS.WELCOME} element={<Layout />}>
+          <Route index element={<Welcome />} />
+          <Route path={PATHS.SIGN_IN} element={<SignInPage />} />
+          <Route path={PATHS.SIGN_UP} element={<SignUpPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path={PATHS.MAIN} element={<MainPage />} />
+            <Route path={PATHS.BOARD} element={<BoardPage />} />
+          </Route>
+          <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </div>

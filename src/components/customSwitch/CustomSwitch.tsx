@@ -1,8 +1,6 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import { Switch, FormGroup, FormControlLabel } from '@mui/material';
+import { SwitchProps } from '@mui/material/Switch';
 import { useState } from 'react';
 
 const IOSSwitch = styled((props: SwitchProps) => (
@@ -53,7 +51,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
   },
 }));
 
-export default function CustomizedSwitches() {
+export const CustomSwitch = () => {
   const [lang, setLang] = useState('Russian');
 
   return (
@@ -70,4 +68,4 @@ export default function CustomizedSwitches() {
       />
     </FormGroup>
   );
-}
+};
