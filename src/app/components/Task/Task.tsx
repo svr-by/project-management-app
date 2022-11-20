@@ -35,9 +35,22 @@ function Task(props: TaskProps) {
         <button className="close-button" onClick={handleDeleteTaskId}></button>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-        <div></div>
-        <input type="text" />
-        <button></button>
+        <div className="task-details">
+          <h4 className="task-details__header">Edit task title</h4>
+          <fieldset className="task-details__task-title">
+            <legend>Task title</legend>
+            <div>
+              <input type="text" id="title" value="" {...register('title')} />
+            </div>
+          </fieldset>
+          <fieldset className="task-details__task-description">
+            <legend>Task description</legend>
+            <div>
+              <textarea rows={4} id="description" value="" {...register('description')} />
+            </div>
+          </fieldset>
+          <button className="task-details__btn-submit">submit</button>
+        </div>
       </Modal>
     </>
   );

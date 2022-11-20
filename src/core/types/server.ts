@@ -110,3 +110,10 @@ export type TPointParams = {
 };
 
 export type TPointParamsExt = TPointParams & { taskId: string; boardId: string };
+
+export type TdecodedToken = {
+  id: string;
+  login: string;
+  iat: number;
+  exp: number;
+};
