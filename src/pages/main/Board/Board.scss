@@ -1,0 +1,42 @@
+@import "src/scss/variables";
+
+.board {
+  text-decoration: none;
+  color: $black;
+
+  &__card {
+    width: 300px;
+    min-height: 200px;
+    padding: 0.5rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 2rem auto 2rem;
+    grid-template-columns: 50% auto;
+    grid-template-areas:
+    "title title"
+    "desc img"
+    "btns img";
+    gap: 0.5rem;
+    background-color: $grey;
+    border-radius: 0.5rem;
+  }
+
+  &__title {
+    grid-area: title;
+    font-size: 1.2rem;
+    margin: 0 0 0.5rem 0;
+  }
+
+  &__desc {
+    grid-area: desc;
+  }
+
+  &__btns {
+    grid-area: btns;
+  }
+
+  &__img {
+    grid-area: img;
+    width: 140px;
+  }
+}

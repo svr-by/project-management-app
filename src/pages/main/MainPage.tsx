@@ -4,7 +4,8 @@ import { useAppDispatch } from 'redux/hooks';
 import { getBoards } from 'redux/slices/mainSlice';
 import { RootState } from 'redux/store';
 import { AddBoardForm } from './AddBoardForm/AddBoardForm';
-import { TBoardInfo } from 'core/types/boards';
+import { Board } from './Board/Board';
+import './MainPage.scss';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
@@ -22,18 +23,11 @@ export const MainPage = () => {
   return (
     <>
       <h1>Main page</h1>
-      <ul>
+      <div className="board-list">
         {boards.map((board) => {
-          // const boardObj: TBoardInfo = JSON.parse(board.title);
-          return (
-            <li key={board._id}>
-              {board.title}
-              {/* <h1>{boardObj.title}</h1>
-              <p>{boardObj.description}</p> */}
-            </li>
-          );
+          return <Board board={board} key={board._id} />;
         })}
-      </ul>
+      </div>
       <AddBoardForm />
     </>
   );
