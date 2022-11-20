@@ -56,6 +56,8 @@ li {
 }
 
 .close-button {
+  visibility: hidden;
+  opacity: 0;
   width: 15px;
   height: 15px;
   padding: 0;
@@ -85,6 +87,11 @@ li {
   box-shadow: 0 0 8px rgb(0 0 0 / 10%);
   background-color: #fff;
   cursor: pointer;
+}
+
+.task-item:hover .close-button {
+  visibility: visible;
+  opacity: 1;
 }
 
 .task-title {

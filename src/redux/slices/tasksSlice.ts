@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTasksByColumn, createTask, deleteTaskById } from 'api/services/tasksService';
+import { getTasksByColumn, createTask, deleteTaskById, getTaskSetByBoard } from 'api/services/tasksService';
 import { TTaskResExt, TTaskParams } from 'core/types/server';
 
 interface IGlobalStateTasks {
@@ -13,6 +13,28 @@ const initialState: IGlobalStateTasks = {
   isLoaded: false,
   error: false,
 };
+
+//! Вытягиваем все таски одной борды:
+
+// export const getAllTasksInBoardId = createAsyncThunk(
+//   'tasks/getAllTasksInBoardId',
+//   async (boardId: string, { rejectWithValue }) => {
+//     try {
+//       const data = await getTaskSetByBoard(boardId);
+
+//       if (!data) {
+//         throw new Error('Error!');
+//       }
+
+//       return data;
+//     } catch (error) {
+//       return rejectWithValue(error);
+//     }
+//   }
+// );
+
+
+
 
 type TGetTasks = {
   boardId: string;
@@ -87,6 +109,20 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+
+    // builder.addCase(getAllTasksInBoardId.pending, (state) => {
+    //   state.isLoaded = false;
+    //   state.error = false;
+    // });
+    // builder.addCase(getAllTasksInBoardId.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
+    //   state.isLoaded = true;
+    //   state.data = action.payload;
+    // });
+    // builder.addCase(getAllTasksInBoardId.rejected, (state) => {
+    //   state.isLoaded = false;
+    //   state.error = true;
+    // });
+
     builder.addCase(getTasksInColumnId.pending, (state) => {
       state.isLoaded = false;
       state.error = false;

@@ -32,9 +32,7 @@ const Board = (props: boardProps) => {
     <div className="container-tasks">
       <ul className="container-columns">
         {data.map((el) => (
-          <li className="column" key={el._id}>
-            <Column columnId={el._id} boardId={el.boardId} title={el.title} />
-          </li>
+          <Column key={el._id} columnId={el._id} boardId={el.boardId} title={el.title} />
         ))}
       </ul>
       <div className="container-add-button">

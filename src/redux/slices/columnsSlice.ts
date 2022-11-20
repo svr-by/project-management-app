@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getColumnInBoard, createColumn, deleteColumnById } from 'api/services/columnsService';
+import { getColumnInBoard, createColumn, updateColumnById, deleteColumnById } from 'api/services/columnsService';
 import { TColRes, TColParams } from 'core/types/server';
 
 interface IGlobalStateColumns {
@@ -42,6 +42,30 @@ export const creatColumnInBoardId = createAsyncThunk(
   async ({ boardId, newColumn }: TGcreatColumn, { rejectWithValue }) => {
     try {
       const data = await createColumn(boardId, newColumn);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+type TUpdateColumn = {
+  boardId: string;
+  columnId: string;
+  newColumn: TColParams;
+};
+
+export const updateColumnInBoardId = createAsyncThunk(
+  'columns/updateColumnInBoardId',
+  async ({ boardId, columnId, newColumn }: TUpdateColumn, { rejectWithValue }) => {
+    try {
+      const data = await updateColumnById(boardId, columnId, newColumn);
 
       if (!data) {
         throw new Error('Error!');
@@ -105,6 +129,20 @@ const columnsSlice = createSlice({
       state.data.push(action.payload);
     });
     builder.addCase(creatColumnInBoardId.rejected, (state) => {
+      state.isLoaded = false;
+      state.error = true;
+    });
+
+    builder.addCase(updateColumnInBoardId.pending, (state) => {
+      state.isLoaded = false;
+      state.error = false;
+    });
+    builder.addCase(updateColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
+      state.isLoaded = true;
+      state.data = state.data.filter((el) => el._id !== action.payload._id);
+      state.data.push(action.payload);
+    });
+    builder.addCase(updateColumnInBoardId.rejected, (state) => {
       state.isLoaded = false;
       state.error = true;
     });

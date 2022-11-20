@@ -4,6 +4,8 @@ import tasksReducer from './slices/tasksSlice';
 
 export const store = configureStore({
   reducer: {
+    // users:
+    // boards:
     columns: columnsReducer,
     tasks: tasksReducer,
   },
