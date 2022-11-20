@@ -1,19 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { signOut } from 'redux/slices/userSlice';
+import { signOut, checkToken } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomizedSwitches } from 'components';
+import { CustomLink, CustomSwitch } from 'components';
 import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
 
 export const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const [backColor, setBackColor] = useState(0);
+
+  useEffect(() => {
+    user.id ? navigate(PATHS.BOARD) : navigate(PATHS.WELCOME);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.id]);
+
+  useEffect(() => {
+    dispatch(checkToken());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -31,26 +41,20 @@ export const Header = () => {
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
-        <Link to={PATHS.HOME} className="logo__link">
+        <Link to={PATHS.WELCOME} className="logo__link">
           <img src={LogoKanban} alt="LogoKanban" className="logo__image" />
           <p className="logo__description">Kanban</p>
         </Link>
       </div>
       <nav className="nav">
-        <CustomizedSwitches />
+        <CustomSwitch />
         {!user.id ? (
           <>
-            <NavLink to={PATHS.SIGN_IN} className="custom-link">
-              Sign in
-            </NavLink>
-            <NavLink to={PATHS.SIGN_UP} className="custom-link">
-              Sign up
-            </NavLink>
+            <CustomLink to={PATHS.SIGN_IN}>Sign in</CustomLink>
+            <CustomLink to={PATHS.SIGN_UP}>Sign up</CustomLink>
           </>
         ) : (
-          <a className="custom-link" onClick={handleSignOut}>
-            Sign out
-          </a>
+          <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
         )}
       </nav>
     </header>

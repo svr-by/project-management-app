@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { signIn } from 'api/services/authService';
+import { signUp, signIn } from 'api/services/authService';
 import { getUserById } from 'api/services/usersService';
-import { TSignInParams, TdecodedToken } from 'core/types/server';
+import { TUserPrams, TSignInParams, TdecodedToken } from 'core/types/server';
 import { getLocalValue, setLocalValue, removeLocalValue } from 'core/services/storageService';
 import { LOCAL_STORAGE } from 'core/constants';
 import jwt_decode from 'jwt-decode';
@@ -16,18 +16,24 @@ const initialState: IUserSate = {
   id: '',
 };
 
+export const singUp = createAsyncThunk('user/signUp', async (user: TUserPrams) => {
+  return signUp(user);
+});
+
 export const singIn = createAsyncThunk('user/signIn', async (user: TSignInParams) => {
   const { token } = await signIn(user);
   setLocalValue(LOCAL_STORAGE.TOKEN, token);
   const userData = jwt_decode<TdecodedToken>(token);
-  setLocalValue(LOCAL_STORAGE.USER, userData);
   return userData;
 });
 
-export const checkUser = createAsyncThunk('user/checkUser', async () => {
-  const userData = getLocalValue<TdecodedToken>(LOCAL_STORAGE.USER);
-  if (userData) {
-    return getUserById(userData.id);
+export const checkToken = createAsyncThunk('user/checkToken', async () => {
+  const token = getLocalValue<string>(LOCAL_STORAGE.TOKEN);
+  if (token) {
+    const userData = jwt_decode<TdecodedToken>(token);
+    if (userData) {
+      return getUserById(userData.id);
+    }
   }
 });
 
@@ -48,7 +54,7 @@ const userSlice = createSlice({
         state.login = userData?.login || '';
         state.id = userData?.id || '';
       })
-      .addCase(checkUser.fulfilled, (state, action) => {
+      .addCase(checkToken.fulfilled, (state, action) => {
         const userData = action.payload;
         state.login = userData?.login || '';
         state.id = userData?._id || '';

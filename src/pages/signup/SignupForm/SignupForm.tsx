@@ -1,4 +1,7 @@
 import { useEffect } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { singUp } from 'redux/slices/userSlice';
+import { TUserPrams } from 'core/types/server';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Button } from 'components/button/Button';
@@ -24,6 +27,8 @@ interface ISignUpForm {
 }
 
 export const SignUpForm = () => {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -39,8 +44,8 @@ export const SignUpForm = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: ISignUpForm) => {
-    console.log('SignupForm submit', data);
+  const onSubmit = (user: TUserPrams) => {
+    dispatch(singUp(user));
   };
 
   return (

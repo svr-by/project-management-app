@@ -51,7 +51,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
   },
 }));
 
-export const CustomizedSwitches = () => {
+export const CustomSwitch = () => {
   const [lang, setLang] = useState('Russian');
 
   return (

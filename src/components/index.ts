@@ -3,4 +3,5 @@ export { Footer } from './footer/Footer';
 export { Header } from './header/Header';
 export { Layout } from './layout/Layout';
 export { ProtectedRoute } from './protectedRoute/ProtectedRoute';
-export { CustomizedSwitches } from './switch/Switch';
+export { CustomLink } from './customLink/CustomLink';
+export { CustomSwitch } from './customSwitch/CustomSwitch';
