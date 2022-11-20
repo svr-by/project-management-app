@@ -16,7 +16,7 @@ export const Header = () => {
   const [backColor, setBackColor] = useState(0);
 
   useEffect(() => {
-    user.id ? navigate(PATHS.BOARD) : navigate(PATHS.WELCOME);
+    user.id ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
