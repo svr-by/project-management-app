@@ -16,12 +16,12 @@ function Task(props: TaskProps) {
   const title = dataTask.title;
   const dispatch = useAppDispatch();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenTask, setisOpenTask] = useState(false);
   const handleCancel = () => {
-    setIsOpen(false);
+    setisOpenTask(false);
   };
   const openModal = () => {
-    setIsOpen(true);
+    setisOpenTask(true);
   };
 
   const handleDeleteTaskId = async () => {
@@ -30,26 +30,28 @@ function Task(props: TaskProps) {
 
   return (
     <>
-      <li className="task-item" onClick={openModal}>
-        <div className="task-title">{title}</div>
+      <li className="task-item">
+        <div className="task-title" onClick={openModal}>{title}</div>
         <button className="close-button" onClick={handleDeleteTaskId}></button>
       </li>
-      <Modal isOpen={isOpen} onCancel={handleCancel}>
-        <div className="task-details">
-          <h4 className="task-details__header">Edit task title</h4>
-          <fieldset className="task-details__task-title">
-            <legend>Task title</legend>
-            <div>
-              <input type="text" id="title" value="" {...register('title')} />
-            </div>
-          </fieldset>
-          <fieldset className="task-details__task-description">
-            <legend>Task description</legend>
-            <div>
-              <textarea rows={4} id="description" value="" {...register('description')} />
-            </div>
-          </fieldset>
-          <button className="task-details__btn-submit">submit</button>
+      <Modal isOpen={isOpenTask} onCancel={handleCancel}>
+        <div className="details">
+          <h4 className="details__header">Edit task title</h4>
+          <form>
+            <fieldset className="details__title">
+              <legend>Task title</legend>
+              <div>
+                <input type="text" id="title" value="" {...register('title')} />
+              </div>
+            </fieldset>
+            <fieldset className="details__description">
+              <legend>Task description</legend>
+              <div>
+                <textarea rows={4} id="description" value="" {...register('description')} />
+              </div>
+            </fieldset>
+            <button className="details__btn-submit" type="submit">submit</button>
+          </form>
         </div>
       </Modal>
     </>
