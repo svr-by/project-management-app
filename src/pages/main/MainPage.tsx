@@ -27,6 +27,7 @@ export const MainPage = () => {
         {boards.map((board) => {
           return <Board board={board} key={board._id} />;
         })}
+        <Board empty onClick={() => {}} />
       </div>
       <AddBoardForm />
     </>

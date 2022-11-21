@@ -13,7 +13,7 @@ export const Welcome = () => {
           timely completion. Trackers are widely used in project management, because they allow you
           to easily monitor all work processes and control the work of the team
         </p>
-        <CustomLink to={PATHS.BOARD}>Get started</CustomLink>
+        <CustomLink to={PATHS.MAIN}>Get started</CustomLink>
       </div>
       <img className="image" src={KanbanBeautifulPicture} alt="KanbanBeautifulPicture" />
     </div>

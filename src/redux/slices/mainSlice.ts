@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAllBoards, createBoard } from 'api/services/boardsService';
+import { getAllBoards, createBoard, deleteBoardById } from 'api/services/boardsService';
 import { TBoardRes, TBoardParams } from 'core/types/server';
 
 interface IMainSate {
@@ -18,6 +18,10 @@ export const addBoard = createAsyncThunk('main/addBoard', async (board: TBoardPa
   return createBoard(board);
 });
 
+export const delBoard = createAsyncThunk('main/delBoard', async (id: string) => {
+  return deleteBoardById(id);
+});
+
 const userSlice = createSlice({
   name: 'main',
   initialState,
@@ -29,6 +33,9 @@ const userSlice = createSlice({
       })
       .addCase(addBoard.fulfilled, (state, action) => {
         state.boards.push(action.payload);
+      })
+      .addCase(delBoard.fulfilled, (state, action) => {
+        state.boards = state.boards.filter((board) => board._id !== action.payload._id);
       });
   },
 });
