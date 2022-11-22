@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { addBoard } from 'redux/slices/mainSlice';
-import { TBoardParams } from 'core/types/server';
+import { udateBoard } from 'redux/slices/mainSlice';
+import { TBoardParams, TBoardRes } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
 import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -24,10 +24,13 @@ interface IAddBoardForm {
 }
 
 type TComponentProps = {
+  board: TBoardRes;
   onCancel: () => void;
 };
 
-export const AddBoardForm = ({ onCancel }: TComponentProps) => {
+export const EditBoardForm = ({ onCancel, board }: TComponentProps) => {
+  const boardObj: TBoardInfo = JSON.parse(board.title);
+
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
@@ -48,22 +51,21 @@ export const AddBoardForm = ({ onCancel }: TComponentProps) => {
 
   const onSubmit = (data: IAddBoardForm) => {
     const boardInfo: TBoardInfo = { title: data.title, description: data.description };
-    const board: TBoardParams = {
+    const editedBoard: TBoardParams = {
       title: JSON.stringify(boardInfo),
       owner: user.id,
       users: [],
     };
-    dispatch(addBoard(board));
+    dispatch(udateBoard({ id: board._id, board: editedBoard }));
     onCancel();
   };
-
-  console.log('AddBoardForm render');
 
   return (
     <form className="form form--modal" onSubmit={handleSubmit(onSubmit)} noValidate>
       <h3>Create board</h3>
       <TextField
         label="Title"
+        defaultValue={boardObj.title}
         autoComplete="off"
         error={!!errors[InputNames.title]}
         helperText={errors[InputNames.title]?.message}
@@ -74,6 +76,7 @@ export const AddBoardForm = ({ onCancel }: TComponentProps) => {
       />
       <TextField
         label="Description"
+        defaultValue={boardObj.description}
         autoComplete="off"
         // multiline
         // minRows={4}

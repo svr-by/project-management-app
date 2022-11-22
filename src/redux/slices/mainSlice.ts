@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAllBoards, createBoard, deleteBoardById } from 'api/services/boardsService';
+import {
+  getAllBoards,
+  createBoard,
+  updateBoardById,
+  deleteBoardById,
+} from 'api/services/boardsService';
 import { TBoardRes, TBoardParams } from 'core/types/server';
 
 interface IMainSate {
@@ -18,6 +23,13 @@ export const addBoard = createAsyncThunk('main/addBoard', async (board: TBoardPa
   return createBoard(board);
 });
 
+export const udateBoard = createAsyncThunk(
+  'main/udateBoard',
+  async ({ id, board }: { id: string; board: TBoardParams }) => {
+    return updateBoardById(id, board);
+  }
+);
+
 export const delBoard = createAsyncThunk('main/delBoard', async (id: string) => {
   return deleteBoardById(id);
 });
@@ -33,6 +45,11 @@ const userSlice = createSlice({
       })
       .addCase(addBoard.fulfilled, (state, action) => {
         state.boards.push(action.payload);
+      })
+      .addCase(udateBoard.fulfilled, (state, action) => {
+        state.boards = state.boards.map((board) =>
+          board._id !== action.payload._id ? board : { ...board, title: action.payload.title }
+        );
       })
       .addCase(delBoard.fulfilled, (state, action) => {
         state.boards = state.boards.filter((board) => board._id !== action.payload._id);

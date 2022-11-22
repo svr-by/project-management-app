@@ -11,7 +11,7 @@ import './MainPage.scss';
 export const MainPage = () => {
   const dispatch = useAppDispatch();
   const boards = useSelector((state: RootState) => state.main.boards);
-  const [openFormModal, setOpenFormModal] = useState(false);
+  const [addBoardModal, setAddBoardModal] = useState(false);
 
   useEffect(() => {
     dispatch(getBoards());
@@ -22,12 +22,12 @@ export const MainPage = () => {
     console.log(boards);
   }, [boards]);
 
-  const createBoard = () => {
-    setOpenFormModal(true);
+  const openModal = () => {
+    setAddBoardModal(true);
   };
 
   const closeModal = () => {
-    setOpenFormModal(false);
+    setAddBoardModal(false);
   };
 
   return (
@@ -37,9 +37,9 @@ export const MainPage = () => {
         {boards.map((board) => {
           return <Board board={board} key={board._id} />;
         })}
-        <Board empty onClick={createBoard} />
+        <Board empty onClick={openModal} />
       </div>
-      <Modal isOpen={openFormModal} onCancel={closeModal}>
+      <Modal isOpen={addBoardModal} onCancel={closeModal}>
         <AddBoardForm onCancel={closeModal} />
       </Modal>
     </>

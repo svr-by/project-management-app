@@ -26,7 +26,10 @@ const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
         <Portal>
           <div className="modal__overlay" onClick={handleClick}>
             <div className="modal__window">
-              <div className="modal__header">
+              <button className="modal__button" name="times" onClick={handleClick}>
+                X
+              </button>
+              {/* <div className="modal__header">
                 <input
                   className="modal__button"
                   type="button"
@@ -34,7 +37,7 @@ const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
                   onClick={handleClick}
                   value="X"
                 />
-              </div>
+              </div> */}
               <div className="modal__body">{children}</div>
             </div>
           </div>
