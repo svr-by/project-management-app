@@ -23,7 +23,7 @@ export const Board = (props: TBoardProps) => {
   const { board, empty = false, onClick } = props;
   const dispatch = useAppDispatch();
   const [editModal, setEditModal] = useState(false);
-  // const [openConfModal, setOpenConfModal] = useState(false);
+  const [confModal, setConfModal] = useState(false);
 
   if (!empty && board) {
     const boardObj: TBoardInfo = JSON.parse(board.title);
@@ -37,13 +37,16 @@ export const Board = (props: TBoardProps) => {
       setEditModal(false);
     };
 
-    // const handleCloseModal = (e: MouseEvent) => {
-    //   e.preventDefault();
-    //   closeEditModal()
-    // };
-
-    const handleDelete = (e: MouseEvent, id: string) => {
+    const openConfModal = (e: MouseEvent) => {
       e.preventDefault();
+      setConfModal(true);
+    };
+
+    const closeConfModal = () => {
+      setConfModal(false);
+    };
+
+    const handleDelete = (id: string) => {
       dispatch(delBoard(id));
     };
 
@@ -69,7 +72,7 @@ export const Board = (props: TBoardProps) => {
                 startIcon={<DeleteOutlineIcon />}
                 size="small"
                 color="inherit"
-                onClick={(e) => handleDelete(e, board._id)}
+                onClick={openConfModal}
               >
                 Delete
               </Button>
@@ -78,6 +81,17 @@ export const Board = (props: TBoardProps) => {
         </Link>
         <Modal isOpen={editModal} onCancel={closeEditModal}>
           <EditBoardForm board={board} onCancel={closeEditModal} />
+        </Modal>
+        <Modal isOpen={confModal} onCancel={closeConfModal}>
+          <>
+            <h3>Do you really want to delete board?</h3>
+            <Button variant="contained" onClick={() => handleDelete(board._id)}>
+              Delete
+            </Button>
+            <Button variant="outlined" onClick={closeConfModal}>
+              Cancel
+            </Button>
+          </>
         </Modal>
       </>
     );

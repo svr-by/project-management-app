@@ -57,8 +57,6 @@ export const AddBoardForm = ({ onCancel }: TComponentProps) => {
     onCancel();
   };
 
-  console.log('AddBoardForm render');
-
   return (
     <form className="form form--modal" onSubmit={handleSubmit(onSubmit)} noValidate>
       <h3>Create board</h3>
