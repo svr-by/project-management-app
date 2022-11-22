@@ -20,9 +20,7 @@ const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
                 <input
                   className="modal__button"
                   type="button"
-                  name="times"
                   onClick={onCancel}
-                  value="X"
                 />
               </div>
               <div className="modal__body">{children}</div>
