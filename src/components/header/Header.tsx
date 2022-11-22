@@ -13,7 +13,7 @@ export const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [backColor, setBackColor] = useState(0);
+  const [backColor, setBackColor] = useState(false);
 
   useEffect(() => {
     user.id ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
@@ -31,7 +31,11 @@ export const Header = () => {
   }, []);
 
   const handleScroll = () => {
-    setBackColor(window.scrollY);
+    if (window.scrollY > 0) {
+      setBackColor(true);
+    } else {
+      setBackColor(false);
+    }
   };
 
   const handleSignOut = () => {

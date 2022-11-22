@@ -4,13 +4,14 @@ import { useAppDispatch } from 'redux/hooks';
 import { addBoard } from 'redux/slices/mainSlice';
 import { TBoardParams } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { Button } from 'components/button/Button';
+// import { Button } from 'components/button/Button';
 import { RootState } from 'redux/store';
 
 enum ErrorMes {
   empty = 'This field is required',
+  maxLength = 'The max length is 100 chars',
 }
 
 enum InputNames {
@@ -23,7 +24,11 @@ interface IAddBoardForm {
   description: string;
 }
 
-export const AddBoardForm = () => {
+type TComponentProps = {
+  onCancel: () => void;
+};
+
+export const AddBoardForm = ({ onCancel }: TComponentProps) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
 
@@ -50,33 +55,36 @@ export const AddBoardForm = () => {
       users: [],
     };
     dispatch(addBoard(board));
+    onCancel();
   };
 
+  console.log('AddBoardForm render');
+
   return (
-    <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+    <form className="form form--modal" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <h3>Create board</h3>
       <TextField
-        label="Board title"
+        label="Title"
         autoComplete="off"
         error={!!errors[InputNames.title]}
-        helperText={errors[InputNames.title] ? errors[InputNames.title]?.message : ''}
+        helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
           required: { value: true, message: ErrorMes.empty },
           minLength: { value: 5, message: ErrorMes.empty },
         })}
       />
       <TextField
-        label="Board description"
+        label="Description"
         autoComplete="off"
-        multiline
-        rows={4}
+        // multiline
+        // minRows={4}
         error={!!errors[InputNames.description]}
-        helperText={errors[InputNames.description] ? errors[InputNames.description]?.message : ''}
+        helperText={errors[InputNames.description]?.message}
         {...register(InputNames.description, {
-          required: { value: true, message: ErrorMes.empty },
-          minLength: { value: 10, message: ErrorMes.empty },
+          maxLength: { value: 100, message: ErrorMes.maxLength },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
+      <Button type="submit" variant="contained" disabled={hasErrors}>
         Submit
       </Button>
     </form>

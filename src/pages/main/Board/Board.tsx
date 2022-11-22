@@ -11,13 +11,13 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import boardPrev from 'assets/img/board_prev.png';
 import './Board.scss';
 
-type BoardProps = {
+type TBoardProps = {
   board?: TBoardRes;
   empty?: boolean;
   onClick?: () => void;
 };
 
-export const Board = (props: BoardProps) => {
+export const Board = (props: TBoardProps) => {
   const { board, empty = false, onClick } = props;
   const dispatch = useAppDispatch();
 
