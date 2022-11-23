@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
-import { TTaskResExt } from 'core/types/server';
+import { TTaskResExt, TTaskParamsExt } from 'core/types/server';
 import { useAppDispatch } from 'redux/hooks';
-import { deleteTasksInColumnId } from 'redux/slices/tasksSlice';
+import { deleteTaskInColumnId, updateTaskInColumnId } from 'redux/slices/tasksSlice';
 
 type TaskProps = {
   boardId: string;
@@ -10,11 +11,30 @@ type TaskProps = {
   dataTask: TTaskResExt;
 };
 
+interface IFormInput {
+  title: string;
+  description: string;
+}
+
 function Task(props: TaskProps) {
   const { boardId, columnId, dataTask } = props;
   const taskId = dataTask._id;
   const title = dataTask.title;
+  const users = dataTask.users;
+  const userId = dataTask.userId;
   const dispatch = useAppDispatch();
+
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      title: '',
+      description: '',
+    },
+  });
 
   const [isOpen, setIsOpen] = useState(false);
   const [isChangeTask, setIsChangeTask] = useState(false);
@@ -34,13 +54,26 @@ function Task(props: TaskProps) {
   };
 
   const handleDeleteTaskId = async () => {
-    dispatch(deleteTasksInColumnId({ boardId, columnId, taskId }));
+    handleCancel();
+    dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
+  };
+
+  const onSubmitFn = (inputsData: IFormInput) => {
+    const updateTask: TTaskParamsExt = {
+      title: inputsData.title,
+      order: 0,
+      description: inputsData.description,
+      columnId: columnId,
+      userId: '',
+      users: users,
+    };
+    dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask}));
   };
 
   return (
     <>
-      <li className="task-item" onClick={openModalChangeTask}>
-        <div className="task-title">{title}</div>
+      <li className="task-item">
+        <div className="task-title" onClick={openModalChangeTask}>{title}</div>
         <button className="close-button" onClick={openModalDeleteTask}></button>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
@@ -60,7 +93,7 @@ function Task(props: TaskProps) {
                   <textarea rows={4} id="description" value="" {...register('description')} />
                 </div>
               </fieldset>
-              <button className="task-details__btn-submit" type='submit'>submit</button>
+              <button className="task-details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
               <button className="task-details__btn-cancel" onClick={handleCancel}>cancel</button>
             </form>
           </div>

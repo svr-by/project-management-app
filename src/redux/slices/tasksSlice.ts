@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTasksByColumn, createTask, deleteTaskById, getTaskSetByBoard } from 'api/services/tasksService';
-import { TTaskResExt, TTaskParams } from 'core/types/server';
+import { getTasksByColumn, createTask, deleteTaskById, getTaskSetByBoard, updateTaskById } from 'api/services/tasksService';
+import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
 
 interface IGlobalStateTasks {
   data: TTaskResExt[];
@@ -81,14 +81,39 @@ export const creatTasksInColumnId = createAsyncThunk(
   }
 );
 
+type TUpdateTask = {
+  boardId: string;
+  columnId: string;
+  taskId: string,
+  updateTask: TTaskParamsExt;
+};
+
+export const updateTaskInColumnId = createAsyncThunk(
+  'columns/updateTaskInBoardId',
+  async ({ boardId, columnId, taskId, updateTask }: TUpdateTask, { rejectWithValue }) => {
+    try {
+      const data = await updateTaskById(boardId, columnId, taskId, updateTask);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 type TDeleteTask = {
   boardId: string;
   columnId: string;
   taskId: string;
 };
 
-export const deleteTasksInColumnId = createAsyncThunk(
-  'tasks/deleteTasksInColumnId',
+export const deleteTaskInColumnId = createAsyncThunk(
+  'tasks/deleteTaskInColumnId',
   async ({ boardId, columnId, taskId }: TDeleteTask, { rejectWithValue }) => {
     try {
       const data = await deleteTaskById(boardId, columnId, taskId);
@@ -149,15 +174,29 @@ const tasksSlice = createSlice({
       state.error = true;
     });
 
-    builder.addCase(deleteTasksInColumnId.pending, (state) => {
+    builder.addCase(updateTaskInColumnId.pending, (state) => {
       state.isLoaded = false;
       state.error = false;
     });
-    builder.addCase(deleteTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
+    builder.addCase(updateTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
+      state.isLoaded = true;
+      state.data = state.data.filter((el) => el._id !== action.payload._id);
+      state.data.push(action.payload);
+    });
+    builder.addCase(updateTaskInColumnId.rejected, (state) => {
+      state.isLoaded = false;
+      state.error = true;
+    });
+
+    builder.addCase(deleteTaskInColumnId.pending, (state) => {
+      state.isLoaded = false;
+      state.error = false;
+    });
+    builder.addCase(deleteTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
       state.isLoaded = true;
       state.data = state.data.filter((el) => el._id !== action.payload._id);
     });
-    builder.addCase(deleteTasksInColumnId.rejected, (state) => {
+    builder.addCase(deleteTaskInColumnId.rejected, (state) => {
       state.isLoaded = false;
       state.error = true;
     });
