@@ -55,10 +55,10 @@ function Task(props: TaskProps) {
 
   const handleDeleteTaskId = async () => {
     handleCancel();
-    dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
+    await dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
   };
 
-  const onSubmitFn = (inputsData: IFormInput) => {
+  const onSubmitFn = async (inputsData: IFormInput) => {
     const updateTask: TTaskParamsExt = {
       title: inputsData.title,
       order: 0,
@@ -67,7 +67,8 @@ function Task(props: TaskProps) {
       userId: '',
       users: users,
     };
-    dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask}));
+
+    await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask}));
   };
 
   return (
@@ -78,31 +79,31 @@ function Task(props: TaskProps) {
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         {isChangeTask &&
-          <div className="task-details">
-            <h4 className="task-details__header">Edit task title</h4>
+          <div className="details">
+            <h4 className="details__header">Edit task title</h4>
             <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
-              <fieldset className="task-details__task-title">
+              <fieldset className="details__title">
                 <legend>Task title</legend>
                 <div>
                   <input type="text" id="title" value="" {...register('title')} />
                 </div>
               </fieldset>
-              <fieldset className="task-details__task-description">
+              <fieldset className="details__description">
                 <legend>Task description</legend>
                 <div>
                   <textarea rows={4} id="description" value="" {...register('description')} />
                 </div>
               </fieldset>
-              <button className="task-details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
-              <button className="task-details__btn-cancel" onClick={handleCancel}>cancel</button>
+              <button className="details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
+              <button className="details__btn-cancel" onClick={handleCancel}>cancel</button>
             </form>
           </div>
         }
         {isDeleteTask && 
-          <div className="task-details">
-            <h4 className="task-details__header">Do you really want to delete task?</h4>
-            <button className="task-details__btn-submit" onClick={handleDeleteTaskId}>yes</button>
-            <button className="task-details__btn-cancel" onClick={handleCancel}>no</button>
+          <div className="details">
+            <h4 className="details__header">Do you want to delete task?</h4>
+            <button className="details__btn-submit" onClick={handleDeleteTaskId}>yes</button>
+            <button className="details__btn-cancel" onClick={handleCancel}>no</button>
           </div>
         }
       </Modal>
