@@ -1,5 +1,7 @@
 import './Board.scss';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Modal } from 'components/modal/Modal';
 import { Column } from 'app/components/Column/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId } from 'redux/selectors';
@@ -10,23 +12,46 @@ type boardProps = {
   boardId: string;
 };
 
+interface IFormInput {
+  title: string;
+}
+
 const Board = (props: boardProps) => {
   const { boardId } = props;
   const dispatch = useAppDispatch();
   const { data/*, error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
 
-  useEffect(() => {
-    dispatch(getColumnsInBoardId(boardId));
-  }, [boardId, dispatch]);
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      title: '',
+    },
+  });
 
-  const handleAddColumnId = async () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const onSubmitFn = async (inputsData: IFormInput) => {
     const newColumn: TColParams = {
-      title: 'New Title',
+      title: inputsData.title,
       order: 0,
     };
 
-    dispatch(creatColumnInBoardId({ boardId, newColumn}));
+    await dispatch(creatColumnInBoardId({ boardId, newColumn }));
   };
+
+  useEffect(() => {
+    dispatch(getColumnsInBoardId(boardId));
+  }, [boardId, dispatch]);
 
   return (
     <>
@@ -37,22 +62,25 @@ const Board = (props: boardProps) => {
           ))}
         </ul>
         <div className="container-add-button">
-          <button className="add-button" onClick={handleAddColumnId}>
+          <button className="add-button" onClick={openModal}>
             + Add column
           </button>
         </div>
       </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-          <div className="details">
-            <h4 className="details__header">Edit task title</h4>
+        <div className="details">
+          <h4 className="details__header">Creat column</h4>
+          <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
             <fieldset className="details__title">
               <legend>Column title</legend>
               <div>
                 <input type="text" id="title" value="" {...register('title')} />
               </div>
             </fieldset>
-            <button className="details__btn-submit">submit</button>
-          </div>
+            <button className="details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
+            <button className="details__btn-cancel" onClick={handleCancel}>cancel</button>
+          </form>
+        </div>
       </Modal>
     </>
   );

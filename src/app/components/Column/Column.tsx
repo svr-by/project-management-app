@@ -38,6 +38,7 @@ const Column = (props: TaskProps) => {
   });
 
   const [valueColumnTitle, setValueColumnTitle] = useState(title);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [isCreatTask, setIsCreatTask] = useState(false);
   const [isDeleteColumn, setIsDeleteColumn] = useState(false);
@@ -56,10 +57,6 @@ const Column = (props: TaskProps) => {
   };
 
   // const tasksInColumnId = data.filter((el) => el._id === columnId); //! если тащить общие таски
-
-  useEffect(() => {
-    dispatch(getTasksInColumnId({ boardId, columnId }));
-  }, [boardId, columnId, dispatch]);
 
   const autosize = () => {
     if (textAreaRef.current) {
@@ -95,6 +92,10 @@ const Column = (props: TaskProps) => {
 
     await dispatch(creatTasksInColumnId({ boardId, columnId, newTask }));
   };
+
+  useEffect(() => {
+    dispatch(getTasksInColumnId({ boardId, columnId }));
+  }, [boardId, columnId, dispatch]);
 
   return (
     <>

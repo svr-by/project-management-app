@@ -21,7 +21,6 @@ function Task(props: TaskProps) {
   const taskId = dataTask._id;
   const title = dataTask.title;
   const users = dataTask.users;
-  const userId = dataTask.userId;
   const dispatch = useAppDispatch();
 
   const {
@@ -80,7 +79,7 @@ function Task(props: TaskProps) {
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         {isChangeTask &&
           <div className="details">
-            <h4 className="details__header">Edit task title</h4>
+            <h4 className="details__header">Edit task</h4>
             <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
               <fieldset className="details__title">
                 <legend>Task title</legend>
