@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { SignUpForm } from './SignUpForm/SignUpForm';
+import { SignUpForm } from './signUpForm/SignUpForm';
 import './SignUpPage.scss';
 
 export const SignUpPage = () => {

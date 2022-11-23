@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { SignInForm } from './SignInForm/SignInForm';
+import { SignInForm } from './signInForm/SignInForm';
 import './SignInPage.scss';
 
 export const SignInPage = () => {
