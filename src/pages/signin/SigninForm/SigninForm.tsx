@@ -5,6 +5,7 @@ import { TSignInParams } from 'core/types/server';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Button } from 'components/button/Button';
+import { useTranslation } from 'react-i18next';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -22,6 +23,7 @@ interface ISignInForm {
 
 export const SignInForm = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -45,7 +47,7 @@ export const SignInForm = () => {
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField
-        label="Login"
+        label={t('Login')}
         autoComplete="off"
         error={!!errors[InputNames.login]}
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
@@ -54,7 +56,7 @@ export const SignInForm = () => {
         })}
       />
       <TextField
-        label="Password"
+        label={t('Password')}
         type="password"
         autoComplete="off"
         error={!!errors[InputNames.password]}
@@ -64,7 +66,7 @@ export const SignInForm = () => {
         })}
       />
       <Button type="submit" disabled={hasErrors}>
-        Sign in
+        {t('sign in')}
       </Button>
     </form>
   );

@@ -5,6 +5,7 @@ import { TUserPrams } from 'core/types/server';
 import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Button } from 'components/button/Button';
+import { useTranslation } from 'react-i18next';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -28,6 +29,7 @@ interface ISignUpForm {
 
 export const SignUpForm = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -51,7 +53,7 @@ export const SignUpForm = () => {
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField
-        label="Name"
+        label={t('Name')}
         autoComplete="off"
         error={!!errors[InputNames.name]}
         helperText={errors[InputNames.name] ? errors[InputNames.name]?.message : ''}
@@ -61,7 +63,7 @@ export const SignUpForm = () => {
         })}
       />
       <TextField
-        label="Login"
+        label={t('Login')}
         autoComplete="off"
         error={!!errors[InputNames.login]}
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
@@ -71,7 +73,7 @@ export const SignUpForm = () => {
         })}
       />
       <TextField
-        label="Password"
+        label={t('Password')}
         type="password"
         autoComplete="off"
         error={!!errors[InputNames.password]}
@@ -82,7 +84,7 @@ export const SignUpForm = () => {
         })}
       />
       <Button type="submit" disabled={hasErrors}>
-        Sign up
+        {t('sign up')}
       </Button>
     </form>
   );

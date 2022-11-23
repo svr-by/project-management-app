@@ -8,12 +8,14 @@ import { PATHS } from 'core/constants';
 import { CustomLink, CustomSwitch } from 'components';
 import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [backColor, setBackColor] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     user.id ? navigate(PATHS.BOARD) : navigate(PATHS.WELCOME);
@@ -50,8 +52,8 @@ export const Header = () => {
         <CustomSwitch />
         {!user.id ? (
           <>
-            <CustomLink to={PATHS.SIGN_IN}>Sign in</CustomLink>
-            <CustomLink to={PATHS.SIGN_UP}>Sign up</CustomLink>
+            <CustomLink to={PATHS.SIGN_IN}>{t('sign in')}</CustomLink>
+            <CustomLink to={PATHS.SIGN_UP}>{t('sign up')}</CustomLink>
           </>
         ) : (
           <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
