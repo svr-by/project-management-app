@@ -4,8 +4,8 @@ export enum PATHS {
   WELCOME = '',
   SIGN_UP = 'signup',
   SIGN_IN = 'signin',
-  BOARD = 'board',
   MAIN = 'main',
+  BOARD_ID = ':boardId',
   NOT_FOUND = '*',
 }
 

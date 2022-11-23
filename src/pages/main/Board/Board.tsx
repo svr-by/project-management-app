@@ -49,7 +49,6 @@ export const Board = (props: TBoardProps) => {
     const handleDelete = (id: string) => {
       dispatch(delBoard(id));
     };
-
     return (
       <>
         <Link to={board._id} className="board">

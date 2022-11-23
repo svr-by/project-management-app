@@ -11,14 +11,24 @@ html {
   font-family: "Open Sans";
 }
 
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+
 header,
 main,
 footer {
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
 }
 
 main {
   height: 100%;
+  flex-grow: 1;
 }
 
 .form {
