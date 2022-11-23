@@ -1,15 +1,14 @@
 import React, { MouseEvent } from 'react';
 import { Portal } from 'components/portal/Portal';
-
 import './Modal.scss';
 
-type ModalProps = {
+type TModalProps = {
   isOpen: boolean;
   onCancel: () => void;
   children: React.ReactNode;
 };
 
-const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
+export const Modal = ({ isOpen = false, onCancel, children }: TModalProps) => {
   const handleClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (
@@ -29,15 +28,6 @@ const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
               <button className="modal__button" name="times" onClick={handleClick}>
                 X
               </button>
-              {/* <div className="modal__header">
-                <input
-                  className="modal__button"
-                  type="button"
-                  name="times"
-                  onClick={handleClick}
-                  value="X"
-                />
-              </div> */}
               <div className="modal__body">{children}</div>
             </div>
           </div>
@@ -46,5 +36,3 @@ const Modal = ({ isOpen = false, onCancel, children }: ModalProps) => {
     </>
   );
 };
-
-export { Modal };

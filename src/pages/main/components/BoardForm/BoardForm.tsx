@@ -1,17 +1,8 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useAppDispatch } from 'redux/hooks';
-import { addBoard } from 'redux/slices/mainSlice';
-import { TBoardParams } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
 import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { RootState } from 'redux/store';
-
-enum ErrorMes {
-  empty = 'This field is required',
-  maxLength = 'The max length is 100 chars',
-}
+import { ERROR_MES } from 'core/constants';
 
 enum InputNames {
   title = 'title',
@@ -23,13 +14,15 @@ interface IAddBoardForm {
   description: string;
 }
 
-type TComponentProps = {
-  onCancel: () => void;
+type TBoardFormProps = {
+  formTitle: string;
+  defaultTitle?: string;
+  defaultDesc?: string;
+  onSubmit: (data: TBoardInfo) => void;
 };
 
-export const AddBoardForm = ({ onCancel }: TComponentProps) => {
-  const user = useSelector((state: RootState) => state.user);
-  const dispatch = useAppDispatch();
+export const BoardForm = (props: TBoardFormProps) => {
+  const { formTitle, defaultTitle, defaultDesc, onSubmit } = props;
 
   const {
     register,
@@ -46,39 +39,32 @@ export const AddBoardForm = ({ onCancel }: TComponentProps) => {
     }
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data: IAddBoardForm) => {
-    const boardInfo: TBoardInfo = { title: data.title, description: data.description };
-    const board: TBoardParams = {
-      title: JSON.stringify(boardInfo),
-      owner: user.id,
-      users: [],
-    };
-    dispatch(addBoard(board));
-    onCancel();
+  const onSubmitForm = (data: IAddBoardForm) => {
+    onSubmit(data);
   };
 
   return (
-    <form className="form form--modal" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <h3>Create board</h3>
+    <form className="form form--modal" onSubmit={handleSubmit(onSubmitForm)} noValidate>
+      <h3>{formTitle}</h3>
       <TextField
         label="Title"
+        defaultValue={defaultTitle}
         autoComplete="off"
         error={!!errors[InputNames.title]}
         helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
-          required: { value: true, message: ErrorMes.empty },
-          minLength: { value: 5, message: ErrorMes.empty },
+          required: { value: true, message: ERROR_MES.EMPTY },
+          minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
         })}
       />
       <TextField
         label="Description"
+        defaultValue={defaultDesc}
         autoComplete="off"
-        // multiline
-        // minRows={4}
         error={!!errors[InputNames.description]}
         helperText={errors[InputNames.description]?.message}
         {...register(InputNames.description, {
-          maxLength: { value: 100, message: ErrorMes.maxLength },
+          maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
         })}
       />
       <Button type="submit" variant="contained" disabled={hasErrors}>

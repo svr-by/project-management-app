@@ -4,12 +4,12 @@ import { useAppDispatch } from 'redux/hooks';
 import { delBoard } from 'redux/slices/mainSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
+import { ConfModal } from 'components';
+import { EditBoardModal } from '../EditBoardModal/EditBoardModal';
 import { Button, IconButton } from '@mui/material';
-import { Modal } from 'components/modal/Modal';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import { EditBoardForm } from '../EditBoardForm/EditBoardForm';
 import boardPrev from 'assets/img/board_prev.png';
 import './Board.scss';
 
@@ -78,20 +78,14 @@ export const Board = (props: TBoardProps) => {
             </div>
           </div>
         </Link>
-        <Modal isOpen={editModal} onCancel={closeEditModal}>
-          <EditBoardForm board={board} onCancel={closeEditModal} />
-        </Modal>
-        <Modal isOpen={confModal} onCancel={closeConfModal}>
-          <>
-            <h3>Do you really want to delete board?</h3>
-            <Button variant="contained" onClick={() => handleDelete(board._id)}>
-              Delete
-            </Button>
-            <Button variant="outlined" onClick={closeConfModal}>
-              Cancel
-            </Button>
-          </>
-        </Modal>
+        <EditBoardModal board={board} isOpen={editModal} onCancel={closeEditModal} />
+        <ConfModal
+          onSubmit={() => handleDelete(board._id)}
+          isOpen={confModal}
+          onCancel={closeConfModal}
+        >
+          <h3>Do you really want to delete board?</h3>
+        </ConfModal>
       </>
     );
   } else if (empty && onClick) {
