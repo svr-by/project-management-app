@@ -1,10 +1,7 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { singUp } from 'redux/slices/userSlice';
 import { TUserPrams } from 'core/types/server';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { Button } from 'components/button/Button';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -26,9 +23,14 @@ interface ISignUpForm {
   password: string;
 }
 
-export const SignUpForm = () => {
-  const dispatch = useAppDispatch();
+type TSignUpFormProps = {
+  submitBtn: string;
+  deleteBtn?: string;
+  onSubmit: (user: TUserPrams) => void;
+  onDelete?: () => void;
+};
 
+export const SignUpForm = ({ submitBtn, deleteBtn, onSubmit, onDelete }: TSignUpFormProps) => {
   const {
     register,
     handleSubmit,
@@ -43,10 +45,6 @@ export const SignUpForm = () => {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
-
-  const onSubmit = (user: TUserPrams) => {
-    dispatch(singUp(user));
-  };
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -81,9 +79,16 @@ export const SignUpForm = () => {
           minLength: { value: 8, message: ErrorMes.minPass },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
-        Sign up
-      </Button>
+      <div className="form__btns">
+        <Button type="submit" variant="contained" disabled={hasErrors}>
+          {submitBtn}
+        </Button>
+        {deleteBtn && onDelete && (
+          <Button color="error" variant="contained" onClick={onDelete}>
+            {deleteBtn}
+          </Button>
+        )}
+      </div>
     </form>
   );
 };
