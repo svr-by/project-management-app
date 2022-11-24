@@ -10,5 +10,14 @@
   "No account?": "No account?",
   "Create account": "Create account",
   "Already have an account?": "Already have an account?",
-  "Name": "Name"
+  "Name": "Name",
+  "Main page": "Main page",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Edit board": "Edit board",
+  "Title": "Title",
+  "Description": "Description",
+  "Submit": "Submit",
+  "Add board": "Add board",
+  "Sign out": "Sign out"
 }

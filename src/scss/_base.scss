@@ -11,14 +11,24 @@ html {
   font-family: "Open Sans";
 }
 
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+
 header,
 main,
 footer {
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
 }
 
 main {
   height: 100%;
+  flex-grow: 1;
 }
 
 .form {
@@ -33,4 +43,9 @@ main {
   box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px,
               rgb(0 0 0 / 14%) 0px 3px 4px 0px, 
               rgb(0 0 0 / 12%) 0px 1px 8px 0px;
+  
+  &.form--modal {
+    padding: 0.5rem;
+    box-shadow: none;
+  }
 }

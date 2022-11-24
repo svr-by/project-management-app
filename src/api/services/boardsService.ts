@@ -17,6 +17,10 @@ export function updateBoardById(id: string, board: TBoardParams): Promise<TBoard
   return API.put(`/boards/${id}`, board).then((res) => res.data);
 }
 
+export function deleteBoardById(id: string): Promise<TBoardRes> {
+  return API.delete(`/boards/${id}`).then((res) => res.data);
+}
+
 export function getBoardsByIds(ids: string[]): Promise<TBoardRes[]> {
   return API.get(`/boardsSet`, { params: { ids } }).then((res) => res.data);
 }

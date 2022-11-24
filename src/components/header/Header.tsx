@@ -14,11 +14,12 @@ export const Header = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const [backColor, setBackColor] = useState(0);
   const { t } = useTranslation();
 
   useEffect(() => {
-    user.id ? navigate(PATHS.BOARD) : navigate(PATHS.WELCOME);
+    user.id ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id]);
 
@@ -56,7 +57,7 @@ export const Header = () => {
             <CustomLink to={PATHS.SIGN_UP}>{t('sign up')}</CustomLink>
           </>
         ) : (
-          <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+          <CustomLink onClick={handleSignOut}>{t('Sign out')}</CustomLink>
         )}
       </nav>
     </header>

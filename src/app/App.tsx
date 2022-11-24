@@ -8,13 +8,15 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path={PATHS.WELCOME} element={<Layout />}>
+        <Route element={<Layout />}>
           <Route index element={<Welcome />} />
           <Route path={PATHS.SIGN_IN} element={<SignInPage />} />
           <Route path={PATHS.SIGN_UP} element={<SignUpPage />} />
           <Route element={<ProtectedRoute />}>
-            <Route path={PATHS.MAIN} element={<MainPage />} />
-            <Route path={PATHS.BOARD} element={<BoardPage />} />
+            <Route path={PATHS.MAIN}>
+              <Route index element={<MainPage />} />
+              <Route path={PATHS.BOARD_ID} element={<BoardPage />} />
+            </Route>
           </Route>
           <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
         </Route>

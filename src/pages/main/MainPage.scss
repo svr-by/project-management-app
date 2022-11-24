@@ -1,0 +1,9 @@
+@import "src/scss/variables";
+
+.board-list {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
