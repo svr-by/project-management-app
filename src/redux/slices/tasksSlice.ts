@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTasksByColumn, createTask, deleteTaskById, getTaskSetByBoard, updateTaskById } from 'api/services/tasksService';
+import {
+  getTasksByColumn,
+  createTask,
+  deleteTaskById,
+  // getTaskSetByBoard,
+  updateTaskById,
+} from 'api/services/tasksService';
 import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
 
 interface IGlobalStateTasks {
@@ -32,9 +38,6 @@ const initialState: IGlobalStateTasks = {
 //     }
 //   }
 // );
-
-
-
 
 type TGetTasks = {
   boardId: string;
@@ -84,7 +87,7 @@ export const creatTasksInColumnId = createAsyncThunk(
 type TUpdateTask = {
   boardId: string;
   columnId: string;
-  taskId: string,
+  taskId: string;
   updateTask: TTaskParamsExt;
 };
 
@@ -99,7 +102,6 @@ export const updateTaskInColumnId = createAsyncThunk(
       }
 
       return data;
-
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -134,7 +136,6 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
     // builder.addCase(getAllTasksInBoardId.pending, (state) => {
     //   state.isLoaded = false;
     //   state.error = false;

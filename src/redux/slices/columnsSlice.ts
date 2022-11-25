@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getColumnInBoard, createColumn, updateColumnById, deleteColumnById } from 'api/services/columnsService';
+import {
+  getColumnInBoard,
+  createColumn,
+  updateColumnById,
+  deleteColumnById,
+} from 'api/services/columnsService';
 import { TColRes, TColParams } from 'core/types/server';
 
 interface IGlobalStateColumns {
@@ -25,7 +30,6 @@ export const getColumnsInBoardId = createAsyncThunk(
       }
 
       return data;
-
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -48,7 +52,6 @@ export const creatColumnInBoardId = createAsyncThunk(
       }
 
       return data;
-
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -72,7 +75,6 @@ export const updateColumnInBoardId = createAsyncThunk(
       }
 
       return data;
-
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -95,7 +97,6 @@ export const deleteColumnInBoardId = createAsyncThunk(
       }
 
       return data;
-
     } catch (error) {
       return rejectWithValue(error);
     }

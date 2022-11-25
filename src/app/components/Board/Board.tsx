@@ -1,5 +1,6 @@
 import './Board.scss';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
 import { Column } from 'app/components/Column/Column';
@@ -8,23 +9,20 @@ import { selectColumnsInBoardId } from 'redux/selectors';
 import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TColParams } from 'core/types/server';
 
-type boardProps = {
-  boardId: string;
-};
-
 interface IFormInput {
   title: string;
 }
 
-const Board = (props: boardProps) => {
-  const { boardId } = props;
+const Board = () => {
+  const { boardId } = useParams();
   const dispatch = useAppDispatch();
-  const { data/*, error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
+  const { data /*, error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
 
   const {
     register,
-    formState: { errors, isValid },
+    // formState: { errors, isValid },
     handleSubmit,
+    reset,
   } = useForm({
     mode: 'onSubmit',
     defaultValues: {
@@ -46,11 +44,15 @@ const Board = (props: boardProps) => {
       order: 0,
     };
 
-    await dispatch(creatColumnInBoardId({ boardId, newColumn }));
+    if (boardId) {
+      await dispatch(creatColumnInBoardId({ boardId, newColumn }));
+    }
+    reset();
+    handleCancel();
   };
 
   useEffect(() => {
-    dispatch(getColumnsInBoardId(boardId));
+    if (boardId) dispatch(getColumnsInBoardId(boardId));
   }, [boardId, dispatch]);
 
   return (
@@ -74,11 +76,15 @@ const Board = (props: boardProps) => {
             <fieldset className="details__title">
               <legend>Column title</legend>
               <div>
-                <input type="text" id="title" value="" {...register('title')} />
+                <input type="text" id="title" {...register('title')} />
               </div>
             </fieldset>
-            <button className="details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
-            <button className="details__btn-cancel" onClick={handleCancel}>cancel</button>
+            <button className="details__btn-submit" type="submit">
+              submit
+            </button>
+            <button className="details__btn-cancel" onClick={handleCancel}>
+              cancel
+            </button>
           </form>
         </div>
       </Modal>

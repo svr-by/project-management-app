@@ -20,6 +20,6 @@ const Portal = ({ children }: PortalProps) => {
   }, [el]);
 
   return ReactDOM.createPortal(children, el);
-}
+};
 
 export { Portal };

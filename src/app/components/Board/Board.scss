@@ -67,6 +67,16 @@ li {
   transition: .2s linear;
 }
 
+.close-button-column {
+  width: 15px;
+  height: 15px;
+  padding: 0;
+  background: url(../../../../public/svg/close.svg) no-repeat 50%;
+  border: none;
+  cursor: pointer;
+  transition: .2s linear;
+}
+
 .tasks-list {
   min-height: 1px;
   margin-bottom: 10px;
@@ -105,7 +115,7 @@ li {
 }
 
 .add-button {
-  width: 100%;
+  width: 260px;
   margin-top: 20px;
   padding: 10px;
   color: #5a5a5a;

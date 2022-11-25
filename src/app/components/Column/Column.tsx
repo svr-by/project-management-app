@@ -22,13 +22,14 @@ interface IFormInput {
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title } = props;
   const dispatch = useAppDispatch();
-  const { data/*, error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
+  const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
     register,
-    formState: { errors, isValid },
+    // formState: { errors, isValid },
     handleSubmit,
+    reset,
   } = useForm({
     mode: 'onSubmit',
     defaultValues: {
@@ -38,7 +39,7 @@ const Column = (props: TaskProps) => {
   });
 
   const [valueColumnTitle, setValueColumnTitle] = useState(title);
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [isCreatTask, setIsCreatTask] = useState(false);
   const [isDeleteColumn, setIsDeleteColumn] = useState(false);
@@ -67,18 +68,18 @@ const Column = (props: TaskProps) => {
 
   const handleChangeTitleColumn = async () => {
     if (textAreaRef.current) {
+      setValueColumnTitle(textAreaRef.current.value);
       const newColumn = {
         title: textAreaRef.current.value,
         order: 0,
       };
-      setValueColumnTitle(textAreaRef.current.value);
       await dispatch(updateColumnInBoardId({ boardId, columnId, newColumn }));
     }
   };
 
   const handleDeleteColumnId = async () => {
-    handleCancel();
     await dispatch(deleteColumnInBoardId({ boardId, columnId }));
+    handleCancel();
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
@@ -86,16 +87,22 @@ const Column = (props: TaskProps) => {
       title: inputsData.title,
       order: 0,
       description: inputsData.description,
-      userId: columnId,
+      userId: '0',
       users: [''],
     };
 
+    console.log(boardId, columnId, newTask);
+
     await dispatch(creatTasksInColumnId({ boardId, columnId, newTask }));
+    reset();
+    handleCancel();
   };
 
   useEffect(() => {
     dispatch(getTasksInColumnId({ boardId, columnId }));
   }, [boardId, columnId, dispatch]);
+
+  autosize();
 
   return (
     <>
@@ -108,13 +115,14 @@ const Column = (props: TaskProps) => {
               ref={textAreaRef}
               onBlur={handleChangeTitleColumn}
               onChange={autosize}
-              value={valueColumnTitle}
-            ></textarea>
-            <button className="close-button" onClick={openModalDeleteColumn}></button>
+            >
+              {valueColumnTitle}
+            </textarea>
+            <button className="close-button-column" onClick={openModalDeleteColumn}></button>
           </div>
           <ul className="tasks-list">
             {data.map((el) => (
-                <Task boardId={boardId} columnId={columnId} dataTask={el} />
+              <Task key={el._id} boardId={boardId} columnId={columnId} dataTask={el} />
             ))}
           </ul>
           <button className="add-button" onClick={openModalCreatTask}>
@@ -123,35 +131,43 @@ const Column = (props: TaskProps) => {
         </div>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-        {isCreatTask &&
+        {isCreatTask && (
           <div className="details">
             <h4 className="details__header">Creat task</h4>
             <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
               <fieldset className="details__title">
                 <legend>Task title</legend>
                 <div>
-                  <input type="text" id="title" value="" {...register('title')} />
+                  <input type="text" id="title" {...register('title')} />
                 </div>
               </fieldset>
               <fieldset className="details__description">
                 <legend>Task description</legend>
                 <div>
-                  <textarea rows={4} id="description" value="" {...register('description')} />
+                  <textarea rows={4} id="description" {...register('description')} />
                 </div>
               </fieldset>
-              <button className="details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
-              <button className="details__btn-cancel" onClick={handleCancel}>cancel</button>
+              <button className="details__btn-submit" type="submit">
+                submit
+              </button>
+              <button className="details__btn-cancel" onClick={handleCancel}>
+                cancel
+              </button>
             </form>
           </div>
-        }
-        {isDeleteColumn &&
+        )}
+        {isDeleteColumn && (
           <div className="details">
             <h4 className="details__header">Do you want to delete column?</h4>
-            <button className="details__btn-submit" onClick={handleDeleteColumnId}>yes</button>
-            <button className="details__btn-cancel" onClick={handleCancel}>no</button>
+            <button className="details__btn-submit" onClick={handleDeleteColumnId}>
+              yes
+            </button>
+            <button className="details__btn-cancel" onClick={handleCancel}>
+              no
+            </button>
           </div>
-        }
-        </Modal>
+        )}
+      </Modal>
     </>
   );
 };

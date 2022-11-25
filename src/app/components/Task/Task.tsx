@@ -25,7 +25,7 @@ function Task(props: TaskProps) {
 
   const {
     register,
-    formState: { errors, isValid },
+    // formState: { errors, isValid },
     handleSubmit,
   } = useForm({
     mode: 'onSubmit',
@@ -67,17 +67,19 @@ function Task(props: TaskProps) {
       users: users,
     };
 
-    await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask}));
+    await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask }));
   };
 
   return (
     <>
       <li className="task-item">
-        <div className="task-title" onClick={openModalChangeTask}>{title}</div>
+        <div className="task-title" onClick={openModalChangeTask}>
+          {title}
+        </div>
         <button className="close-button" onClick={openModalDeleteTask}></button>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-        {isChangeTask &&
+        {isChangeTask && (
           <div className="details">
             <h4 className="details__header">Edit task</h4>
             <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
@@ -93,18 +95,26 @@ function Task(props: TaskProps) {
                   <textarea rows={4} id="description" value="" {...register('description')} />
                 </div>
               </fieldset>
-              <button className="details__btn-submit" type='submit' onClick={handleCancel}>submit</button>
-              <button className="details__btn-cancel" onClick={handleCancel}>cancel</button>
+              <button className="details__btn-submit" type="submit" onClick={handleCancel}>
+                submit
+              </button>
+              <button className="details__btn-cancel" onClick={handleCancel}>
+                cancel
+              </button>
             </form>
           </div>
-        }
-        {isDeleteTask && 
+        )}
+        {isDeleteTask && (
           <div className="details">
             <h4 className="details__header">Do you want to delete task?</h4>
-            <button className="details__btn-submit" onClick={handleDeleteTaskId}>yes</button>
-            <button className="details__btn-cancel" onClick={handleCancel}>no</button>
+            <button className="details__btn-submit" onClick={handleDeleteTaskId}>
+              yes
+            </button>
+            <button className="details__btn-cancel" onClick={handleCancel}>
+              no
+            </button>
           </div>
-        }
+        )}
       </Modal>
     </>
   );

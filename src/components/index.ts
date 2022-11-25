@@ -5,3 +5,5 @@ export { Layout } from './layout/Layout';
 export { ProtectedRoute } from './protectedRoute/ProtectedRoute';
 export { CustomLink } from './customLink/CustomLink';
 export { CustomSwitch } from './customSwitch/CustomSwitch';
+export { Modal } from './modal/Modal';
+export { ConfModal } from './confModal/СonfModal';
