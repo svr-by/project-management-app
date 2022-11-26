@@ -57,7 +57,6 @@ export const CustomSwitch = () => {
   const { i18n } = useTranslation();
 
   const changeLanguage = () => {
-    console.log(lang);
     setLang(lang === 'en' ? 'ru' : 'en');
     i18n.changeLanguage(lang);
   };
