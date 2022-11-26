@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { signUp, signIn } from 'api/services/authService';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { signIn } from 'api/services/authService';
 import { getUserById } from 'api/services/usersService';
-import { TUserPrams, TSignInParams, TdecodedToken } from 'core/types/server';
+import { TSignInParams, TdecodedToken } from 'core/types/server';
 import { getLocalValue, setLocalValue, removeLocalValue } from 'core/services/storageService';
 import { LOCAL_STORAGE } from 'core/constants';
 import jwt_decode from 'jwt-decode';
@@ -9,16 +9,14 @@ import jwt_decode from 'jwt-decode';
 interface IUserSate {
   login: string;
   id: string;
+  isLoading: boolean;
 }
 
 const initialState: IUserSate = {
   login: '',
   id: '',
+  isLoading: false,
 };
-
-export const singUp = createAsyncThunk('user/signUp', async (user: TUserPrams) => {
-  return signUp(user);
-});
 
 export const singIn = createAsyncThunk('user/signIn', async (user: TSignInParams) => {
   const { token } = await signIn(user);
@@ -53,11 +51,19 @@ const userSlice = createSlice({
         const userData = action.payload;
         state.login = userData?.login || '';
         state.id = userData?.id || '';
+        state.isLoading = false;
       })
       .addCase(checkToken.fulfilled, (state, action) => {
         const userData = action.payload;
         state.login = userData?.login || '';
         state.id = userData?._id || '';
+        state.isLoading = false;
+      })
+      .addMatcher(isAnyOf(singIn.pending, checkToken.pending), (state) => {
+        state.isLoading = true;
+      })
+      .addMatcher(isAnyOf(singIn.rejected, checkToken.rejected), (state) => {
+        state.isLoading = false;
       });
   },
 });
