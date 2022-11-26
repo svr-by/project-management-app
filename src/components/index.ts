@@ -7,3 +7,5 @@ export { CustomLink } from './customLink/CustomLink';
 export { CustomSwitch } from './customSwitch/CustomSwitch';
 export { Modal } from './modal/Modal';
 export { ConfModal } from './confModal/СonfModal';
+export { UserForm } from './forms/UserForm';
+export { Spinner } from './spinner/Spinner';

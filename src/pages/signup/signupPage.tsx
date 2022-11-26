@@ -5,8 +5,7 @@ import { useAppDispatch } from 'redux/hooks';
 import { singIn } from 'redux/slices/userSlice';
 import { TUserPrams } from 'core/types/server';
 import { PATHS } from 'core/constants';
-import { SignUpForm } from 'components/forms/SignUpForm';
-import { Spinner } from 'components/spinner/Spinner';
+import { UserForm, Spinner } from 'components';
 import './SignUpPage.scss';
 
 export const SignUpPage = () => {
@@ -29,7 +28,7 @@ export const SignUpPage = () => {
   return (
     <div className="signup">
       <h1>Create account</h1>
-      <SignUpForm submitBtn="Submit" onSubmit={onSubmit} />
+      <UserForm submitBtn="Sign up" onSubmit={onSubmit} />
       <p>
         Already have an account?
         <Link to={`/${PATHS.SIGN_IN}`}>Sign in!</Link>

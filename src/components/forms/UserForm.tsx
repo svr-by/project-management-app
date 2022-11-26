@@ -17,28 +17,38 @@ enum InputNames {
   password = 'password',
 }
 
-interface ISignUpForm {
+interface IUserForm {
   name: string;
   login: string;
   password: string;
 }
 
-type TSignUpFormProps = {
-  submitBtn: string;
-  deleteBtn?: string;
+type TUserFormProps = {
+  submitBtn: 'Update profile' | 'Sign up';
   onSubmit: (user: TUserPrams) => void;
   onDelete?: () => void;
+  defaultName?: string;
+  defaultLogin?: string;
 };
 
-export const SignUpForm = ({ submitBtn, deleteBtn, onSubmit, onDelete }: TSignUpFormProps) => {
+export const UserForm = (props: TUserFormProps) => {
+  const { submitBtn, onSubmit, onDelete, defaultName, defaultLogin } = props;
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<ISignUpForm>();
+  } = useForm<IUserForm>();
 
   const hasErrors = errors && Object.keys(errors).length !== 0;
+
+  useEffect(() => {
+    if (defaultName && defaultLogin) {
+      setValue('name', defaultName);
+      setValue('login', defaultLogin);
+    }
+  }, [setValue, defaultName, defaultLogin]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -69,7 +79,7 @@ export const SignUpForm = ({ submitBtn, deleteBtn, onSubmit, onDelete }: TSignUp
         })}
       />
       <TextField
-        label="Password"
+        label={submitBtn === 'Update profile' ? 'New password' : 'Password'}
         type="password"
         autoComplete="off"
         error={!!errors[InputNames.password]}
@@ -83,9 +93,9 @@ export const SignUpForm = ({ submitBtn, deleteBtn, onSubmit, onDelete }: TSignUp
         <Button type="submit" variant="contained" disabled={hasErrors}>
           {submitBtn}
         </Button>
-        {deleteBtn && onDelete && (
+        {onDelete && (
           <Button color="error" variant="contained" onClick={onDelete}>
-            {deleteBtn}
+            Delete profile
           </Button>
         )}
       </div>

@@ -46,8 +46,8 @@ export const Board = (props: TBoardProps) => {
       setConfModal(false);
     };
 
-    const handleDelete = (id: string) => {
-      dispatch(delBoard(id));
+    const handleDelete = () => {
+      dispatch(delBoard(board._id));
     };
     return (
       <>
@@ -78,12 +78,8 @@ export const Board = (props: TBoardProps) => {
             </div>
           </div>
         </Link>
-        <EditBoardModal board={board} isOpen={editModal} onCancel={closeEditModal} />
-        <ConfModal
-          onSubmit={() => handleDelete(board._id)}
-          isOpen={confModal}
-          onCancel={closeConfModal}
-        >
+        <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
+        <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
           <h3>Do you really want to delete board?</h3>
         </ConfModal>
       </>

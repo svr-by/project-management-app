@@ -58,7 +58,10 @@ export const Header = () => {
             <CustomLink to={PATHS.SIGN_UP}>Sign up</CustomLink>
           </>
         ) : (
-          <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+          <>
+            <CustomLink to={PATHS.PROFILE}>Edit profile</CustomLink>
+            <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+          </>
         )}
       </nav>
     </header>
