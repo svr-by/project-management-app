@@ -8,4 +8,6 @@ export { CustomSwitch } from './customSwitch/CustomSwitch';
 export { Modal } from './modal/Modal';
 export { ConfModal } from './confModal/СonfModal';
 export { UserForm } from './forms/UserForm';
+export { SignInForm } from './forms/SignInForm';
+export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';

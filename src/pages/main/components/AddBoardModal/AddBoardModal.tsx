@@ -3,9 +3,8 @@ import { useAppDispatch } from 'redux/hooks';
 import { addBoard } from 'redux/slices/mainSlice';
 import { TBoardParams } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
-import { Modal } from 'components/modal/Modal';
+import { Modal, BoardForm } from 'components';
 import { RootState } from 'redux/store';
-import { BoardForm } from '../BoardForm/BoardForm';
 
 type TAddBoardModalProps = {
   isOpen: boolean;

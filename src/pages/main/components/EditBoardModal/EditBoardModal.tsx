@@ -1,11 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { udateBoard } from 'redux/slices/mainSlice';
+import { RootState } from 'redux/store';
 import { TBoardParams, TBoardRes } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
-import { Modal } from 'components/modal/Modal';
-import { RootState } from 'redux/store';
-import { BoardForm } from '../BoardForm/BoardForm';
+import { Modal, BoardForm } from 'components';
 
 type TEditBoardModalProps = {
   board: TBoardRes;
