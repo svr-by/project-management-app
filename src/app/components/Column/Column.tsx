@@ -2,16 +2,20 @@ import { useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Task } from '../Task/Task';
 import { Modal } from 'components/modal/Modal';
+import { ConfModal } from 'components/confModal/СonfModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectTasksInColumnId } from 'redux/selectors';
-import { getTasksInColumnId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
+import { selectTasksInBoardId } from 'redux/selectors';
+import { getAllTasksInBoardId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { deleteColumnInBoardId, updateColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
+import { TextField, Button } from '@mui/material';
+import { ERROR_MES } from 'core/constants';
 
 type TaskProps = {
   boardId: string;
   columnId: string;
   title: string;
+  order: number;
 };
 
 interface IFormInput {
@@ -20,44 +24,40 @@ interface IFormInput {
 }
 
 const Column = (props: TaskProps) => {
-  const { boardId, columnId, title } = props;
+  const { boardId, columnId, title, order } = props;
   const dispatch = useAppDispatch();
-  const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInColumnId);
+  const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInBoardId);
+  const tasksInColumnId = data.filter((el) => el.columnId === columnId);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const columnRef = useRef<HTMLLIElement>(null);
 
   const {
     register,
-    // formState: { errors, isValid },
+    formState: { errors, isSubmitSuccessful },
     handleSubmit,
     reset,
-  } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      title: '',
-      description: '',
-    },
-  });
+  } = useForm<IFormInput>();
+
+  const hasErrors = errors && Object.keys(errors).length !== 0;
 
   const [valueColumnTitle, setValueColumnTitle] = useState(title);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isCreatTask, setIsCreatTask] = useState(false);
-  const [isDeleteColumn, setIsDeleteColumn] = useState(false);
   const handleCancel = () => {
     setIsOpen(false);
-    setIsCreatTask(false);
-    setIsDeleteColumn(false);
   };
   const openModalCreatTask = () => {
     setIsOpen(true);
-    setIsCreatTask(true);
-  };
-  const openModalDeleteColumn = () => {
-    setIsOpen(true);
-    setIsDeleteColumn(true);
   };
 
-  // const tasksInColumnId = data.filter((el) => el._id === columnId); //! если тащить общие таски
+  const [confModal, setConfModal] = useState(false);
+  const openConfModal = () => {
+    setConfModal(true);
+  };
+
+  const closeConfModal = () => {
+    setConfModal(false);
+  };
 
   const autosize = () => {
     if (textAreaRef.current) {
@@ -91,22 +91,20 @@ const Column = (props: TaskProps) => {
       users: [''],
     };
 
-    console.log(boardId, columnId, newTask);
-
     await dispatch(creatTasksInColumnId({ boardId, columnId, newTask }));
     reset();
     handleCancel();
   };
 
   useEffect(() => {
-    dispatch(getTasksInColumnId({ boardId, columnId }));
-  }, [boardId, columnId, dispatch]);
+    dispatch(getAllTasksInBoardId(boardId));
+  }, [boardId, dispatch]);
 
   autosize();
 
   return (
     <>
-      <li className="column">
+      <li className="column" ref={columnRef}>
         <div className="card-task">
           <div className="title-task">
             <textarea
@@ -118,11 +116,17 @@ const Column = (props: TaskProps) => {
             >
               {valueColumnTitle}
             </textarea>
-            <button className="close-button-column" onClick={openModalDeleteColumn}></button>
+            <button className="close-button-column" onClick={openConfModal}></button>
           </div>
           <ul className="tasks-list">
-            {data.map((el) => (
-              <Task key={el._id} boardId={boardId} columnId={columnId} dataTask={el} />
+            {tasksInColumnId.map((el) => (
+              <Task
+                key={el._id}
+                boardId={boardId}
+                columnId={columnId}
+                dataTask={el}
+                order={el.order}
+              />
             ))}
           </ul>
           <button className="add-button" onClick={openModalCreatTask}>
@@ -131,43 +135,35 @@ const Column = (props: TaskProps) => {
         </div>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-        {isCreatTask && (
-          <div className="details">
-            <h4 className="details__header">Creat task</h4>
-            <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
-              <fieldset className="details__title">
-                <legend>Task title</legend>
-                <div>
-                  <input type="text" id="title" {...register('title')} />
-                </div>
-              </fieldset>
-              <fieldset className="details__description">
-                <legend>Task description</legend>
-                <div>
-                  <textarea rows={4} id="description" {...register('description')} />
-                </div>
-              </fieldset>
-              <button className="details__btn-submit" type="submit">
-                submit
-              </button>
-              <button className="details__btn-cancel" onClick={handleCancel}>
-                cancel
-              </button>
-            </form>
-          </div>
-        )}
-        {isDeleteColumn && (
-          <div className="details">
-            <h4 className="details__header">Do you want to delete column?</h4>
-            <button className="details__btn-submit" onClick={handleDeleteColumnId}>
-              yes
-            </button>
-            <button className="details__btn-cancel" onClick={handleCancel}>
-              no
-            </button>
-          </div>
-        )}
+        <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
+          <h3>Add task</h3>
+          <TextField
+            label="Title"
+            autoComplete="off"
+            error={!!errors.title}
+            helperText={errors.title?.message}
+            {...register('title', {
+              required: { value: true, message: ERROR_MES.EMPTY },
+              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+            })}
+          />
+          <TextField
+            label="Description"
+            autoComplete="off"
+            error={!!errors.description}
+            helperText={errors.description?.message}
+            {...register('description', {
+              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+            })}
+          />
+          <Button type="submit" variant="contained" disabled={hasErrors}>
+            Submit
+          </Button>
+        </form>
       </Modal>
+      <ConfModal onSubmit={handleDeleteColumnId} isOpen={confModal} onCancel={closeConfModal}>
+        <h3>Do you really want to delete column?</h3>
+      </ConfModal>
     </>
   );
 };

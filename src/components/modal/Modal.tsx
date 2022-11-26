@@ -25,9 +25,7 @@ export const Modal = ({ isOpen = false, onCancel, children }: TModalProps) => {
         <Portal>
           <div className="modal__overlay" onClick={handleClick}>
             <div className="modal__window">
-              <button className="modal__button" name="times" onClick={handleClick}>
-                X
-              </button>
+              <button className="modal__button" name="times" onClick={handleClick}></button>
               <div className="modal__body">{children}</div>
             </div>
           </div>

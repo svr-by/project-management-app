@@ -43,13 +43,13 @@ export function deleteTaskById(
 }
 
 export function getTaskSet(ids: string[], userId: string, search: string): Promise<TTaskResExt[]> {
-  return API.get(`/taskSet`, { params: { ids, userId, search } }).then((res) => res.data);
+  return API.get(`/tasksSet`, { params: { ids, userId, search } }).then((res) => res.data);
 }
 
 export function updateTaskSet(tasks: TTaskSet): Promise<TTaskResExt[]> {
-  return API.patch(`/taskSet`, tasks).then((res) => res.data);
+  return API.patch(`/tasksSet`, tasks).then((res) => res.data);
 }
 
 export function getTaskSetByBoard(boardId: string): Promise<TTaskResExt[]> {
-  return API.get(`/taskSet/${boardId}`).then((res) => res.data);
+  return API.get(`/tasksSet/${boardId}`).then((res) => res.data);
 }

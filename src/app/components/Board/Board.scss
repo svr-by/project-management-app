@@ -1,3 +1,5 @@
+@import "src/scss/variables";
+
 ul {
   list-style: none;
 }
@@ -58,23 +60,22 @@ li {
 .close-button {
   visibility: hidden;
   opacity: 0;
+}
+
+.close-button-column,
+.close-button {
   width: 15px;
   height: 15px;
   padding: 0;
-  background: url(../../../../public/svg/close.svg) no-repeat 50%;
+  background: url(../../../../public/svg/close.svg) no-repeat;
   border: none;
+  border-radius: 0.3rem;
   cursor: pointer;
   transition: .2s linear;
 }
 
-.close-button-column {
-  width: 15px;
-  height: 15px;
-  padding: 0;
-  background: url(../../../../public/svg/close.svg) no-repeat 50%;
-  border: none;
-  cursor: pointer;
-  transition: .2s linear;
+.close-button-column:hover {
+  background-color: $grey;
 }
 
 .tasks-list {
@@ -105,7 +106,7 @@ li {
 }
 
 .task-title {
-  max-width: 200px;
+  width: 240px;
   overflow-wrap: break-word;
   word-break: break-word;
 }

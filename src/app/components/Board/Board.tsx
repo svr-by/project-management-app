@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId } from 'redux/selectors';
 import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TColParams } from 'core/types/server';
+import { TextField, Button } from '@mui/material';
+import { ERROR_MES } from 'core/constants';
 
 interface IFormInput {
   title: string;
@@ -20,15 +22,12 @@ const Board = () => {
 
   const {
     register,
-    // formState: { errors, isValid },
+    formState: { errors, isSubmitSuccessful },
     handleSubmit,
     reset,
-  } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      title: '',
-    },
-  });
+  } = useForm<IFormInput>();
+
+  const hasErrors = errors && Object.keys(errors).length !== 0;
 
   const [isOpen, setIsOpen] = useState(false);
   const handleCancel = () => {
@@ -60,7 +59,13 @@ const Board = () => {
       <div className="container-tasks">
         <ul className="container-columns">
           {data.map((el) => (
-            <Column key={el._id} columnId={el._id} boardId={el.boardId} title={el.title} />
+            <Column
+              key={el._id}
+              columnId={el._id}
+              boardId={el.boardId}
+              title={el.title}
+              order={el.order}
+            />
           ))}
         </ul>
         <div className="container-add-button">
@@ -70,23 +75,22 @@ const Board = () => {
         </div>
       </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
-        <div className="details">
-          <h4 className="details__header">Creat column</h4>
-          <form className="form-box" onSubmit={handleSubmit(onSubmitFn)}>
-            <fieldset className="details__title">
-              <legend>Column title</legend>
-              <div>
-                <input type="text" id="title" {...register('title')} />
-              </div>
-            </fieldset>
-            <button className="details__btn-submit" type="submit">
-              submit
-            </button>
-            <button className="details__btn-cancel" onClick={handleCancel}>
-              cancel
-            </button>
-          </form>
-        </div>
+        <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
+          <h3>Add column</h3>
+          <TextField
+            label="Title"
+            autoComplete="off"
+            error={!!errors.title}
+            helperText={errors.title?.message}
+            {...register('title', {
+              required: { value: true, message: ERROR_MES.EMPTY },
+              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+            })}
+          />
+          <Button type="submit" variant="contained" disabled={hasErrors}>
+            Submit
+          </Button>
+        </form>
       </Modal>
     </>
   );

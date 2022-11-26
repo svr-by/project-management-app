@@ -39,16 +39,13 @@
   padding: 0.5rem;
   border: none;
   border-radius: 0.3rem;
-  color: $black;
-  font-size: 14px;
-  text-transform: uppercase;
   background-color: transparent;
+  background: url(../../../public/svg/close.svg) no-repeat;
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.modal__button:hover,
-.modal__window:not(:hover) .modal__button {
+.modal__button:hover {
   background-color:  $grey;
 }
 
