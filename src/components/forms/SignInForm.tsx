@@ -58,7 +58,7 @@ export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
           required: { value: true, message: ErrorMes.empty },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
+      <Button type="submit" variant="contained" disabled={hasErrors}>
         Sign in
       </Button>
     </form>

@@ -18,7 +18,7 @@ export function updateColumnById(
   columnId: string,
   column: TColParams
 ): Promise<TColRes> {
-  return API.post(`/boards/${boardId}/columns/${columnId}`, column).then((res) => res.data);
+  return API.put(`/boards/${boardId}/columns/${columnId}`, column).then((res) => res.data);
 }
 
 export function deleteColumnById(boardId: string, columnId: string): Promise<TColRes> {

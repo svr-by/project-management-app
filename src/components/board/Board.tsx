@@ -5,7 +5,7 @@ import { delBoard } from 'redux/slices/mainSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
-import { EditBoardModal } from '../EditBoardModal/EditBoardModal';
+import { EditBoardModal } from '../editBoardModal/EditBoardModal';
 import { Button, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';

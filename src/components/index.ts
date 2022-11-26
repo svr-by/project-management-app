@@ -11,3 +11,6 @@ export { UserForm } from './forms/UserForm';
 export { SignInForm } from './forms/SignInForm';
 export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
+export { Board } from './board/Board';
+export { AddBoardModal } from './addBoardModal/AddBoardModal';
+export { EditBoardModal } from './editBoardModal/EditBoardModal';

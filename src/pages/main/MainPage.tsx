@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { getBoards } from 'redux/slices/mainSlice';
 import { RootState } from 'redux/store';
-import { Board } from './components/Board/Board';
-import { AddBoardModal } from './components/AddBoardModal/AddBoardModal';
+import { Board, AddBoardModal } from 'components';
 import './MainPage.scss';
 
 export const MainPage = () => {
