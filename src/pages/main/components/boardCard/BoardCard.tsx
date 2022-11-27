@@ -1,7 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
-import { delBoard } from 'redux/slices/mainSlice';
+import { delBoard } from 'redux/slices/boardsSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';

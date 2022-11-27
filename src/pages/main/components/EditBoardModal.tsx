@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { udateBoard } from 'redux/slices/mainSlice';
+import { udateBoard } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { TBoardParams, TBoardRes } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   getAllBoards,
   createBoard,
@@ -7,54 +7,72 @@ import {
 } from 'api/services/boardsService';
 import { TBoardRes, TBoardParams } from 'core/types/server';
 
-interface IMainSate {
+interface IBoardsSate {
   boards: TBoardRes[];
+  isLoading: boolean;
 }
 
-const initialState: IMainSate = {
+const initialState: IBoardsSate = {
   boards: [],
+  isLoading: false,
 };
 
-export const getBoards = createAsyncThunk('main/getBoards', async () => {
+export const getBoards = createAsyncThunk('boards/getBoards', async () => {
   return getAllBoards();
 });
 
-export const addBoard = createAsyncThunk('main/addBoard', async (board: TBoardParams) => {
+export const addBoard = createAsyncThunk('boards/addBoard', async (board: TBoardParams) => {
   return createBoard(board);
 });
 
 export const udateBoard = createAsyncThunk(
-  'main/udateBoard',
+  'boards/udateBoard',
   async ({ id, board }: { id: string; board: TBoardParams }) => {
     return updateBoardById(id, board);
   }
 );
 
-export const delBoard = createAsyncThunk('main/delBoard', async (id: string) => {
+export const delBoard = createAsyncThunk('boards/delBoard', async (id: string) => {
   return deleteBoardById(id);
 });
 
-const userSlice = createSlice({
-  name: 'main',
+const boardsSlice = createSlice({
+  name: 'boards',
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getBoards.fulfilled, (state, action) => {
         state.boards = [...action.payload];
+        state.isLoading = false;
       })
       .addCase(addBoard.fulfilled, (state, action) => {
         state.boards.push(action.payload);
+        state.isLoading = false;
       })
       .addCase(udateBoard.fulfilled, (state, action) => {
         state.boards = state.boards.map((board) =>
           board._id !== action.payload._id ? board : { ...board, title: action.payload.title }
         );
+        state.isLoading = false;
       })
       .addCase(delBoard.fulfilled, (state, action) => {
         state.boards = state.boards.filter((board) => board._id !== action.payload._id);
-      });
+        state.isLoading = false;
+      })
+      .addMatcher(
+        isAnyOf(getBoards.pending, addBoard.pending, udateBoard.pending, delBoard.pending),
+        (state) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(getBoards.rejected, addBoard.rejected, udateBoard.rejected, delBoard.rejected),
+        (state) => {
+          state.isLoading = false;
+        }
+      );
   },
 });
 
-export default userSlice.reducer;
+export default boardsSlice.reducer;

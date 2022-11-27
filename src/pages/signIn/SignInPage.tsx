@@ -4,7 +4,6 @@ import { RootState } from 'redux/store';
 import { singIn } from 'redux/slices/userSlice';
 import { useAppDispatch } from 'redux/hooks';
 import { PATHS } from 'core/constants';
-
 import { TSignInParams } from 'core/types/server';
 import { Spinner, SignInForm } from 'components';
 import './SignInPage.scss';

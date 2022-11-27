@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { getBoards } from 'redux/slices/mainSlice';
+import { getBoards } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { BoardCard } from './components/boardCard/BoardCard';
-import { AddBoardModal } from 'components';
+import { Spinner, AddBoardModal } from 'components';
 import './MainPage.scss';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
-  const boards = useSelector((state: RootState) => state.main.boards);
+  const { boards, isLoading } = useSelector((state: RootState) => state.boards);
   const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export const MainPage = () => {
         <BoardCard empty onClick={openModal} />
       </div>
       <AddBoardModal isOpen={addModal} onCancel={closeModal} />
+      <Spinner open={isLoading} />
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { RootState } from 'redux/store';
-import { addBoard } from 'redux/slices/mainSlice';
+import { addBoard } from 'redux/slices/boardsSlice';
 import { TBoardParams } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
 import { PATHS } from 'core/constants';
