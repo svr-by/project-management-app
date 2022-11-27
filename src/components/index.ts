@@ -1,4 +1,4 @@
-export { Button } from './button/Button';
+export { CustomButton } from './customButton/CustomButton';
 export { Footer } from './footer/Footer';
 export { Header } from './header/Header';
 export { Layout } from './layout/Layout';
@@ -11,6 +11,4 @@ export { UserForm } from './forms/UserForm';
 export { SignInForm } from './forms/SignInForm';
 export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
-export { Board } from './board/Board';
 export { AddBoardModal } from './addBoardModal/AddBoardModal';
-export { EditBoardModal } from './editBoardModal/EditBoardModal';

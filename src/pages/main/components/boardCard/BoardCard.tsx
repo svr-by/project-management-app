@@ -5,21 +5,21 @@ import { delBoard } from 'redux/slices/mainSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
-import { EditBoardModal } from '../editBoardModal/EditBoardModal';
+import { EditBoardModal } from '../EditBoardModal';
 import { Button, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import boardPrev from 'assets/img/board_prev.png';
-import './Board.scss';
+import './BoardCard.scss';
 
-type TBoardProps = {
+type TBoardCardProps = {
   board?: TBoardRes;
   empty?: boolean;
   onClick?: () => void;
 };
 
-export const Board = (props: TBoardProps) => {
+export const BoardCard = (props: TBoardCardProps) => {
   const { board, empty = false, onClick } = props;
   const dispatch = useAppDispatch();
   const [editModal, setEditModal] = useState(false);

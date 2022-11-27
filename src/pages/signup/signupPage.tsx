@@ -4,6 +4,7 @@ import { signUp } from 'api/services/authService';
 import { useAppDispatch } from 'redux/hooks';
 import { singIn } from 'redux/slices/userSlice';
 import { TUserPrams } from 'core/types/server';
+
 import { PATHS } from 'core/constants';
 import { UserForm, Spinner } from 'components';
 import './SignUpPage.scss';

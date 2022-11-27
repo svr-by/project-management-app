@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { getBoards } from 'redux/slices/mainSlice';
 import { RootState } from 'redux/store';
-import { Board, AddBoardModal } from 'components';
+import { BoardCard } from './components/boardCard/BoardCard';
+import { AddBoardModal } from 'components';
 import './MainPage.scss';
 
 export const MainPage = () => {
@@ -29,9 +30,9 @@ export const MainPage = () => {
       <h1>Main page</h1>
       <div className="board-list">
         {boards.map((board) => {
-          return <Board board={board} key={board._id} />;
+          return <BoardCard board={board} key={board._id} />;
         })}
-        <Board empty onClick={openModal} />
+        <BoardCard empty onClick={openModal} />
       </div>
       <AddBoardModal isOpen={addModal} onCancel={closeModal} />
     </>
