@@ -1,12 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Task } from '../Task/Task';
+import { Task } from './Task';
+import { ColumnTitle } from 'pages/board/components/ColumnTitle';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectTasksInBoardId } from 'redux/selectors';
 import { getAllTasksInBoardId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
-import { deleteColumnInBoardId, updateColumnInBoardId } from 'redux/slices/columnsSlice';
+import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
@@ -28,8 +29,6 @@ const Column = (props: TaskProps) => {
   const dispatch = useAppDispatch();
   const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInBoardId);
   const tasksInColumnId = data.filter((el) => el.columnId === columnId);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const columnRef = useRef<HTMLLIElement>(null);
 
   const {
     register,
@@ -39,8 +38,6 @@ const Column = (props: TaskProps) => {
   } = useForm<IFormInput>();
 
   const hasErrors = errors && Object.keys(errors).length !== 0;
-
-  const [valueColumnTitle, setValueColumnTitle] = useState(title);
 
   const [isOpen, setIsOpen] = useState(false);
   const handleCancel = () => {
@@ -57,24 +54,6 @@ const Column = (props: TaskProps) => {
 
   const closeConfModal = () => {
     setConfModal(false);
-  };
-
-  const autosize = () => {
-    if (textAreaRef.current) {
-      textAreaRef.current.style.height = 'auto';
-      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
-    }
-  };
-
-  const handleChangeTitleColumn = async () => {
-    if (textAreaRef.current) {
-      setValueColumnTitle(textAreaRef.current.value);
-      const newColumn = {
-        title: textAreaRef.current.value,
-        order: 0,
-      };
-      await dispatch(updateColumnInBoardId({ boardId, columnId, newColumn }));
-    }
   };
 
   const handleDeleteColumnId = async () => {
@@ -100,22 +79,12 @@ const Column = (props: TaskProps) => {
     dispatch(getAllTasksInBoardId(boardId));
   }, [boardId, dispatch]);
 
-  autosize();
-
   return (
     <>
-      <li className="column" ref={columnRef}>
-        <div className="card-task">
-          <div className="title-task">
-            <textarea
-              className="title-input"
-              spellCheck="false"
-              ref={textAreaRef}
-              onBlur={handleChangeTitleColumn}
-              onChange={autosize}
-            >
-              {valueColumnTitle}
-            </textarea>
+      <li className="column">
+        <div className="card-column">
+          <div className="title-column-box">
+            <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
             <button className="close-button-column" onClick={openConfModal}></button>
           </div>
           <ul className="tasks-list">

@@ -37,16 +37,19 @@
   top: 0.5rem;
   right: 0.5rem;
   padding: 0.5rem;
+  width: 20px;
+  height: 20px;
   border: none;
   border-radius: 0.3rem;
   background-color: transparent;
-  background: url(../../../public/svg/close.svg) no-repeat;
+  background: url(../../../public/svg/close.svg) no-repeat center;
+  background-size: 80%;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .modal__button:hover {
-  background-color:  $grey;
+  background-color: #dddddd;
 }
 
 @keyframes modal-show {

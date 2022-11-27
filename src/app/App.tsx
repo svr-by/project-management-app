@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import { Welcome, MainPage, NotFoundPage, SignInPage, SignUpPage } from 'pages';
-import { Board } from 'app/components/Board/Board';
+import { Welcome, MainPage, NotFoundPage, SignInPage, SignUpPage, BoardPage } from 'pages';
 import { Layout, ProtectedRoute } from 'components';
 import { PATHS } from 'core/constants';
 import './App.scss';
@@ -16,7 +15,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path={PATHS.MAIN}>
               <Route index element={<MainPage />} />
-              <Route path={PATHS.BOARD_ID} element={<Board />} />
+              <Route path={PATHS.BOARD_ID} element={<BoardPage />} />
             </Route>
           </Route>
           <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />

@@ -27,7 +27,7 @@ li {
   width: 300px;
 }
 
-.card-task {
+.card-column {
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -37,13 +37,24 @@ li {
   opacity: 1;
 }
 
-.title-task {
+.title-column-box {
   display: flex;
   justify-content: space-between;
   padding: 5px 0 10px;
-  gap: 15px;
   margin-bottom: 15px;
   border-bottom: solid 2px #000;
+}
+
+.title-column-h3 {
+  padding: 5px 8px;
+  width: 255px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 7px;
+  font-size: 20px;
+  cursor: pointer;
+  resize: none;
+  overflow-wrap: break-word;
 }
 
 .title-input {
@@ -64,10 +75,11 @@ li {
 
 .close-button-column,
 .close-button {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   padding: 0;
-  background: url(../../../../public/svg/close.svg) no-repeat;
+  background: url(../../../public/svg/close.svg) no-repeat center;
+  background-size: 80%;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
@@ -75,7 +87,7 @@ li {
 }
 
 .close-button-column:hover {
-  background-color: $grey;
+  background-color: #dddddd;
 }
 
 .tasks-list {
@@ -96,7 +108,7 @@ li {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 8px rgb(0 0 0 / 10%);
-  background-color: #fff;
+  background-color: #ffffff;
   cursor: pointer;
 }
 
@@ -116,6 +128,7 @@ li {
 }
 
 .add-button {
+  align-self: center;
   width: 260px;
   margin-top: 20px;
   padding: 10px;
@@ -125,4 +138,8 @@ li {
   border-radius: 8px;
   cursor: pointer;
   transition: .2s linear;
+}
+
+.add-button:hover {
+  background-color: #dddddd;
 }
