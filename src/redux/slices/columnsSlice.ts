@@ -9,13 +9,13 @@ import { TColRes, TColParams } from 'core/types/server';
 
 interface IGlobalStateColumns {
   data: TColRes[];
-  isLoaded: boolean;
+  isLoading: boolean;
   error: boolean;
 }
 
 const initialState: IGlobalStateColumns = {
   data: [],
-  isLoaded: false,
+  isLoading: false,
   error: false,
 };
 
@@ -109,55 +109,56 @@ const columnsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getColumnsInBoardId.pending, (state) => {
-      state.isLoaded = false;
+      state.data = [];
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(getColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
-      state.isLoaded = true;
       state.data = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(getColumnsInBoardId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(creatColumnInBoardId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(creatColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.isLoaded = true;
       state.data.push(action.payload);
+      state.isLoading = false;
     });
     builder.addCase(creatColumnInBoardId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(updateColumnInBoardId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(updateColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.isLoaded = true;
       state.data = state.data.filter((el) => el._id !== action.payload._id);
       state.data.push(action.payload);
+      state.isLoading = false;
     });
     builder.addCase(updateColumnInBoardId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(deleteColumnInBoardId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(deleteColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.isLoaded = true;
       state.data = state.data.filter((el) => el._id !== action.payload._id);
+      state.isLoading = false;
     });
     builder.addCase(deleteColumnInBoardId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
   },

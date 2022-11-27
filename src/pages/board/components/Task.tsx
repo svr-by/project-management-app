@@ -26,12 +26,12 @@ function Task(props: TaskProps) {
   const title = dataTask.title;
   const description = dataTask.description;
   const users = dataTask.users;
-  const order = dataTask.order;
+  // const order = dataTask.order;
   const dispatch = useAppDispatch();
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>();
 
@@ -83,7 +83,7 @@ function Task(props: TaskProps) {
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>Add task</h3>
+          <h3>Add task222</h3>
           <TextField
             label="Title"
             defaultValue={title}
@@ -93,6 +93,7 @@ function Task(props: TaskProps) {
             {...register('title', {
               required: { value: true, message: ERROR_MES.EMPTY },
               minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
           <TextField
@@ -102,6 +103,8 @@ function Task(props: TaskProps) {
             error={!!errors.description}
             helperText={errors.description?.message}
             {...register('description', {
+              required: { value: true, message: ERROR_MES.EMPTY },
+              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />

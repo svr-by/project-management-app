@@ -2,10 +2,10 @@ import './BoardPage.scss';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Modal } from 'components/modal/Modal';
+import { Modal, Spinner } from 'components';
 import { Column } from 'pages/board/components/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectColumnsInBoardId } from 'redux/selectors';
+import { selectColumnsInBoardId, selectTasksInBoardId } from 'redux/selectors';
 import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TColParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
@@ -18,11 +18,12 @@ interface IFormInput {
 const BoardPage = () => {
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
-  const { data /*, error, isLoaded*/ } = useAppSelector(selectColumnsInBoardId);
+  const { data, isLoading: isColumnLoading } = useAppSelector(selectColumnsInBoardId);
+  const { isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
   } = useForm<IFormInput>();
@@ -92,6 +93,7 @@ const BoardPage = () => {
           </Button>
         </form>
       </Modal>
+      <Spinner open={isColumnLoading || isTaskLoading} />
     </>
   );
 };
