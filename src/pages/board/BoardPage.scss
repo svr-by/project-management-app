@@ -1,0 +1,145 @@
+@import "src/scss/variables";
+
+ul {
+  list-style: none;
+}
+
+li {
+  display: block;
+}
+
+.container-tasks {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  padding: 10px 20px;
+  height: calc(100vh - 150px);
+  overflow: auto;
+}
+
+.container-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.column {
+  width: 300px;
+}
+
+.card-column {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: #f9f7fa;
+  box-shadow: 0 0 10px 0 #d2d7e0;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.title-column-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0 10px;
+  margin-bottom: 15px;
+  border-bottom: solid 2px #000;
+}
+
+.title-column-h3 {
+  padding: 5px 8px;
+  width: 255px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 7px;
+  font-size: 20px;
+  cursor: pointer;
+  resize: none;
+  overflow-wrap: break-word;
+}
+
+.title-input {
+  padding: 5px 8px;
+  background-color: transparent;
+  border: 0;
+  border-radius: 7px;
+  font-size: 20px;
+  cursor: pointer;
+  resize: none;
+  overflow: hidden;
+}
+
+.close-button {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.close-button-column,
+.close-button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: url(../../../public/svg/close.svg) no-repeat center;
+  background-size: 80%;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: .2s linear;
+}
+
+.close-button-column:hover {
+  background-color: #dddddd;
+}
+
+.tasks-list {
+  min-height: 1px;
+  margin-bottom: 10px;
+  padding: 2px;
+  display: flex;
+  grid-gap: 7px;
+  gap: 7px;
+  flex-direction: column;
+  overflow: hidden auto;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 10%);
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.task-item:hover .close-button {
+  visibility: visible;
+  opacity: 1;
+}
+
+.task-title {
+  width: 240px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.container-add-button {
+  width: 280px;
+}
+
+.add-button {
+  align-self: center;
+  width: 260px;
+  margin-top: 20px;
+  padding: 10px;
+  color: #5a5a5a;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s linear;
+}
+
+.add-button:hover {
+  background-color: #dddddd;
+}
