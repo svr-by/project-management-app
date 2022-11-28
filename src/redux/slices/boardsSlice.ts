@@ -25,8 +25,8 @@ export const addBoard = createAsyncThunk('boards/addBoard', async (board: TBoard
   return createBoard(board);
 });
 
-export const udateBoard = createAsyncThunk(
-  'boards/udateBoard',
+export const updateBoard = createAsyncThunk(
+  'boards/updateBoard',
   async ({ id, board }: { id: string; board: TBoardParams }) => {
     return updateBoardById(id, board);
   }
@@ -50,7 +50,7 @@ const boardsSlice = createSlice({
         state.boards.push(action.payload);
         state.isLoading = false;
       })
-      .addCase(udateBoard.fulfilled, (state, action) => {
+      .addCase(updateBoard.fulfilled, (state, action) => {
         state.boards = state.boards.map((board) =>
           board._id !== action.payload._id ? board : { ...board, title: action.payload.title }
         );
@@ -61,13 +61,13 @@ const boardsSlice = createSlice({
         state.isLoading = false;
       })
       .addMatcher(
-        isAnyOf(getBoards.pending, addBoard.pending, udateBoard.pending, delBoard.pending),
+        isAnyOf(getBoards.pending, addBoard.pending, updateBoard.pending, delBoard.pending),
         (state) => {
           state.isLoading = true;
         }
       )
       .addMatcher(
-        isAnyOf(getBoards.rejected, addBoard.rejected, udateBoard.rejected, delBoard.rejected),
+        isAnyOf(getBoards.rejected, addBoard.rejected, updateBoard.rejected, delBoard.rejected),
         (state) => {
           state.isLoading = false;
         }

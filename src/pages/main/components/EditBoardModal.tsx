@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { udateBoard } from 'redux/slices/boardsSlice';
+import { updateBoard } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { TBoardParams, TBoardRes } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
@@ -25,7 +25,7 @@ export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps
       owner: user.id,
       users: [],
     };
-    dispatch(udateBoard({ id: board._id, board: editedBoard }));
+    dispatch(updateBoard({ id: board._id, board: editedBoard }));
     onCancel();
   };
 

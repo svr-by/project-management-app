@@ -83,7 +83,7 @@ function Task(props: TaskProps) {
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>Add task222</h3>
+          <h3>Update task</h3>
           <TextField
             label="Title"
             defaultValue={title}
