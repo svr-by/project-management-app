@@ -1,10 +1,7 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { singUp } from 'redux/slices/userSlice';
 import { TUserPrams } from 'core/types/server';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { Button } from 'components/button/Button';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -20,33 +17,44 @@ enum InputNames {
   password = 'password',
 }
 
-interface ISignUpForm {
+interface IUserForm {
   name: string;
   login: string;
   password: string;
 }
 
-export const SignUpForm = () => {
-  const dispatch = useAppDispatch();
+type TUserFormProps = {
+  submitBtn: 'Update profile' | 'Sign up';
+  onSubmit: (user: TUserPrams) => void;
+  onDelete?: () => void;
+  defaultName?: string;
+  defaultLogin?: string;
+};
 
+export const UserForm = (props: TUserFormProps) => {
+  const { submitBtn, onSubmit, onDelete, defaultName, defaultLogin } = props;
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<ISignUpForm>();
+  } = useForm<IUserForm>();
 
   const hasErrors = errors && Object.keys(errors).length !== 0;
+
+  useEffect(() => {
+    if (defaultName && defaultLogin) {
+      setValue('name', defaultName);
+      setValue('login', defaultLogin);
+    }
+  }, [setValue, defaultName, defaultLogin]);
 
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
-
-  const onSubmit = (user: TUserPrams) => {
-    dispatch(singUp(user));
-  };
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -71,7 +79,7 @@ export const SignUpForm = () => {
         })}
       />
       <TextField
-        label="Password"
+        label={submitBtn === 'Update profile' ? 'New password' : 'Password'}
         type="password"
         autoComplete="off"
         error={!!errors[InputNames.password]}
@@ -81,9 +89,16 @@ export const SignUpForm = () => {
           minLength: { value: 8, message: ErrorMes.minPass },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
-        Sign up
-      </Button>
+      <div className="form__btns">
+        <Button type="submit" variant="contained" disabled={hasErrors}>
+          {submitBtn}
+        </Button>
+        {onDelete && (
+          <Button color="error" variant="contained" onClick={onDelete}>
+            Delete profile
+          </Button>
+        )}
+      </div>
     </form>
   );
 };

@@ -1,10 +1,7 @@
 import { useEffect } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { singIn } from 'redux/slices/userSlice';
-import { TSignInParams } from 'core/types/server';
-import { TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { Button } from 'components/button/Button';
+import { TSignInParams } from 'core/types/server';
+import { TextField, Button } from '@mui/material';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -20,9 +17,11 @@ interface ISignInForm {
   password: string;
 }
 
-export const SignInForm = () => {
-  const dispatch = useAppDispatch();
+type TSignInFormProps = {
+  onSubmit: (user: TSignInParams) => void;
+};
 
+export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
   const {
     register,
     handleSubmit,
@@ -37,10 +36,6 @@ export const SignInForm = () => {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
-
-  const onSubmit = (data: TSignInParams) => {
-    dispatch(singIn(data));
-  };
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -63,7 +58,7 @@ export const SignInForm = () => {
           required: { value: true, message: ErrorMes.empty },
         })}
       />
-      <Button type="submit" disabled={hasErrors}>
+      <Button type="submit" variant="contained" disabled={hasErrors}>
         Sign in
       </Button>
     </form>
