@@ -1,0 +1,47 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'redux/hooks';
+import { RootState } from 'redux/store';
+import { updateUser, deleteUser } from 'redux/slices/userSlice';
+import { TUserPrams } from 'core/types/server';
+import { UserForm, Spinner, ConfModal } from 'components';
+import './UserProfilePage.scss';
+
+export const UserProfilePage = () => {
+  const { name, login, id, isLoading } = useSelector((state: RootState) => state.user);
+  const [confModal, setConfModal] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (updatedUser: TUserPrams) => {
+    dispatch(updateUser({ id, user: updatedUser }));
+  };
+
+  const onDelete = () => {
+    dispatch(deleteUser(id));
+  };
+
+  const openConfModal = () => {
+    setConfModal(true);
+  };
+
+  const closeConfModal = () => {
+    setConfModal(false);
+  };
+
+  return (
+    <div className="profile">
+      <h1>Edit profile</h1>
+      <UserForm
+        submitBtn="Update profile"
+        onSubmit={onSubmit}
+        onDelete={openConfModal}
+        defaultName={name}
+        defaultLogin={login}
+      />
+      <ConfModal isOpen={confModal} onSubmit={onDelete} onCancel={closeConfModal}>
+        <h3>Do you really want to delete your profile?</h3>
+      </ConfModal>
+      <Spinner open={isLoading} />
+    </div>
+  );
+};

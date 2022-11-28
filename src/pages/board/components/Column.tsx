@@ -32,7 +32,7 @@ const Column = (props: TaskProps) => {
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
   } = useForm<IFormInput>();
@@ -114,6 +114,7 @@ const Column = (props: TaskProps) => {
             {...register('title', {
               required: { value: true, message: ERROR_MES.EMPTY },
               minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
           <TextField
@@ -122,6 +123,8 @@ const Column = (props: TaskProps) => {
             error={!!errors.description}
             helperText={errors.description?.message}
             {...register('description', {
+              required: { value: true, message: ERROR_MES.EMPTY },
+              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />

@@ -5,20 +5,21 @@ import { signOut, checkToken } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch } from 'components';
+import { CustomLink, CustomSwitch, AddBoardModal } from 'components';
 import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
 
 export const Header = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const { id: isAuth } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [backColor, setBackColor] = useState(false);
+  const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
-    user.id ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
+    isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  }, [isAuth]);
 
   useEffect(() => {
     dispatch(checkToken());
@@ -42,6 +43,14 @@ export const Header = () => {
     dispatch(signOut());
   };
 
+  const openModal = () => {
+    setAddModal(true);
+  };
+
+  const closeModal = () => {
+    setAddModal(false);
+  };
+
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
@@ -52,15 +61,20 @@ export const Header = () => {
       </div>
       <nav className="nav">
         <CustomSwitch />
-        {!user.id ? (
+        {isAuth ? (
+          <>
+            <CustomLink onClick={openModal}>Create board</CustomLink>
+            <CustomLink to={PATHS.PROFILE}>Edit profile</CustomLink>
+            <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+          </>
+        ) : (
           <>
             <CustomLink to={PATHS.SIGN_IN}>Sign in</CustomLink>
             <CustomLink to={PATHS.SIGN_UP}>Sign up</CustomLink>
           </>
-        ) : (
-          <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
         )}
       </nav>
+      {isAuth && <AddBoardModal isOpen={addModal} onCancel={closeModal} />}
     </header>
   );
 };

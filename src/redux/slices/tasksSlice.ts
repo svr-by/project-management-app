@@ -10,13 +10,13 @@ import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
 
 interface IGlobalStateTasks {
   data: TTaskResExt[];
-  isLoaded: boolean;
+  isLoading: boolean;
   error: boolean;
 }
 
 const initialState: IGlobalStateTasks = {
   data: [],
-  isLoaded: false,
+  isLoading: false,
   error: false,
 };
 
@@ -135,71 +135,73 @@ const tasksSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllTasksInBoardId.pending, (state) => {
-      state.isLoaded = false;
+      state.data = [];
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(
       getAllTasksInBoardId.fulfilled,
       (state, action: PayloadAction<TTaskResExt[]>) => {
-        state.isLoaded = true;
         state.data = action.payload;
+        state.isLoading = false;
       }
     );
     builder.addCase(getAllTasksInBoardId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(getTasksInColumnId.pending, (state) => {
-      state.isLoaded = false;
+      state.data = [];
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(getTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
-      state.isLoaded = true;
       state.data = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(getTasksInColumnId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(creatTasksInColumnId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(creatTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.isLoaded = true;
       state.data.push(action.payload);
+      state.isLoading = false;
     });
     builder.addCase(creatTasksInColumnId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(updateTaskInColumnId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(updateTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.isLoaded = true;
       state.data = state.data.filter((el) => el._id !== action.payload._id);
+      state.isLoading = false;
       state.data.push(action.payload);
     });
     builder.addCase(updateTaskInColumnId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
 
     builder.addCase(deleteTaskInColumnId.pending, (state) => {
-      state.isLoaded = false;
+      state.isLoading = true;
       state.error = false;
     });
     builder.addCase(deleteTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.isLoaded = true;
       state.data = state.data.filter((el) => el._id !== action.payload._id);
+      state.isLoading = false;
     });
     builder.addCase(deleteTaskInColumnId.rejected, (state) => {
-      state.isLoaded = false;
+      state.isLoading = false;
       state.error = true;
     });
   },

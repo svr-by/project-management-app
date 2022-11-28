@@ -10,7 +10,7 @@ export function getUserById(id: string): Promise<TUserRes> {
 }
 
 export function updateUserById(id: string, user: TUserPrams): Promise<TUserRes> {
-  return API.post(`/users/${id}`, user).then((res) => res.data);
+  return API.put(`/users/${id}`, user).then((res) => res.data);
 }
 
 export function deleteUserById(id: string): Promise<TUserRes> {

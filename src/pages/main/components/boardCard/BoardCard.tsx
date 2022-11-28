@@ -1,25 +1,25 @@
 import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
-import { delBoard } from 'redux/slices/mainSlice';
+import { delBoard } from 'redux/slices/boardsSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
-import { EditBoardModal } from '../EditBoardModal/EditBoardModal';
+import { EditBoardModal } from '../EditBoardModal';
 import { Button, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import boardPrev from 'assets/img/board_prev.png';
-import './Board.scss';
+import './BoardCard.scss';
 
-type TBoardProps = {
+type TBoardCardProps = {
   board?: TBoardRes;
   empty?: boolean;
   onClick?: () => void;
 };
 
-export const Board = (props: TBoardProps) => {
+export const BoardCard = (props: TBoardCardProps) => {
   const { board, empty = false, onClick } = props;
   const dispatch = useAppDispatch();
   const [editModal, setEditModal] = useState(false);
@@ -46,8 +46,8 @@ export const Board = (props: TBoardProps) => {
       setConfModal(false);
     };
 
-    const handleDelete = (id: string) => {
-      dispatch(delBoard(id));
+    const handleDelete = () => {
+      dispatch(delBoard(board._id));
     };
     return (
       <>
@@ -78,12 +78,8 @@ export const Board = (props: TBoardProps) => {
             </div>
           </div>
         </Link>
-        <EditBoardModal board={board} isOpen={editModal} onCancel={closeEditModal} />
-        <ConfModal
-          onSubmit={() => handleDelete(board._id)}
-          isOpen={confModal}
-          onCancel={closeConfModal}
-        >
+        <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
+        <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
           <h3>Do you really want to delete board?</h3>
         </ConfModal>
       </>
