@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
-import { getBoards } from 'redux/slices/boardsSlice';
+import { getBoards, eraseErr } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { BoardCard } from './components/boardCard/BoardCard';
-import { Spinner, AddBoardModal } from 'components';
+import { TServerMessage } from 'core/types/server';
+import { AddBoardModal, Spinner, ToastMessage } from 'components';
 import './MainPage.scss';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
-  const { boards, isLoading } = useSelector((state: RootState) => state.boards);
+  const { boards, isLoading, message } = useSelector((state: RootState) => state.boards);
   const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
     dispatch(getBoards());
+    return () => {
+      dispatch(eraseErr());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -25,7 +29,9 @@ export const MainPage = () => {
     setAddModal(false);
   };
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <>
       <h1>Main page</h1>
       <div className="board-list">
@@ -35,7 +41,7 @@ export const MainPage = () => {
         <BoardCard empty onClick={openModal} />
       </div>
       <AddBoardModal isOpen={addModal} onCancel={closeModal} />
-      <Spinner open={isLoading} />
+      <ToastMessage message={message as TServerMessage} />
     </>
   );
 };

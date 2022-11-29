@@ -69,13 +69,11 @@ export const updateUser = createAsyncThunk(
   async ({ id, user }: { id: string; user: TUserPrams }, { rejectWithValue }) => {
     try {
       const data = await updateUserById(id, user);
-      if (data) {
-        const succesMes: TServerMessage = {
-          message: 'User profile updated',
-          severity: 'success',
-        };
-        return { user: data, message: succesMes };
-      }
+      const succesMes: TServerMessage = {
+        message: 'User profile updated',
+        severity: 'success',
+      };
+      return { user: data, message: succesMes };
     } catch (err) {
       return rejectWithValue(handlerError(err));
     }
@@ -86,14 +84,7 @@ export const deleteUser = createAsyncThunk(
   'user/deleteUser',
   async (id: string, { rejectWithValue }) => {
     try {
-      const data = await deleteUserById(id);
-      if (data) {
-        const succesMes: TServerMessage = {
-          message: 'User profile deleted',
-          severity: 'success',
-        };
-        return { user: data, message: succesMes };
-      }
+      return await deleteUserById(id);
     } catch (err) {
       return rejectWithValue(handlerError(err));
     }
@@ -117,13 +108,12 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(deleteUser.fulfilled, (state, action) => {
+      .addCase(deleteUser.fulfilled, (state) => {
         state.name = '';
         state.login = '';
         state.id = '';
         state.isLoading = false;
         removeLocalValue(LOCAL_STORAGE.TOKEN);
-        state.message = action.payload?.message;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         const userData = action.payload?.user;
