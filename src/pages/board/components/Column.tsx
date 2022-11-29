@@ -11,6 +11,7 @@ import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 type TaskProps = {
   boardId: string;
@@ -81,28 +82,42 @@ const Column = (props: TaskProps) => {
 
   return (
     <>
-      <li className="column">
-        <div className="card-column">
-          <div className="title-column-box">
-            <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
-            <button className="close-button-column" onClick={openConfModal}></button>
-          </div>
-          <ul className="tasks-list">
-            {tasksInColumnId.map((el) => (
-              <Task
-                key={el._id}
-                boardId={boardId}
-                columnId={columnId}
-                dataTask={el}
-                order={el.order}
-              />
-            ))}
-          </ul>
-          <button className="add-button" onClick={openModalCreatTask}>
-            + Add task
-          </button>
+      <div className="card-column">
+        <div className="title-column-box">
+          <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
+          <button className="close-button-column" onClick={openConfModal}></button>
         </div>
-      </li>
+        <Droppable droppableId={columnId} type="task">
+          {(provided, snapshot) => (
+            <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>
+              {tasksInColumnId.map((el, index) => {
+                return (
+                  <Draggable key={el._id} draggableId={el._id} index={index}>
+                    {(provided, snapshot) => (
+                      <li
+                        className="task-item"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Task
+                          boardId={boardId}
+                          columnId={columnId}
+                          dataTask={el}
+                          order={el.order}
+                        />
+                      </li>
+                    )}
+                  </Draggable>
+                );
+              })}
+            </ul>
+          )}
+        </Droppable>
+        <button className="add-button" onClick={openModalCreatTask}>
+          + Add task
+        </button>
+      </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>Add task</h3>

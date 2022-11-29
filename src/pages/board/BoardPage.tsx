@@ -10,6 +10,7 @@ import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsS
 import { TColParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 interface IFormInput {
   title: string;
@@ -51,30 +52,55 @@ const BoardPage = () => {
     handleCancel();
   };
 
+  const onDragEnd = async (result: DropResult) => {};
+
   useEffect(() => {
     if (boardId) dispatch(getColumnsInBoardId(boardId));
   }, [boardId, dispatch]);
 
   return (
-    <>
-      <div className="container-tasks">
-        <ul className="container-columns">
-          {data.map((el) => (
-            <Column
-              key={el._id}
-              columnId={el._id}
-              boardId={el.boardId}
-              title={el.title}
-              order={el.order}
-            />
-          ))}
-        </ul>
-        <div className="container-add-button">
-          <button className="add-button" onClick={openModal}>
-            + Add column
-          </button>
-        </div>
-      </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="columns" direction="horizontal" type="column">
+        {(provided, snapshot) => (
+          <div className="board-container">
+            <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
+              {data.map((el, index) => {
+                return (
+                  <Draggable
+                    key={el._id}
+                    draggableId={el._id}
+                    index={index}
+                    // disableInteractiveElementBlocking={isInteractiveElementsDisabled}
+                  >
+                    {(provided, snapshot) => {
+                      return (
+                        <li
+                          className="column"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <Column
+                            columnId={el._id}
+                            boardId={el.boardId}
+                            title={el.title}
+                            order={el.order}
+                          />
+                        </li>
+                      );
+                    }}
+                  </Draggable>
+                );
+              })}
+            </ul>
+            <div className="container-add-button">
+              <button className="add-button" onClick={openModal}>
+                + Add column
+              </button>
+            </div>
+          </div>
+        )}
+      </Droppable>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>Add column</h3>
@@ -94,7 +120,7 @@ const BoardPage = () => {
         </form>
       </Modal>
       <Spinner open={isColumnLoading || isTaskLoading} />
-    </>
+    </DragDropContext>
   );
 };
 
