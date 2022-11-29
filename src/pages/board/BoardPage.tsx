@@ -60,9 +60,9 @@ const BoardPage = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="columns" direction="horizontal" type="column">
-        {(provided, snapshot) => (
-          <div className="board-container">
+      <div className="board-container">
+        <Droppable droppableId="columns" direction="horizontal" type="column">
+          {(provided, snapshot) => (
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
               {data.map((el, index) => {
                 return (
@@ -92,15 +92,16 @@ const BoardPage = () => {
                   </Draggable>
                 );
               })}
+              {provided.placeholder}
             </ul>
-            <div className="container-add-button">
-              <button className="add-button" onClick={openModal}>
-                + Add column
-              </button>
-            </div>
-          </div>
-        )}
-      </Droppable>
+          )}
+        </Droppable>
+        <div className="container-add-button">
+          <button className="add-button" onClick={openModal}>
+            + Add column
+          </button>
+        </div>
+      </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>Add column</h3>

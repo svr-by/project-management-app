@@ -111,6 +111,7 @@ const Column = (props: TaskProps) => {
                   </Draggable>
                 );
               })}
+              {provided.placeholder}
             </ul>
           )}
         </Droppable>

@@ -75,12 +75,10 @@ function Task(props: TaskProps) {
 
   return (
     <>
-      <li className="task-item">
-        <div className="task-title" onClick={openModalChangeTask}>
-          {title}
-        </div>
-        <button className="close-button" onClick={openConfModal}></button>
-      </li>
+      <div className="task-title" onClick={openModalChangeTask}>
+        {title}
+      </div>
+      <button className="close-button" onClick={openConfModal}></button>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>Update task</h3>
