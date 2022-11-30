@@ -5,7 +5,7 @@ import { signOut, checkToken } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch, AddBoardModal } from 'components';
+import { CustomLink, CustomSwitch, AddBoardModal, ChangeTheme } from 'components';
 import LogoKanban from 'assets/img/kanban-1.svg';
 import './Header.scss';
 
@@ -60,6 +60,7 @@ export const Header = () => {
         </Link>
       </div>
       <nav className="nav">
+        <ChangeTheme />
         <CustomSwitch />
         {isAuth ? (
           <>

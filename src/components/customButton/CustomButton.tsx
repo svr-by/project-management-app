@@ -1,4 +1,5 @@
 import { ReactNode, MouseEvent } from 'react';
+import { useTheme } from '../../hooks/useTheme';
 import './CustomButton.scss';
 
 type TCustomButtonProps = {
@@ -13,6 +14,7 @@ type TCustomButtonProps = {
 };
 
 export const CustomButton = (props: TCustomButtonProps) => {
+  const { theme, setTheme } = useTheme();
   const { children, className, active, onClick, style, ...atrs } = props;
   function renderClassName(className?: string, style?: string, active?: boolean) {
     let agrClass = 'button';

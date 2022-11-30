@@ -18,3 +18,16 @@ $marker: #e74c3c;
 $background-element: #ffc9c3;
 $background-element-content: #ececec;
 $text-color: #313131;
+
+html[data-theme='dark'] {
+  --background-color: rgb(023, 056, 143);
+  --text-color: #e1ad2d;
+}
+
+html[data-theme='light'] {
+  --background-color: rgb(1122, 026, 105);
+  --text-color: #ba2de1;
+}
+
+
+

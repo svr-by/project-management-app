@@ -12,3 +12,4 @@ export { SignInForm } from './forms/SignInForm';
 export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
 export { AddBoardModal } from './addBoardModal/AddBoardModal';
+export { ChangeTheme } from './changeTheme/ChangeTheme';
