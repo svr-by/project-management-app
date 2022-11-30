@@ -4,8 +4,9 @@ import {
   createColumn,
   updateColumnById,
   deleteColumnById,
+  changeColumnsList
 } from 'api/services/columnsService';
-import { TColRes, TColParams } from 'core/types/server';
+import { TColRes, TColParams, TListColParams } from 'core/types/server';
 
 interface IGlobalStateColumns {
   data: TColRes[];
@@ -103,6 +104,23 @@ export const deleteColumnInBoardId = createAsyncThunk(
   }
 );
 
+export const updateOrderedColumnsInBoardId = createAsyncThunk(
+  'columns/updateOrderedColumnsInBoardId',
+  async (columns: TListColParams[], { rejectWithValue }) => {
+    try {
+      const data = await changeColumnsList(columns);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const columnsSlice = createSlice({
   name: 'columns',
   initialState,
@@ -158,6 +176,19 @@ const columnsSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(deleteColumnInBoardId.rejected, (state) => {
+      state.isLoading = false;
+      state.error = true;
+    });
+
+    builder.addCase(updateOrderedColumnsInBoardId.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+    });
+    builder.addCase(updateOrderedColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
+      state.data = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(updateOrderedColumnsInBoardId.rejected, (state) => {
       state.isLoading = false;
       state.error = true;
     });

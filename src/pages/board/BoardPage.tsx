@@ -7,7 +7,7 @@ import { Column } from 'pages/board/components/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId, selectTasksInBoardId } from 'redux/selectors';
 import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
-import { TColParams } from 'core/types/server';
+import { TColParams, TColRes } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
@@ -21,6 +21,7 @@ const BoardPage = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading: isColumnLoading } = useAppSelector(selectColumnsInBoardId);
   const { isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
+  const [columns, setColumns] = useState<TColRes[]>(data);
 
   const {
     register,
@@ -52,7 +53,35 @@ const BoardPage = () => {
     handleCancel();
   };
 
-  const onDragEnd = async (result: DropResult) => {};
+  const onDragEnd = async (result: DropResult) => {
+    const { source, destination, draggableId, type, mode } = result;
+    if (!destination) return;
+    if (destination.droppableId === source.droppableId && destination.index === source.index)
+      return;
+    if (type === "column") {
+      let newColumnsOrder: TColRes[] = Array.from(columns);
+      const [removed] = newColumnsOrder.splice(source.index, 1);
+      newColumnsOrder.splice(destination.index, 0, removed);
+      newColumnsOrder = newColumnsOrder.map((column, index: number) => ({
+        ...column,
+        order: index + 1,
+      }));
+      setColumns(newColumnsOrder);
+
+      await dispatch(deleteColumnInBoardId({ boardId, columnId }));
+
+      // await dispatch(
+      //   await updateColumnsOrder({
+      //     boardId: board.id,
+      //     id: draggableId,
+      //     title: spliced.title,
+      //     order: destination.index + 1,
+      //     newColumnsOrder,
+      //   })
+      // );
+      return;
+    }
+  };
 
   useEffect(() => {
     if (boardId) dispatch(getColumnsInBoardId(boardId));
