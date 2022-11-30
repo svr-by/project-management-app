@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Task } from './Task';
 import { ColumnTitle } from 'pages/board/components/ColumnTitle';
@@ -6,10 +6,10 @@ import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectTasksInBoardId } from 'redux/selectors';
-import { getAllTasksInBoardId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
+import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 
 type TaskProps = {
@@ -27,7 +27,7 @@ interface IFormInput {
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const dispatch = useAppDispatch();
-  const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInBoardId);
+  const { data, isLoading } = useAppSelector(selectTasksInBoardId);
   const tasksInColumnId = data.filter((el) => el.columnId === columnId);
 
   const {
@@ -74,10 +74,6 @@ const Column = (props: TaskProps) => {
     reset();
     handleCancel();
   };
-
-  useEffect(() => {
-    dispatch(getAllTasksInBoardId(boardId));
-  }, [boardId, dispatch]);
 
   return (
     <>
@@ -128,8 +124,8 @@ const Column = (props: TaskProps) => {
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors}>
-            Submit
+          <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
+            {!isLoading ? 'Submit' : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>

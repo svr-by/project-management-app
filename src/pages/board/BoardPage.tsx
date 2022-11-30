@@ -2,12 +2,13 @@ import './BoardPage.scss';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Modal, Spinner } from 'components';
+import { Modal, Spinner, ToastMessage } from 'components';
 import { Column } from 'pages/board/components/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectColumnsInBoardId, selectTasksInBoardId } from 'redux/selectors';
+import { selectColumnsInBoardId } from 'redux/selectors';
+import { getAllTasksInBoardId } from 'redux/slices/tasksSlice';
 import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
-import { TColParams } from 'core/types/server';
+import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 
@@ -15,11 +16,15 @@ interface IFormInput {
   title: string;
 }
 
-const BoardPage = () => {
+export const BoardPage = () => {
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
-  const { data, isLoading: isColumnLoading } = useAppSelector(selectColumnsInBoardId);
-  const { isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
+  const {
+    data,
+    isLoading: isColumnLoading,
+    message: columnMessage,
+  } = useAppSelector(selectColumnsInBoardId);
+  // const { isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
 
   const {
     register,
@@ -50,6 +55,11 @@ const BoardPage = () => {
     reset();
     handleCancel();
   };
+
+  useEffect(() => {
+    dispatch(getAllTasksInBoardId(boardId as string));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boardId]);
 
   useEffect(() => {
     if (boardId) dispatch(getColumnsInBoardId(boardId));
@@ -93,9 +103,8 @@ const BoardPage = () => {
           </Button>
         </form>
       </Modal>
-      <Spinner open={isColumnLoading || isTaskLoading} />
+      <ToastMessage message={columnMessage as TServerMessage} />
+      <Spinner open={isColumnLoading} />
     </>
   );
 };
-
-export { BoardPage };

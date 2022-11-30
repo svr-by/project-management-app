@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { TTaskResExt, TTaskParamsExt } from 'core/types/server';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { selectTasksInBoardId } from 'redux/selectors';
 import { deleteTaskInColumnId, updateTaskInColumnId } from 'redux/slices/tasksSlice';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 
 type TaskProps = {
@@ -29,6 +30,8 @@ function Task(props: TaskProps) {
   // const order = dataTask.order;
   const dispatch = useAppDispatch();
 
+  const { isLoading } = useAppSelector(selectTasksInBoardId);
+
   const {
     register,
     formState: { errors },
@@ -38,6 +41,7 @@ function Task(props: TaskProps) {
   const hasErrors = errors && Object.keys(errors).length !== 0;
 
   const [isOpen, setIsOpen] = useState(false);
+
   const handleCancel = () => {
     setIsOpen(false);
   };
@@ -108,8 +112,8 @@ function Task(props: TaskProps) {
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors}>
-            Submit
+          <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
+            {!isLoading ? 'Submit' : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>

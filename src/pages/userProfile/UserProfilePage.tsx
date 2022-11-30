@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { RootState } from 'redux/store';
 import { updateUser, deleteUser, eraseErr } from 'redux/slices/userSlice';
-import { TUserPrams } from 'core/types/server';
-import { TServerMessage } from 'core/types/server';
+import { TUserPrams, TServerMessage } from 'core/types/server';
 import { UserForm, ConfModal, Spinner, ToastMessage } from 'components';
 import './UserProfilePage.scss';
 
