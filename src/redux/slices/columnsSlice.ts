@@ -84,7 +84,8 @@ const columnsSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
-    eraseColumnErr(state) {
+    eraseColumnState(state) {
+      state.columns = [];
       state.message = null;
     },
   },
@@ -134,5 +135,5 @@ const columnsSlice = createSlice({
   },
 });
 
-export const { eraseColumnErr } = columnsSlice.actions;
+export const { eraseColumnState } = columnsSlice.actions;
 export default columnsSlice.reducer;

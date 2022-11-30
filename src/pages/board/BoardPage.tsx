@@ -1,16 +1,22 @@
 import './BoardPage.scss';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Modal, Spinner, ToastMessage } from 'components';
 import { Column } from 'pages/board/components/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectColumnsInBoardId } from 'redux/selectors';
+import { selectColumnsInBoardId, selectBoards } from 'redux/selectors';
 import { getAllTasksInBoardId } from 'redux/slices/tasksSlice';
-import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
+import {
+  getColumnsInBoardId,
+  creatColumnInBoardId,
+  eraseColumnState,
+} from 'redux/slices/columnsSlice';
 import { TColParams, TServerMessage } from 'core/types/server';
-import { TextField, Button } from '@mui/material';
-import { ERROR_MES } from 'core/constants';
+import { TBoardInfo } from 'core/types/boards';
+import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
+import { ERROR_MES, PATHS } from 'core/constants';
 
 interface IFormInput {
   title: string;
@@ -24,7 +30,8 @@ export const BoardPage = () => {
     isLoading: isColumnLoading,
     message: columnMessage,
   } = useAppSelector(selectColumnsInBoardId);
-  // const { isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
+
+  const { boards } = useAppSelector(selectBoards);
 
   const {
     register,
@@ -36,9 +43,11 @@ export const BoardPage = () => {
   const hasErrors = errors && Object.keys(errors).length !== 0;
 
   const [isOpen, setIsOpen] = useState(false);
+
   const handleCancel = () => {
     setIsOpen(false);
   };
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -57,16 +66,30 @@ export const BoardPage = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllTasksInBoardId(boardId as string));
+    if (boardId) {
+      dispatch(getColumnsInBoardId(boardId));
+      dispatch(getAllTasksInBoardId(boardId));
+    }
+    return () => {
+      dispatch(eraseColumnState());
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardId]);
 
-  useEffect(() => {
-    if (boardId) dispatch(getColumnsInBoardId(boardId));
-  }, [boardId, dispatch]);
+  const getBoardTitle = () => {
+    const boardTitle = boards.find((board) => board._id === boardId)?.title || '';
+    const boardObj: TBoardInfo = JSON.parse(boardTitle);
+    return boardObj.title;
+  };
 
   return (
     <>
+      <Breadcrumbs>
+        <Link underline="hover" to={`/${PATHS.MAIN}`} component={RouterLink}>
+          Main
+        </Link>
+        <Typography>{`Board ${getBoardTitle()}`}</Typography>
+      </Breadcrumbs>
       <div className="container-tasks">
         <ul className="container-columns">
           {columns.map((el) => (
