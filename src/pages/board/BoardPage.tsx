@@ -6,7 +6,7 @@ import { Modal, Spinner } from 'components';
 import { Column } from 'pages/board/components/Column';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId, selectTasksInBoardId } from 'redux/selectors';
-import { getColumnsInBoardId, creatColumnInBoardId } from 'redux/slices/columnsSlice';
+import { getColumnsInBoardId, creatColumnInBoardId, updateOrderedColumnsInBoardId } from 'redux/slices/columnsSlice';
 import { TColParams, TColRes } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
@@ -41,9 +41,10 @@ const BoardPage = () => {
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
+    const orderNum = columns.length;
     const newColumn: TColParams = {
       title: inputsData.title,
-      order: 0,
+      order: orderNum + 1,
     };
 
     if (boardId) {
@@ -56,8 +57,10 @@ const BoardPage = () => {
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, draggableId, type, mode } = result;
     if (!destination) return;
+
     if (destination.droppableId === source.droppableId && destination.index === source.index)
       return;
+    
     if (type === "column") {
       let newColumnsOrder: TColRes[] = Array.from(columns);
       const [removed] = newColumnsOrder.splice(source.index, 1);
@@ -67,20 +70,17 @@ const BoardPage = () => {
         order: index + 1,
       }));
       setColumns(newColumnsOrder);
+      const columnsOrderList = columns.map((column, index: number) => ({
+        _id: column._id,
+        order: column.order,
+      }));
 
-      await dispatch(deleteColumnInBoardId({ boardId, columnId }));
+      await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
 
-      // await dispatch(
-      //   await updateColumnsOrder({
-      //     boardId: board.id,
-      //     id: draggableId,
-      //     title: spliced.title,
-      //     order: destination.index + 1,
-      //     newColumnsOrder,
-      //   })
-      // );
       return;
     }
+
+
   };
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const BoardPage = () => {
         <Droppable droppableId="columns" direction="horizontal" type="column">
           {(provided, snapshot) => (
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
-              {data.map((el, index) => {
+              {columns.map((el, index) => {
                 return (
                   <Draggable
                     key={el._id}
