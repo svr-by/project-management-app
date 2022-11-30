@@ -20,7 +20,7 @@ export const BoardPage = () => {
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
   const {
-    data,
+    columns,
     isLoading: isColumnLoading,
     message: columnMessage,
   } = useAppSelector(selectColumnsInBoardId);
@@ -69,7 +69,7 @@ export const BoardPage = () => {
     <>
       <div className="container-tasks">
         <ul className="container-columns">
-          {data.map((el) => (
+          {columns.map((el) => (
             <Column
               key={el._id}
               columnId={el._id}

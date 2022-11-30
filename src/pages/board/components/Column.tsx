@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Task } from './Task';
 import { ColumnTitle } from 'pages/board/components/ColumnTitle';
-import { Modal } from 'components/modal/Modal';
-import { ConfModal } from 'components/confModal/СonfModal';
+import { Modal, ConfModal, ToastMessage } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectTasksInBoardId } from 'redux/selectors';
 import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
-import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
+import { TServerMessage } from 'core/types/server';
+import { TextField, Button, CircularProgress } from '@mui/material';
 
 type TaskProps = {
   boardId: string;
@@ -27,8 +27,12 @@ interface IFormInput {
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useAppSelector(selectTasksInBoardId);
-  const tasksInColumnId = data.filter((el) => el.columnId === columnId);
+  const {
+    tasks,
+    isLoading: isTaskLoading,
+    message: taskMessage,
+  } = useAppSelector(selectTasksInBoardId);
+  const tasksInColumnId = tasks.filter((el) => el.columnId === columnId);
 
   const {
     register,
@@ -124,14 +128,15 @@ const Column = (props: TaskProps) => {
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
-            {!isLoading ? 'Submit' : <CircularProgress size={24} />}
+          <Button type="submit" variant="contained" disabled={hasErrors || isTaskLoading}>
+            {!isTaskLoading ? 'Submit' : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>
       <ConfModal onSubmit={handleDeleteColumnId} isOpen={confModal} onCancel={closeConfModal}>
         <h3>Do you really want to delete column?</h3>
       </ConfModal>
+      <ToastMessage message={taskMessage as TServerMessage} />
     </>
   );
 };

@@ -9,13 +9,13 @@ import { TColRes, TColParams } from 'core/types/server';
 import { handlerError } from 'core/services/errorHandlerService';
 
 interface IGlobalStateColumns {
-  data: TColRes[];
+  columns: TColRes[];
   isLoading: boolean;
   message: unknown;
 }
 
 const initialState: IGlobalStateColumns = {
-  data: [],
+  columns: [],
   isLoading: false,
   message: null,
 };
@@ -91,20 +91,20 @@ const columnsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
-        state.data = action.payload;
+        state.columns = action.payload;
         state.isLoading = false;
       })
       .addCase(creatColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-        state.data.push(action.payload);
+        state.columns.push(action.payload);
         state.isLoading = false;
       })
       .addCase(updateColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-        state.data = state.data.filter((el) => el._id !== action.payload._id);
-        state.data.push(action.payload);
+        state.columns = state.columns.filter((el) => el._id !== action.payload._id);
+        state.columns.push(action.payload);
         state.isLoading = false;
       })
       .addCase(deleteColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-        state.data = state.data.filter((el) => el._id !== action.payload._id);
+        state.columns = state.columns.filter((el) => el._id !== action.payload._id);
         state.isLoading = false;
       })
       .addMatcher(
