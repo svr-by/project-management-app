@@ -46,7 +46,7 @@ export function getTaskSet(ids: string[], userId: string, search: string): Promi
   return API.get(`/tasksSet`, { params: { ids, userId, search } }).then((res) => res.data);
 }
 
-export function updateTaskSet(tasks: TTaskSet): Promise<TTaskResExt[]> {
+export function updateTaskSet(tasks: TTaskSet[]): Promise<TTaskResExt[]> {
   return API.patch(`/tasksSet`, tasks).then((res) => res.data);
 }
 

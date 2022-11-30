@@ -5,9 +5,9 @@ import { ColumnTitle } from 'pages/board/components/ColumnTitle';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectTasksInBoardId } from 'redux/selectors';
+import { selectColumnsInBoardId, selectTasksInBoardId, selectUser } from 'redux/selectors';
 import { getAllTasksInBoardId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
-import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
+import { deleteColumnInBoardId, updateOrderedColumnsInBoardId } from 'redux/slices/columnsSlice';
 import { TTaskParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
@@ -28,8 +28,15 @@ interface IFormInput {
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const dispatch = useAppDispatch();
-  const { data /*, error, isLoaded*/ } = useAppSelector(selectTasksInBoardId);
-  const tasksInColumnId = data.filter((el) => el.columnId === columnId);
+  const { data: dataColumns } = useAppSelector(selectColumnsInBoardId);
+  const { data: dataAllTasks } = useAppSelector(selectTasksInBoardId);
+  const { id: userId /*, error, isLoaded*/ } = useAppSelector(selectUser);
+  const tasksInColumnId = dataAllTasks.filter((task) => task.columnId === columnId).sort((task1, task2) => {
+    return task1.order - task2.order;
+  });
+  const columnsInBoardId = dataColumns.sort((column1, column2) => {
+    return column1.order - column2.order;
+  });
 
   const {
     register,
@@ -59,15 +66,28 @@ const Column = (props: TaskProps) => {
 
   const handleDeleteColumnId = async () => {
     await dispatch(deleteColumnInBoardId({ boardId, columnId }));
+
+    const orderedColumnsInBoard = columnsInBoardId.map((column, index: number) => ({
+      ...column,
+      order: index + 1,
+    }));
+
+    const columnsOrderList = orderedColumnsInBoard.map((column) => ({
+      _id: column._id,
+      order: column.order,
+    }));
+    await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
+
     handleCancel();
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
+    const orderNum = tasksInColumnId.length;
     const newTask: TTaskParams = {
       title: inputsData.title,
-      order: 0,
+      order: orderNum + 1,
       description: inputsData.description,
-      userId: '0',
+      userId: userId,
       users: [''],
     };
 

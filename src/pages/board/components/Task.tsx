@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { TTaskResExt, TTaskParamsExt } from 'core/types/server';
-import { useAppDispatch } from 'redux/hooks';
-import { deleteTaskInColumnId, updateTaskInColumnId } from 'redux/slices/tasksSlice';
+import { deleteTaskInColumnId, updateTaskInColumnId, updateTasksSet } from 'redux/slices/tasksSlice';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
+import { selectTasksInBoardId } from 'redux/selectors';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 type TaskProps = {
   boardId: string;
@@ -26,8 +27,13 @@ function Task(props: TaskProps) {
   const title = dataTask.title;
   const description = dataTask.description;
   const users = dataTask.users;
-  // const order = dataTask.order;
+  const userId = dataTask.userId;
+  const order = dataTask.order;
   const dispatch = useAppDispatch();
+
+  const { data: dataTasks } = useAppSelector(selectTasksInBoardId);
+  const tasksInColumn = dataTasks.filter((task) => task.columnId === columnId);
+
 
   const {
     register,
@@ -56,16 +62,29 @@ function Task(props: TaskProps) {
 
   const handleDeleteTaskId = async () => {
     await dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
+
+    const orderedTasksInColumn = tasksInColumn.map((task, index: number) => ({
+      ...task,
+      order: index + 1,
+    }));
+
+    const tasksOrderList = orderedTasksInColumn.map((task) => ({
+      _id: task._id,
+      order: task.order,
+      columnId: task.columnId,
+    }));
+    await dispatch(updateTasksSet(tasksOrderList));
+
     handleCancel();
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
     const updateTask: TTaskParamsExt = {
       title: inputsData.title,
-      order: 0,
+      order: order,
       description: inputsData.description,
       columnId: columnId,
-      userId: '',
+      userId: userId,
       users: users,
     };
 

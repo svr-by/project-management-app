@@ -5,8 +5,9 @@ import {
   deleteTaskById,
   getTaskSetByBoard,
   updateTaskById,
+  updateTaskSet
 } from 'api/services/tasksService';
-import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
+import { TTaskResExt, TTaskParams, TTaskParamsExt, TTaskSet } from 'core/types/server';
 
 interface IGlobalStateTasks {
   data: TTaskResExt[];
@@ -19,23 +20,6 @@ const initialState: IGlobalStateTasks = {
   isLoading: false,
   error: false,
 };
-
-export const getAllTasksInBoardId = createAsyncThunk(
-  'tasks/getAllTasksInBoardId',
-  async (boardId: string, { rejectWithValue }) => {
-    try {
-      const data = await getTaskSetByBoard(boardId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
-  }
-);
 
 type TGetTasks = {
   boardId: string;
@@ -129,28 +113,45 @@ export const deleteTaskInColumnId = createAsyncThunk(
   }
 );
 
+export const getAllTasksInBoardId = createAsyncThunk(
+  'tasks/getAllTasksInBoardId',
+  async (boardId: string, { rejectWithValue }) => {
+    try {
+      const data = await getTaskSetByBoard(boardId);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const updateTasksSet = createAsyncThunk(
+  'tasks/updateTasksSet',
+  async (tasks: TTaskSet[], { rejectWithValue }) => {
+    try {
+      const data = await updateTaskSet(tasks);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllTasksInBoardId.pending, (state) => {
-      state.data = [];
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(
-      getAllTasksInBoardId.fulfilled,
-      (state, action: PayloadAction<TTaskResExt[]>) => {
-        state.data = action.payload;
-        state.isLoading = false;
-      }
-    );
-    builder.addCase(getAllTasksInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
     builder.addCase(getTasksInColumnId.pending, (state) => {
       state.data = [];
       state.isLoading = true;
@@ -201,6 +202,38 @@ const tasksSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(deleteTaskInColumnId.rejected, (state) => {
+      state.isLoading = false;
+      state.error = true;
+    });
+
+    builder.addCase(getAllTasksInBoardId.pending, (state) => {
+      state.data = [];
+      state.isLoading = true;
+      state.error = false;
+    });
+    builder.addCase(
+      getAllTasksInBoardId.fulfilled,
+      (state, action: PayloadAction<TTaskResExt[]>) => {
+        state.data = action.payload;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(getAllTasksInBoardId.rejected, (state) => {
+      state.isLoading = false;
+      state.error = true;
+    });
+
+    builder.addCase(updateTasksSet.pending, (state) => {
+      state.isLoading = true;
+      state.error = false;
+    });
+    builder.addCase(
+      updateTasksSet.fulfilled,
+      (state) => {
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(updateTasksSet.rejected, (state) => {
       state.isLoading = false;
       state.error = true;
     });
