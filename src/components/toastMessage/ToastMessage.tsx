@@ -4,7 +4,7 @@ import { Snackbar, Alert } from '@mui/material';
 import Slide, { SlideProps } from '@mui/material/Slide';
 
 type TToastMessageProps = {
-  message: TServerMessage;
+  message: TServerMessage | null;
 };
 
 const SlideTransition = (props: SlideProps) => {
@@ -15,7 +15,7 @@ export const ToastMessage = ({ message }: TToastMessageProps) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    message ? setOpen(true) : setOpen(false);
+    setOpen(Boolean(message));
   }, [message]);
 
   const handleClose = () => {

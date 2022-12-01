@@ -1,7 +1,13 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { signUserUp, signUserIn } from 'api/services/authService';
 import { getUserById, updateUserById, deleteUserById } from 'api/services/usersService';
-import { TSignInParams, TdecodedToken, TUserPrams, TServerMessage } from 'core/types/server';
+import {
+  TSignInParams,
+  TdecodedToken,
+  TUserPrams,
+  TServerMessage,
+  TUserRes,
+} from 'core/types/server';
 import { getLocalValue, setLocalValue, removeLocalValue } from 'core/services/storageService';
 import { handlerError } from 'core/services/errorHandlerService';
 import { LOCAL_STORAGE } from 'core/constants';
@@ -12,7 +18,7 @@ interface IUserSate {
   login: string;
   id: string;
   isLoading: boolean;
-  message: unknown;
+  message: TServerMessage | null;
 }
 
 const initialState: IUserSate = {
@@ -23,7 +29,7 @@ const initialState: IUserSate = {
   message: null,
 };
 
-export const signUp = createAsyncThunk(
+export const signUp = createAsyncThunk<TUserRes, TUserPrams, { rejectValue: TServerMessage }>(
   'user/signUp',
   async (user: TUserPrams, { rejectWithValue }) => {
     try {
@@ -34,23 +40,28 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const singIn = createAsyncThunk(
-  'user/signIn',
-  async (user: TSignInParams, { rejectWithValue }) => {
-    try {
-      const data = await signUserIn(user);
-      if (data) {
-        setLocalValue(LOCAL_STORAGE.TOKEN, data.token);
-        const { id } = jwt_decode<TdecodedToken>(data.token);
-        return getUserById(id);
-      }
-    } catch (err) {
-      return rejectWithValue(handlerError(err));
+export const singIn = createAsyncThunk<
+  TUserRes | undefined,
+  TSignInParams,
+  { rejectValue: TServerMessage }
+>('user/signIn', async (user, { rejectWithValue }) => {
+  try {
+    const data = await signUserIn(user);
+    if (data) {
+      setLocalValue(LOCAL_STORAGE.TOKEN, data.token);
+      const { id } = jwt_decode<TdecodedToken>(data.token);
+      return getUserById(id);
     }
+  } catch (err) {
+    return rejectWithValue(handlerError(err));
   }
-);
+});
 
-export const checkToken = createAsyncThunk('user/checkToken', async (_, { rejectWithValue }) => {
+export const checkToken = createAsyncThunk<
+  TUserRes | undefined,
+  void,
+  { rejectValue: TServerMessage }
+>('user/checkToken', async (_, { rejectWithValue }) => {
   try {
     const token = getLocalValue<string>(LOCAL_STORAGE.TOKEN);
     if (token) {
@@ -64,23 +75,24 @@ export const checkToken = createAsyncThunk('user/checkToken', async (_, { reject
   }
 });
 
-export const updateUser = createAsyncThunk(
-  'user/updateUser',
-  async ({ id, user }: { id: string; user: TUserPrams }, { rejectWithValue }) => {
-    try {
-      const data = await updateUserById(id, user);
-      const succesMes: TServerMessage = {
-        message: 'User profile updated',
-        severity: 'success',
-      };
-      return { user: data, message: succesMes };
-    } catch (err) {
-      return rejectWithValue(handlerError(err));
-    }
+export const updateUser = createAsyncThunk<
+  { user: TUserRes; message: TServerMessage },
+  { id: string; user: TUserPrams },
+  { rejectValue: TServerMessage }
+>('user/updateUser', async ({ id, user }, { rejectWithValue }) => {
+  try {
+    const data = await updateUserById(id, user);
+    const succesMes: TServerMessage = {
+      message: 'User profile updated',
+      severity: 'success',
+    };
+    return { user: data, message: succesMes };
+  } catch (err) {
+    return rejectWithValue(handlerError(err));
   }
-);
+});
 
-export const deleteUser = createAsyncThunk(
+export const deleteUser = createAsyncThunk<TUserRes, string, { rejectValue: TServerMessage }>(
   'user/deleteUser',
   async (id: string, { rejectWithValue }) => {
     try {
@@ -121,7 +133,7 @@ const userSlice = createSlice({
         state.login = userData?.login || '';
         state.id = userData?._id || '';
         state.isLoading = false;
-        state.message = action.payload?.message;
+        state.message = action.payload?.message || null;
       })
       .addMatcher(isAnyOf(singIn.fulfilled, checkToken.fulfilled), (state, action) => {
         const userData = action.payload;

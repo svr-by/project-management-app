@@ -4,7 +4,6 @@ import { useAppDispatch } from 'redux/hooks';
 import { getBoards, eraseErr } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { BoardCard } from './components/boardCard/BoardCard';
-import { TServerMessage } from 'core/types/server';
 import { AddBoardModal, Spinner, ToastMessage } from 'components';
 import './MainPage.scss';
 
@@ -41,7 +40,7 @@ export const MainPage = () => {
         <BoardCard empty onClick={openModal} />
       </div>
       <AddBoardModal isOpen={addModal} onCancel={closeModal} />
-      <ToastMessage message={message as TServerMessage} />
+      <ToastMessage message={message} />
     </>
   );
 };

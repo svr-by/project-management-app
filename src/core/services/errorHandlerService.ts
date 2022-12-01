@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { TServerMessage } from 'core/types/server';
 
-export function handlerError(err: unknown) {
+export function handlerError(err: unknown): TServerMessage {
   let errorMes = 'Unexpected error';
   if (axios.isAxiosError(err)) {
     if (err.response) {

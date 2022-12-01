@@ -11,7 +11,7 @@ import { handlerError } from 'core/services/errorHandlerService';
 interface IBoardsSate {
   boards: TBoardRes[];
   isLoading: boolean;
-  message: unknown;
+  message: TServerMessage | null;
 }
 
 const initialState: IBoardsSate = {
@@ -20,61 +20,67 @@ const initialState: IBoardsSate = {
   message: null,
 };
 
-export const getBoards = createAsyncThunk('boards/getBoards', async (_, { rejectWithValue }) => {
+export const getBoards = createAsyncThunk<TBoardRes[], void, { rejectValue: TServerMessage }>(
+  'boards/getBoards',
+  async (_, { rejectWithValue }) => {
+    try {
+      return getAllBoards();
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
+    }
+  }
+);
+
+export const addBoard = createAsyncThunk<
+  { board: TBoardRes; message: TServerMessage },
+  TBoardParams,
+  { rejectValue: TServerMessage }
+>('boards/addBoard', async (board, { rejectWithValue }) => {
   try {
-    return getAllBoards();
+    const data = await createBoard(board);
+    const succesMes: TServerMessage = {
+      message: 'Board successfully added',
+      severity: 'success',
+    };
+    return { board: data, message: succesMes };
   } catch (err) {
     return rejectWithValue(handlerError(err));
   }
 });
 
-export const addBoard = createAsyncThunk(
-  'boards/addBoard',
-  async (board: TBoardParams, { rejectWithValue }) => {
-    try {
-      const data = await createBoard(board);
-      const succesMes: TServerMessage = {
-        message: 'Board successfully added',
-        severity: 'success',
-      };
-      return { board: data, message: succesMes };
-    } catch (err) {
-      return rejectWithValue(handlerError(err));
-    }
+export const updateBoard = createAsyncThunk<
+  { board: TBoardRes; message: TServerMessage },
+  { id: string; board: TBoardParams },
+  { rejectValue: TServerMessage }
+>('boards/updateBoard', async ({ id, board }, { rejectWithValue }) => {
+  try {
+    const data = await updateBoardById(id, board);
+    const succesMes: TServerMessage = {
+      message: 'Board successfully updated',
+      severity: 'success',
+    };
+    return { board: data, message: succesMes };
+  } catch (err) {
+    return rejectWithValue(handlerError(err));
   }
-);
+});
 
-export const updateBoard = createAsyncThunk(
-  'boards/updateBoard',
-  async ({ id, board }: { id: string; board: TBoardParams }, { rejectWithValue }) => {
-    try {
-      const data = await updateBoardById(id, board);
-      const succesMes: TServerMessage = {
-        message: 'Board successfully updated',
-        severity: 'success',
-      };
-      return { board: data, message: succesMes };
-    } catch (err) {
-      return rejectWithValue(handlerError(err));
-    }
+export const delBoard = createAsyncThunk<
+  { board: TBoardRes; message: TServerMessage },
+  string,
+  { rejectValue: TServerMessage }
+>('boards/delBoard', async (id: string, { rejectWithValue }) => {
+  try {
+    const data = await deleteBoardById(id);
+    const succesMes: TServerMessage = {
+      message: 'Board successfully deleted',
+      severity: 'success',
+    };
+    return { board: data, message: succesMes };
+  } catch (err) {
+    return rejectWithValue(handlerError(err));
   }
-);
-
-export const delBoard = createAsyncThunk(
-  'boards/delBoard',
-  async (id: string, { rejectWithValue }) => {
-    try {
-      const data = await deleteBoardById(id);
-      const succesMes: TServerMessage = {
-        message: 'Board successfully deleted',
-        severity: 'success',
-      };
-      return { board: data, message: succesMes };
-    } catch (err) {
-      return rejectWithValue(handlerError(err));
-    }
-  }
-);
+});
 
 const boardsSlice = createSlice({
   name: 'boards',
@@ -91,9 +97,9 @@ const boardsSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(addBoard.fulfilled, (state, action) => {
-        state.boards.push(action.payload.board);
+        state.boards.push(action.payload?.board);
         state.isLoading = false;
-        state.message = action.payload.message;
+        state.message = action.payload?.message || null;
       })
       .addCase(updateBoard.fulfilled, (state, action) => {
         const boardId = action.payload.board._id;
@@ -102,12 +108,12 @@ const boardsSlice = createSlice({
           board._id !== boardId ? board : { ...board, title: boardNewTitle }
         );
         state.isLoading = false;
-        state.message = action.payload.message;
+        state.message = action.payload?.message || null;
       })
       .addCase(delBoard.fulfilled, (state, action) => {
         state.boards = state.boards.filter((board) => board._id !== action.payload.board._id);
         state.isLoading = false;
-        state.message = action.payload.message;
+        state.message = action.payload?.message || null;
       })
       .addMatcher(
         isAnyOf(getBoards.pending, addBoard.pending, updateBoard.pending, delBoard.pending),
