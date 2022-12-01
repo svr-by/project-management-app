@@ -4,7 +4,7 @@ import {
   MainPage,
   NotFoundPage,
   SignInPage,
-  SignUpPage,
+  SignupPage,
   UserProfilePage,
   BoardPage,
 } from 'pages';
@@ -19,7 +19,7 @@ function App() {
         <Route element={<Layout />}>
           <Route index element={<Welcome />} />
           <Route path={PATHS.SIGN_IN} element={<SignInPage />} />
-          <Route path={PATHS.SIGN_UP} element={<SignUpPage />} />
+          <Route path={PATHS.SIGN_UP} element={<SignupPage />} />
           <Route path={PATHS.PROFILE} element={<UserProfilePage />} />
           <Route element={<ProtectedRoute />}>
             <Route path={PATHS.MAIN}>

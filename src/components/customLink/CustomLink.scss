@@ -2,22 +2,22 @@
 
 .custom-link {
   text-decoration: none;
-  background-color: $white;
-  border: 3px solid $marker;
+  background-color: var(--background-custom-link);
+  border: 3px solid var(--red);
   border-radius: 0.6em;
   padding: 0.5rem;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  color: $black;
+  color: var(--grey-light-one);
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 
   &:hover {
-    box-shadow: 0 0 40px 40px $marker inset;
-    color: $white;
+    box-shadow: 0 0 40px 40px var(--red) inset;
+    color: var(--white);
   }
-  
+
   .active {
-    color: $yellow;
+    color: var(--yellow);
   }
 }

@@ -6,9 +6,9 @@ import { singIn } from 'redux/slices/userSlice';
 import { TUserPrams } from 'core/types/server';
 import { PATHS } from 'core/constants';
 import { UserForm, Spinner } from 'components';
-import './SignUpPage.scss';
+import './signUpPage.scss';
 
-export const SignUpPage = () => {
+export const SignupPage = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
