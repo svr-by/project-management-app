@@ -1,12 +1,5 @@
-@import "src/scss/variables";
-
 .theme-svg {
   width: 33px;
   height: 33px;
-
-  &:hover {
-    cursor: pointer;
-    stroke: red;
-    fill: red;
-  }
+  cursor: pointer;
 }

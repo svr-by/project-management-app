@@ -1,8 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
 
 export const useTheme = () => {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('');
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);

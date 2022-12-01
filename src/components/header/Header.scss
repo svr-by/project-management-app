@@ -6,7 +6,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: var(--background-color);
+  background-color: var(--header-background-color);
   transition: background-color 300ms ease-in-out;
   z-index: 2;
 }
@@ -44,5 +44,5 @@
 }
 
 .scroll {
-  background-color: $background-element;
+  background-color: var(--header-background-color-scroll);
 }
