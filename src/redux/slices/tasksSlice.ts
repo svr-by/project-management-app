@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import {
   getTasksByColumn,
   createTask,
@@ -7,32 +7,27 @@ import {
   updateTaskById,
 } from 'api/services/tasksService';
 import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
+import { handlerError } from 'core/services/errorHandlerService';
 
 interface IGlobalStateTasks {
-  data: TTaskResExt[];
+  tasks: TTaskResExt[];
   isLoading: boolean;
-  error: boolean;
+  message: unknown;
 }
 
 const initialState: IGlobalStateTasks = {
-  data: [],
+  tasks: [],
   isLoading: false,
-  error: false,
+  message: null,
 };
 
 export const getAllTasksInBoardId = createAsyncThunk(
-  'tasks/getAllTasksInBoardId',
+  'tasks/getAllTasks',
   async (boardId: string, { rejectWithValue }) => {
     try {
-      const data = await getTaskSetByBoard(boardId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await getTaskSetByBoard(boardId);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -43,18 +38,12 @@ type TGetTasks = {
 };
 
 export const getTasksInColumnId = createAsyncThunk(
-  'tasks/getTasksInColumnId',
+  'tasks/getTasks',
   async ({ boardId, columnId }: TGetTasks, { rejectWithValue }) => {
     try {
-      const data = await getTasksByColumn(boardId, columnId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await getTasksByColumn(boardId, columnId);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -66,18 +55,12 @@ type TGcreatTask = {
 };
 
 export const creatTasksInColumnId = createAsyncThunk(
-  'tasks/creatTasksInColumnId',
+  'tasks/createTask',
   async ({ boardId, columnId, newTask }: TGcreatTask, { rejectWithValue }) => {
     try {
-      const data = await createTask(boardId, columnId, newTask);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await createTask(boardId, columnId, newTask);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -90,18 +73,12 @@ type TUpdateTask = {
 };
 
 export const updateTaskInColumnId = createAsyncThunk(
-  'columns/updateTaskInBoardId',
+  'columns/updateTask',
   async ({ boardId, columnId, taskId, updateTask }: TUpdateTask, { rejectWithValue }) => {
     try {
-      const data = await updateTaskById(boardId, columnId, taskId, updateTask);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await updateTaskById(boardId, columnId, taskId, updateTask);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -113,18 +90,12 @@ type TDeleteTask = {
 };
 
 export const deleteTaskInColumnId = createAsyncThunk(
-  'tasks/deleteTaskInColumnId',
+  'tasks/deleteTask',
   async ({ boardId, columnId, taskId }: TDeleteTask, { rejectWithValue }) => {
     try {
-      const data = await deleteTaskById(boardId, columnId, taskId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await deleteTaskById(boardId, columnId, taskId);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -132,79 +103,62 @@ export const deleteTaskInColumnId = createAsyncThunk(
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
+  reducers: {
+    eraseTasksErr(state) {
+      state.message = null;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getAllTasksInBoardId.pending, (state) => {
-      state.data = [];
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(
-      getAllTasksInBoardId.fulfilled,
-      (state, action: PayloadAction<TTaskResExt[]>) => {
-        state.data = action.payload;
+    builder
+      .addCase(getAllTasksInBoardId.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
+        state.tasks = action.payload;
         state.isLoading = false;
-      }
-    );
-    builder.addCase(getAllTasksInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(getTasksInColumnId.pending, (state) => {
-      state.data = [];
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(getTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
-      state.data = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(getTasksInColumnId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(creatTasksInColumnId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(creatTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.data.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(creatTasksInColumnId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(updateTaskInColumnId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(updateTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.data = state.data.filter((el) => el._id !== action.payload._id);
-      state.isLoading = false;
-      state.data.push(action.payload);
-    });
-    builder.addCase(updateTaskInColumnId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(deleteTaskInColumnId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(deleteTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
-      state.data = state.data.filter((el) => el._id !== action.payload._id);
-      state.isLoading = false;
-    });
-    builder.addCase(deleteTaskInColumnId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
+      })
+      .addCase(getTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
+        state.tasks = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(creatTasksInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
+        state.tasks.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(updateTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
+        state.tasks = state.tasks.filter((el) => el._id !== action.payload._id);
+        state.isLoading = false;
+        state.tasks.push(action.payload);
+      })
+      .addCase(deleteTaskInColumnId.fulfilled, (state, action: PayloadAction<TTaskResExt>) => {
+        state.tasks = state.tasks.filter((el) => el._id !== action.payload._id);
+        state.isLoading = false;
+      })
+      .addMatcher(
+        isAnyOf(
+          getAllTasksInBoardId.pending,
+          getTasksInColumnId.pending,
+          creatTasksInColumnId.pending,
+          updateTaskInColumnId.pending,
+          deleteTaskInColumnId.pending
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.message = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          getAllTasksInBoardId.rejected,
+          getTasksInColumnId.rejected,
+          creatTasksInColumnId.rejected,
+          updateTaskInColumnId.rejected,
+          deleteTaskInColumnId.rejected
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.message = action.payload || null;
+        }
+      );
   },
 });
 
+export const { eraseTasksErr } = tasksSlice.actions;
 export default tasksSlice.reducer;

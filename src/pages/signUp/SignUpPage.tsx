@@ -1,39 +1,48 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { signUp } from 'api/services/authService';
+import { RootState } from 'redux/store';
 import { useAppDispatch } from 'redux/hooks';
-import { singIn } from 'redux/slices/userSlice';
-import { TUserPrams } from 'core/types/server';
+import { signUp, singIn, eraseErr } from 'redux/slices/userSlice';
+import { TUserPrams, TServerMessage } from 'core/types/server';
 import { PATHS } from 'core/constants';
-import { UserForm, Spinner } from 'components';
+import { UserForm, Spinner, ToastMessage } from 'components';
 import './SignUpPage.scss';
 
 export const SignUpPage = () => {
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, message } = useSelector((state: RootState) => state.user);
 
-  const onSubmit = (user: TUserPrams) => {
-    setIsLoading(true);
-    signUp(user)
-      .then(() => {
-        const userSignInParams = {
-          login: user.login,
-          password: user.password,
-        };
-        return dispatch(singIn(userSignInParams));
-      })
-      .finally(() => setIsLoading(false));
+  useEffect(() => {
+    return () => {
+      dispatch(eraseErr());
+    };
+  }, [dispatch]);
+
+  const onSubmit = async (user: TUserPrams) => {
+    const newUser = await dispatch(signUp(user));
+    if (newUser.meta.requestStatus !== 'rejected') {
+      const userSignInParams = {
+        login: user.login,
+        password: user.password,
+      };
+      return dispatch(singIn(userSignInParams));
+    }
   };
 
-  return (
-    <div className="signup">
-      <h1>Create account</h1>
-      <UserForm submitBtn="Sign up" onSubmit={onSubmit} />
-      <p>
-        Already have an account?
-        <Link to={`/${PATHS.SIGN_IN}`}>Sign in!</Link>
-      </p>
-      <Spinner open={isLoading} />
-    </div>
+  return isLoading ? (
+    <Spinner />
+  ) : (
+    <>
+      <div className="signup">
+        <h1>Create account</h1>
+        <UserForm submitBtn="Sign up" onSubmit={onSubmit} />
+        <p>
+          Already have an account?
+          <Link to={`/${PATHS.SIGN_IN}`}>Sign in!</Link>
+        </p>
+      </div>
+      <ToastMessage message={message as TServerMessage} />
+    </>
   );
 };
