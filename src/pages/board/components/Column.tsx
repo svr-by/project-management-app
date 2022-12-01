@@ -32,13 +32,10 @@ const Column = (props: TaskProps) => {
   const { data: dataAllTasks } = useAppSelector(selectTasksInBoardId);
   const { id: userId /*, error, isLoaded*/ } = useAppSelector(selectUser);
 
-  const columnsInBoardId = Array.from(dataColumns);
-  const tasksInColumnId = Array.from(dataAllTasks).filter((task) => task.columnId === columnId);
-
+  const tasksInColumnId = dataAllTasks.filter((task) => task.columnId === columnId);
   const orderedTasks = tasksInColumnId.sort((task1, task2) => {
     return task1.order - task2.order;
   });
-
   const tasks = orderedTasks;
 
   const {
@@ -69,8 +66,9 @@ const Column = (props: TaskProps) => {
 
   const handleDeleteColumnId = async () => {
     await dispatch(deleteColumnInBoardId({ boardId, columnId }));
+    const newArrColumns = dataColumns.filter((el) => el._id !== columnId);
 
-    const orderedColumnsInBoard = columnsInBoardId.map((column, index: number) => ({
+    const orderedColumnsInBoard = newArrColumns.map((column, index: number) => ({
       ...column,
       order: index + 1,
     }));
@@ -79,6 +77,7 @@ const Column = (props: TaskProps) => {
       _id: column._id,
       order: column.order,
     }));
+
     await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
 
     handleCancel();

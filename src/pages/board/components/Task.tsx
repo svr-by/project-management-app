@@ -66,7 +66,9 @@ function Task(props: TaskProps) {
   const handleDeleteTaskId = async () => {
     await dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
 
-    const orderedTasksInColumn = tasksInColumn.map((task, index: number) => ({
+    const newArrTasks = tasksInColumn.filter((el) => el._id !== taskId);
+
+    const orderedTasksInColumn = newArrTasks.map((task, index: number) => ({
       ...task,
       order: index + 1,
     }));
