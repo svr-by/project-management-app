@@ -117,3 +117,8 @@ export type TdecodedToken = {
   iat: number;
   exp: number;
 };
+
+export type TServerMessage = {
+  message: string;
+  severity: 'success' | 'error' | 'warning' | 'info';
+};

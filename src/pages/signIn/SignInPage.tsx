@@ -1,30 +1,41 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { RootState } from 'redux/store';
-import { singIn } from 'redux/slices/userSlice';
+import { singIn, eraseErr } from 'redux/slices/userSlice';
 import { useAppDispatch } from 'redux/hooks';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/store';
 import { PATHS } from 'core/constants';
-import { TSignInParams } from 'core/types/server';
-import { Spinner, SignInForm } from 'components';
+import { TSignInParams, TServerMessage } from 'core/types/server';
+import { SignInForm, Spinner, ToastMessage } from 'components';
 import './SignInPage.scss';
 
 export const SignInPage = () => {
-  const { isLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const { isLoading, message } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    return () => {
+      dispatch(eraseErr());
+    };
+  }, [dispatch]);
 
   const onSubmit = (data: TSignInParams) => {
     dispatch(singIn(data));
   };
 
-  return (
-    <div className="signin">
-      <h1>Sign in to your account</h1>
-      <SignInForm onSubmit={onSubmit} />
-      <p>
-        No account?
-        <Link to={`/${PATHS.SIGN_UP}`}>Sign up!</Link>
-      </p>
-      <Spinner open={isLoading} />
-    </div>
+  return isLoading ? (
+    <Spinner />
+  ) : (
+    <>
+      <div className="signin">
+        <h1>Sign in to your account</h1>
+        <SignInForm onSubmit={onSubmit} />
+        <p>
+          No account?
+          <Link to={`/${PATHS.SIGN_UP}`}>Sign up!</Link>
+        </p>
+      </div>
+      <ToastMessage message={message as TServerMessage} />
+    </>
   );
 };
