@@ -13,3 +13,4 @@ export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
 export { AddBoardModal } from './addBoardModal/AddBoardModal';
 export { ChangeTheme } from './changeTheme/ChangeTheme';
+export { ToastMessage } from './toastMessage/ToastMessage';
