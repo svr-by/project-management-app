@@ -6,7 +6,7 @@ import { useAppDispatch } from 'redux/hooks';
 import { PATHS } from 'core/constants';
 import { TSignInParams } from 'core/types/server';
 import { Spinner, SignInForm } from 'components';
-import './signInPage.scss';
+import './SignInPage.scss';
 
 export const SignInPage = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
