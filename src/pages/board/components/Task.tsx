@@ -3,7 +3,11 @@ import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { TTaskResExt, TTaskParamsExt } from 'core/types/server';
-import { deleteTaskInColumnId, updateTaskInColumnId, updateTasksSet } from 'redux/slices/tasksSlice';
+import {
+  deleteTaskInColumnId,
+  updateTaskInColumnId,
+  updateTasksSet,
+} from 'redux/slices/tasksSlice';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 import { selectTasksInBoardId } from 'redux/selectors';
@@ -33,7 +37,6 @@ function Task(props: TaskProps) {
 
   const { data: dataTasks } = useAppSelector(selectTasksInBoardId);
   const tasksInColumn = dataTasks.filter((task) => task.columnId === columnId);
-
 
   const {
     register,

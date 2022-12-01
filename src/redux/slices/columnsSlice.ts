@@ -4,7 +4,7 @@ import {
   createColumn,
   updateColumnById,
   deleteColumnById,
-  changeColumnsList
+  changeColumnsList,
 } from 'api/services/columnsService';
 import { TColRes, TColParams, TListColParams } from 'core/types/server';
 
@@ -127,7 +127,6 @@ const columnsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getColumnsInBoardId.pending, (state) => {
-      state.data = [];
       state.isLoading = true;
       state.error = false;
     });
@@ -184,10 +183,13 @@ const columnsSlice = createSlice({
       state.isLoading = true;
       state.error = false;
     });
-    builder.addCase(updateOrderedColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
-      state.data = action.payload;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      updateOrderedColumnsInBoardId.fulfilled,
+      (state, action: PayloadAction<TColRes[]>) => {
+        state.data = action.payload;
+        state.isLoading = false;
+      }
+    );
     builder.addCase(updateOrderedColumnsInBoardId.rejected, (state) => {
       state.isLoading = false;
       state.error = true;

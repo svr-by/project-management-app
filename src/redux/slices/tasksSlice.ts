@@ -5,7 +5,7 @@ import {
   deleteTaskById,
   getTaskSetByBoard,
   updateTaskById,
-  updateTaskSet
+  updateTaskSet,
 } from 'api/services/tasksService';
 import { TTaskResExt, TTaskParams, TTaskParamsExt, TTaskSet } from 'core/types/server';
 
@@ -153,7 +153,6 @@ const tasksSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getTasksInColumnId.pending, (state) => {
-      state.data = [];
       state.isLoading = true;
       state.error = false;
     });
@@ -207,7 +206,6 @@ const tasksSlice = createSlice({
     });
 
     builder.addCase(getAllTasksInBoardId.pending, (state) => {
-      state.data = [];
       state.isLoading = true;
       state.error = false;
     });
@@ -227,12 +225,9 @@ const tasksSlice = createSlice({
       state.isLoading = true;
       state.error = false;
     });
-    builder.addCase(
-      updateTasksSet.fulfilled,
-      (state) => {
-        state.isLoading = false;
-      }
-    );
+    builder.addCase(updateTasksSet.fulfilled, (state, action: PayloadAction<TTaskResExt[]>) => {
+      state.isLoading = false;
+    });
     builder.addCase(updateTasksSet.rejected, (state) => {
       state.isLoading = false;
       state.error = true;

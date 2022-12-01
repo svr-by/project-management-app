@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId, selectTasksInBoardId, selectUser } from 'redux/selectors';
 import { getAllTasksInBoardId, creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { deleteColumnInBoardId, updateOrderedColumnsInBoardId } from 'redux/slices/columnsSlice';
-import { TTaskParams } from 'core/types/server';
+import { TTaskParams, TTaskResExt } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
@@ -31,12 +31,15 @@ const Column = (props: TaskProps) => {
   const { data: dataColumns } = useAppSelector(selectColumnsInBoardId);
   const { data: dataAllTasks } = useAppSelector(selectTasksInBoardId);
   const { id: userId /*, error, isLoaded*/ } = useAppSelector(selectUser);
-  const tasksInColumnId = dataAllTasks.filter((task) => task.columnId === columnId).sort((task1, task2) => {
+
+  const columnsInBoardId = Array.from(dataColumns);
+  const tasksInColumnId = Array.from(dataAllTasks).filter((task) => task.columnId === columnId);
+
+  const orderedTasks = tasksInColumnId.sort((task1, task2) => {
     return task1.order - task2.order;
   });
-  const columnsInBoardId = dataColumns.sort((column1, column2) => {
-    return column1.order - column2.order;
-  });
+
+  const tasks = orderedTasks;
 
   const {
     register,
@@ -82,7 +85,7 @@ const Column = (props: TaskProps) => {
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
-    const orderNum = tasksInColumnId.length;
+    const orderNum = tasks.length;
     const newTask: TTaskParams = {
       title: inputsData.title,
       order: orderNum + 1,
@@ -96,10 +99,6 @@ const Column = (props: TaskProps) => {
     handleCancel();
   };
 
-  useEffect(() => {
-    dispatch(getAllTasksInBoardId(boardId));
-  }, [boardId, dispatch]);
-
   return (
     <>
       <div className="card-column">
@@ -110,7 +109,7 @@ const Column = (props: TaskProps) => {
         <Droppable droppableId={columnId} type="task">
           {(provided, snapshot) => (
             <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>
-              {tasksInColumnId.map((el, index) => {
+              {tasks.map((el, index) => {
                 return (
                   <Draggable key={el._id} draggableId={el._id} index={index}>
                     {(provided, snapshot) => (
