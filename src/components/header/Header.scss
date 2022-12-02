@@ -6,20 +6,20 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: $white;
+  background-color: var(--header-background-color);
   transition: background-color 300ms ease-in-out;
   z-index: 2;
 }
 
 .logo {
   width: 200px;
-  
+
   &__link {
     display: flex;
     justify-content: space-between;
     align-items: center;
     text-decoration: none;
-    color: $black;
+    color: var(--grey-light-one);
   }
 
   &__image {
@@ -40,8 +40,9 @@
   display: flex;
   gap: 1rem;
   justify-content: space-between;
+  align-items: center;
 }
 
 .scroll {
-  background-color: $background-element;
+  background-color: var(--header-background-color-scroll);
 }

@@ -31,8 +31,8 @@ li {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #f9f7fa;
-  box-shadow: 0 0 10px 0 #d2d7e0;
+  background-color: var(--background-card-column);
+  box-shadow: 0 0 10px 0 var(--box-shadow-card-colymn);
   border-radius: 8px;
   opacity: 1;
 }
@@ -108,7 +108,7 @@ li {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 8px rgb(0 0 0 / 10%);
-  background-color: #ffffff;
+  background-color: var(--white);
   cursor: pointer;
 }
 

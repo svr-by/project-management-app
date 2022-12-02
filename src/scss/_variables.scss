@@ -5,16 +5,61 @@ $small-screen: 480px;
 // todo пересмотреть названия
 //если будут темы то переменные в js в var
 
-$white: #ffffff;
-$black: #000000;
-$red: #e74c3c;
-$green: #389d2f;
-$yellow: #e3cc00;
-$background-red: #ffc9c3;
-$background-gray: #ececec;
-$grey: #c4c4c4;
-$dark-grey: #313131;
-$marker: #e74c3c;
-$background-element: #ffc9c3;
-$background-element-content: #ececec;
-$text-color: #313131;
+html[data-theme='dark'] {
+  --grey-text-color: #313131;
+  --white: #ffffff;
+  --grey: #5e5e5e;
+  --grey-light: #9d9d9d;
+  --grey-dark: #313131;
+  --green: #389d2f;
+  --red: #e74c3c;
+  --black: #000000;
+  --grey-light-one: #ececec;
+  --yellow: #e3cc00;
+  --grey-card-column: #f9f7fa;
+  --box-shadow-card-colymn: #d2d7e0;
+  //pages
+  --background-pages: var(--grey-light);
+  //header and footer
+  --header-background-color: var(--grey-light);
+  --header-background-color-scroll: var(--grey-text-color);
+  --background-custom-link: var(--grey-light);
+  --text-custom-link: var(--grey-light-one);
+  //modal
+  --background-color-modal: var(--white);
+  //board
+  --background-card-column: var(--grey-card-column);
+  --background-board-shadow-column: var(--box-shadow-card-colymn);
+  //welcome
+  --background-element-content: #ececec;
+  --text-color: var(--grey);
+}
+
+html[data-theme='light'] {
+  --white: #ffffff;
+  --pink: #ffc9c3;
+  --green: #389d2f;
+  --red: #e74c3c;
+  --black: #000000;
+  --yellow: #e3cc00;
+  --grey-dark: #313131;
+  --grey-card-column: #f9f7fa;
+  --box-shadow-card-colymn: #d2d7e0;
+  //pages
+  --background-pages: var(--white);
+  //header
+  --header-background-color: var(--white);
+  --header-background-color-scroll: var(--pink);
+  --background-custom-link: var(--white);
+  --text-custom-link: var(--black);
+  //modal
+  --background-color-modal: var(--white);
+  //board
+  --background-card-column: var(--grey-card-column);
+  --background-board-shadow-column: var(--box-shadow-card-colymn);
+  //welcome
+  --background-element-content: #ececec;
+  --text-color: var(--grey-text-color);
+}
+
+

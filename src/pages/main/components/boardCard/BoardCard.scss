@@ -6,11 +6,11 @@
   min-width: 300px;
   min-height: 150px;
   text-decoration: none;
-  background-color: $white;
-  color: $black;
-  border: 1px solid $dark-grey;
+  background-color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--grey-dark);
   transition: all 0.3s;
-  
+
   &__card {
     padding: 0.8rem;
     overflow: hidden;
@@ -57,18 +57,18 @@
   }
 
   &:hover {
-    box-shadow: 0px 6px 11px 0px rgba(34, 60, 80, 0.4);
+    box-shadow: 0 6px 11px 0 rgba(34, 60, 80, 0.4);
   }
 }
 
 @media (max-width: $tablet) {
-    .board {
-      width: 49%;
-    }
+  .board {
+    width: 49%;
+  }
 }
 
 @media (max-width: $mobile) {
-    .board {
-      width: 100%;
-    }
+  .board {
+    width: 100%;
+  }
 }

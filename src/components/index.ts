@@ -13,3 +13,4 @@ export { SignInForm } from './forms/SignInForm';
 export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
 export { ToastMessage } from './toastMessage/ToastMessage';
+export { ChangeTheme } from './changeTheme/ChangeTheme';
