@@ -43,6 +43,7 @@ const Column = (props: TaskProps) => {
   });
 
   const tasksArr = orderedTasks;
+  console.log('column - ', tasksArr);
 
   const {
     register,

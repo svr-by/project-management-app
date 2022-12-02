@@ -41,8 +41,6 @@ export const BoardPage = () => {
 
   let columnsArr = orderedColumns;
 
-  const [tasksAll, setTasksAll] = useState(tasks);
-
   const {
     register,
     formState: { errors },
@@ -84,7 +82,7 @@ export const BoardPage = () => {
     return () => {
       dispatch(eraseColumnState());
     };
-  }, [boardId]);
+  }, [boardId, dispatch]);
 
   const getBoardTitle = () => {
     const boardTitle = boards.find((board) => board._id === boardId)?.title || '';
@@ -130,67 +128,75 @@ export const BoardPage = () => {
         columnsArr[columnsArr.findIndex((column) => column._id === destination.droppableId)];
 
       if (sourceColumn === destinationColumn) {
-        const tasksInColumnOne = tasksAll.filter((el) => el.columnId === sourceColumn._id);
-        tasksInColumnOne.sort((task1, task2) => {
-          return task1.order - task2.order;
-        });
+        const tasksInColumn = tasks
+          .filter((el) => el.columnId === sourceColumn._id)
+          .sort((task1, task2) => task1.order - task2.order);
 
-        const [removed] = tasksInColumnOne.splice(source.index, 1);
-        tasksInColumnOne.splice(destination.index, 0, removed);
-        const newTasksOrder = tasksInColumnOne.map((task, index: number) => ({
+        const [removed] = tasksInColumn.splice(source.index, 1);
+        tasksInColumn.splice(destination.index, 0, removed);
+        const newTasksInColumnSorted = tasksInColumn.map((task, index: number) => ({
           ...task,
           order: index + 1,
         }));
 
-        const newTasksAll = tasksAll
+        const newTasks = tasks
           .filter((el) => el.columnId !== sourceColumn._id)
-          .concat(newTasksOrder);
+          .concat(newTasksInColumnSorted);
 
-        dispatch(changeTasksState(newTasksAll));
+        dispatch(changeTasksState(newTasks));
 
-        const tasksOrderList = newTasksOrder.map((task) => ({
+        const tasksOrderList = newTasksInColumnSorted.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: task.columnId,
         }));
-        console.log(tasksAll);
-        console.log(tasksOrderList);
+
         await dispatch(updateTasksSet(tasksOrderList));
 
         await dispatch(getAllTasksInBoardId(boardId!));
 
         return;
       } else {
-        let sourceColumnTasks = tasksAll.filter((el) => el.columnId === sourceColumn._id);
-        sourceColumnTasks.sort((task1, task2) => {
-          return task1.order - task2.order;
-        });
+        const sourceColumnTasks = tasks
+          .filter((el) => el.columnId === sourceColumn._id)
+          .sort((task1, task2) => task1.order - task2.order);
 
         const [removed] = sourceColumnTasks.splice(source.index, 1);
 
-        sourceColumnTasks = sourceColumnTasks.map((task, index) => {
+        const sourceColumnTasksSorted = sourceColumnTasks.map((task, index) => {
           return { ...task, order: index + 1 };
         });
 
-        let destinationColumnTasks = tasksAll.filter((el) => el.columnId === destinationColumn._id);
-        destinationColumnTasks.sort((task1, task2) => {
-          return task1.order - task2.order;
-        });
+        console.log('1 - ', sourceColumnTasksSorted);
+
+        const destinationColumnTasks = tasks
+          .filter((el) => el.columnId === destinationColumn._id)
+          .sort((task1, task2) => task1.order - task2.order);
 
         destinationColumnTasks.splice(destination.index, 0, removed);
 
-        destinationColumnTasks = destinationColumnTasks.map((task, index) => {
-          return { ...task, order: index + 1 };
+        const destinationColumnTasksSorted = destinationColumnTasks.map((task, index) => {
+          return { ...task, order: index + 1, columnId: destinationColumn._id };
         });
 
-        const sourceTasksOrderList = sourceColumnTasks.map((task) => ({
+        console.log('2 - ', destinationColumnTasksSorted);
+
+        const newTasks = tasks
+          .filter((el) => el.columnId !== sourceColumn._id)
+          .filter((el) => el.columnId !== destinationColumn._id)
+          .concat(sourceColumnTasksSorted)
+          .concat(destinationColumnTasksSorted);
+
+        dispatch(changeTasksState(newTasks));
+
+        const sourceTasksOrderList = sourceColumnTasksSorted.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: sourceColumn._id,
         }));
         await dispatch(updateTasksSet(sourceTasksOrderList));
 
-        const destinationTasksOrderList = destinationColumnTasks.map((task) => ({
+        const destinationTasksOrderList = destinationColumnTasksSorted.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: destinationColumn._id,
@@ -214,7 +220,7 @@ export const BoardPage = () => {
         <Droppable droppableId="columns" direction="horizontal" type="column">
           {(provided, snapshot) => (
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
-              {columnsArr.map((el, index) => {
+              {columns.map((el, index) => {
                 return (
                   <Draggable
                     key={el._id}

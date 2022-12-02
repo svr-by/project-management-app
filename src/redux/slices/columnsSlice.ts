@@ -103,7 +103,6 @@ const columnsSlice = createSlice({
   initialState,
   reducers: {
     eraseColumnState(state) {
-      state.columns = [];
       state.message = null;
     },
   },
