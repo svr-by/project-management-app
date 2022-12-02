@@ -8,7 +8,7 @@ import {
   updateTaskInColumnId,
   updateTasksSet,
 } from 'redux/slices/tasksSlice';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 import { selectTasksInBoardId } from 'redux/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -34,9 +34,8 @@ function Task(props: TaskProps) {
   const userId = dataTask.userId;
   const order = dataTask.order;
   const dispatch = useAppDispatch();
-
-  const { data: dataTasks } = useAppSelector(selectTasksInBoardId);
-  const tasksInColumn = dataTasks.filter((task) => task.columnId === columnId);
+  const { tasks, isLoading } = useAppSelector(selectTasksInBoardId);
+  const tasksInColumn = tasks.filter((task) => task.columnId === columnId);
 
   const {
     register,
@@ -47,6 +46,7 @@ function Task(props: TaskProps) {
   const hasErrors = errors && Object.keys(errors).length !== 0;
 
   const [isOpen, setIsOpen] = useState(false);
+
   const handleCancel = () => {
     setIsOpen(false);
   };
@@ -130,8 +130,8 @@ function Task(props: TaskProps) {
               maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors}>
-            Submit
+          <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
+            {!isLoading ? 'Submit' : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>

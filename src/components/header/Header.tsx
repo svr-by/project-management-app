@@ -17,14 +17,10 @@ export const Header = () => {
   const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
+    dispatch(checkToken());
     isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
-
-  useEffect(() => {
-    dispatch(checkToken());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);

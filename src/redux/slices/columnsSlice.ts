@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction, isAnyOf } from '@reduxjs/toolkit';
 import {
   getColumnInBoard,
   createColumn,
@@ -7,32 +7,27 @@ import {
   changeColumnsList,
 } from 'api/services/columnsService';
 import { TColRes, TColParams, TListColParams } from 'core/types/server';
+import { handlerError } from 'core/services/errorHandlerService';
 
 interface IGlobalStateColumns {
-  data: TColRes[];
+  columns: TColRes[];
   isLoading: boolean;
-  error: boolean;
+  message: unknown;
 }
 
 const initialState: IGlobalStateColumns = {
-  data: [],
+  columns: [],
   isLoading: false,
-  error: false,
+  message: null,
 };
 
 export const getColumnsInBoardId = createAsyncThunk(
-  'columns/getColumnsInBoardId',
+  'columns/getColumns',
   async (boardId: string, { rejectWithValue }) => {
     try {
-      const data = await getColumnInBoard(boardId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await getColumnInBoard(boardId);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -43,18 +38,12 @@ type TGcreatColumn = {
 };
 
 export const creatColumnInBoardId = createAsyncThunk(
-  'columns/creatColumnInBoardId',
+  'columns/creatColumn',
   async ({ boardId, newColumn }: TGcreatColumn, { rejectWithValue }) => {
     try {
-      const data = await createColumn(boardId, newColumn);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await createColumn(boardId, newColumn);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -66,18 +55,12 @@ type TUpdateColumn = {
 };
 
 export const updateColumnInBoardId = createAsyncThunk(
-  'columns/updateColumnInBoardId',
+  'columns/updateColumn',
   async ({ boardId, columnId, newColumn }: TUpdateColumn, { rejectWithValue }) => {
     try {
-      const data = await updateColumnById(boardId, columnId, newColumn);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await updateColumnById(boardId, columnId, newColumn);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -88,18 +71,12 @@ type TDeleteColumn = {
 };
 
 export const deleteColumnInBoardId = createAsyncThunk(
-  'columns/deleteColumnInBoardId',
+  'columns/deleteColumn',
   async ({ boardId, columnId }: TDeleteColumn, { rejectWithValue }) => {
     try {
-      const data = await deleteColumnById(boardId, columnId);
-
-      if (!data) {
-        throw new Error('Error!');
-      }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return await deleteColumnById(boardId, columnId);
+    } catch (err) {
+      return rejectWithValue(handlerError(err));
     }
   }
 );
@@ -124,77 +101,57 @@ export const updateOrderedColumnsInBoardId = createAsyncThunk(
 const columnsSlice = createSlice({
   name: 'columns',
   initialState,
-  reducers: {},
+  reducers: {
+    eraseColumnState(state) {
+      state.columns = [];
+      state.message = null;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(getColumnsInBoardId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(getColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
-      state.data = action.payload;
-      state.isLoading = false;
-    });
-    builder.addCase(getColumnsInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(creatColumnInBoardId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(creatColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.data.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(creatColumnInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(updateColumnInBoardId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(updateColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.data = state.data.filter((el) => el._id !== action.payload._id);
-      state.data.push(action.payload);
-      state.isLoading = false;
-    });
-    builder.addCase(updateColumnInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(deleteColumnInBoardId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(deleteColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
-      state.data = state.data.filter((el) => el._id !== action.payload._id);
-      state.isLoading = false;
-    });
-    builder.addCase(deleteColumnInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
-
-    builder.addCase(updateOrderedColumnsInBoardId.pending, (state) => {
-      state.isLoading = true;
-      state.error = false;
-    });
-    builder.addCase(
-      updateOrderedColumnsInBoardId.fulfilled,
-      (state, action: PayloadAction<TColRes[]>) => {
-        state.data = action.payload;
+    builder
+      .addCase(getColumnsInBoardId.fulfilled, (state, action: PayloadAction<TColRes[]>) => {
+        state.columns = action.payload;
         state.isLoading = false;
-      }
-    );
-    builder.addCase(updateOrderedColumnsInBoardId.rejected, (state) => {
-      state.isLoading = false;
-      state.error = true;
-    });
+      })
+      .addCase(creatColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
+        state.columns.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(updateColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
+        state.columns = state.columns.filter((el) => el._id !== action.payload._id);
+        state.columns.push(action.payload);
+        state.isLoading = false;
+      })
+      .addCase(deleteColumnInBoardId.fulfilled, (state, action: PayloadAction<TColRes>) => {
+        state.columns = state.columns.filter((el) => el._id !== action.payload._id);
+        state.isLoading = false;
+      })
+      .addMatcher(
+        isAnyOf(
+          getColumnsInBoardId.pending,
+          creatColumnInBoardId.pending,
+          updateColumnInBoardId.pending,
+          deleteColumnInBoardId.pending
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.message = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          getColumnsInBoardId.rejected,
+          creatColumnInBoardId.rejected,
+          updateColumnInBoardId.rejected,
+          deleteColumnInBoardId.rejected
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.message = action.payload || null;
+        }
+      );
   },
 });
 
+export const { eraseColumnState } = columnsSlice.actions;
 export default columnsSlice.reducer;

@@ -4,10 +4,10 @@ import { SERVER_URL } from 'core/constants';
 
 export const authAPI = axios.create({ baseURL: SERVER_URL });
 
-export function signUp(user: TUserPrams): Promise<TUserRes> {
+export function signUserUp(user: TUserPrams): Promise<TUserRes> {
   return authAPI.post('/auth/signup', user).then((res) => res.data);
 }
 
-export async function signIn(user: TSignInParams): Promise<TSignInRes> {
+export async function signUserIn(user: TSignInParams): Promise<TSignInRes> {
   return authAPI.post('/auth/signin', user).then((res) => res.data);
 }
