@@ -1,13 +1,13 @@
-import RSSchoolLogo from '../../assets/img/rs_school_js.svg';
-import GithubLogoUser from '../../assets/img/github-svgrepo-com.svg';
-import Copyright from '../../assets/img/copyright-svgrepo-com.svg';
+import { ReactComponent as RSSchoolLogo } from '../../assets/img/rs_school_js.svg';
+import { ReactComponent as GithubLogoUser } from '../../assets/img/github-svgrepo-com.svg';
+import { ReactComponent as Copyright } from '../../assets/img/copyright-svgrepo-com.svg';
 import './Footer.scss';
 
 export const Footer = () => {
   return (
     <footer className="footer">
       <a className="school" href="https://rs.school/" target="_blank" rel="noreferrer">
-        <img className="school__image" src={RSSchoolLogo} alt="RS Logo" />
+        <RSSchoolLogo className="school__image" />
       </a>
       <div className="github">
         <a
@@ -16,7 +16,7 @@ export const Footer = () => {
           target="_blank"
           rel="me noreferrer"
         >
-          <img className="github__image" src={GithubLogoUser} alt="GithubLogoUser" />
+          <GithubLogoUser className="github__image" />
           <p className="github__text">svr-by</p>
         </a>
         <a
@@ -25,7 +25,7 @@ export const Footer = () => {
           target="_blank"
           rel="me noreferrer"
         >
-          <img className="github__image" src={GithubLogoUser} alt="GithubLogoUser" />
+          <GithubLogoUser className="github__image" />
           <p className="github__text">Denis169</p>
         </a>
         <a
@@ -34,12 +34,12 @@ export const Footer = () => {
           target="_blank"
           rel="me noreferrer"
         >
-          <img className="github__image" src={GithubLogoUser} alt="GithubLogoUser" />
+          <GithubLogoUser className="github__image" />
           <p className="github__text">BromBom</p>
         </a>
       </div>
       <div className="copyright">
-        <img className="copyright__image" src={Copyright} alt="Copyright" />
+        <Copyright className="copyright__image" />
         <p className="copyright__text">2022. React 2022Q3</p>
       </div>
     </footer>

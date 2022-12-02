@@ -2,9 +2,6 @@ $tablet: 1024px;
 $mobile: 767px;
 $small-screen: 480px;
 
-// todo пересмотреть названия
-//если будут темы то переменные в js в var
-
 html[data-theme='dark'] {
   --grey-text-color: #313131;
   --white: #ffffff;
@@ -14,7 +11,7 @@ html[data-theme='dark'] {
   --green: #389d2f;
   --red: #e74c3c;
   --black: #000000;
-  --grey-light-one: #ececec;
+  --grey-light-one: #d9d9d9;
   --yellow: #e3cc00;
   --grey-card-column: #f9f7fa;
   --box-shadow-card-colymn: #d2d7e0;
@@ -33,6 +30,8 @@ html[data-theme='dark'] {
   //welcome
   --background-element-content: #ececec;
   --text-color: var(--grey);
+  //svg
+  --color-svg: var(--grey-light-one);
 }
 
 html[data-theme='light'] {
@@ -60,6 +59,8 @@ html[data-theme='light'] {
   //welcome
   --background-element-content: #ececec;
   --text-color: var(--grey-text-color);
+  //svg and label switch language
+  --color-svg: var(--black);
 }
 
 
