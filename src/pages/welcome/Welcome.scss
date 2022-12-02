@@ -2,7 +2,9 @@
 
 .welcome {
   display: flex;
-  background-color: $background-element-content;
+  padding-bottom: 40px;
+  background-color: var(--background-element-content);
+  border-radius: 2rem;
 }
 
 .description {
@@ -16,18 +18,19 @@
     font-size: 3rem;
     font-weight: bold;
     font-style: oblique;
-    color: $text-color;
-    text-shadow: 2px 2px 2px $text-color;
+    color: var(--text-color);
+    text-shadow: 2px 2px 2px var(--text-color);
     letter-spacing: 0.1rem;
   }
 
   &__text {
     font-size: 1.4rem;
-    color: $text-color;
+    color: var(--text-color);
     letter-spacing: 0.05rem;
   }
 }
 
 .image {
   width: 70%;
+  border-radius: 2rem;
 }

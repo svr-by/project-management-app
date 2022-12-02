@@ -3,11 +3,13 @@
 .footer {
   display: flex;
   justify-content: space-between;
+  background-color: var(--header-background-color);
 }
 
 .school {
   &__image {
     width: 150px;
+    fill: var(--color-svg);
   }
 }
 
@@ -27,11 +29,12 @@
 
   &__image {
     width: 40px;
+    fill: var(--color-svg);
   }
 
   &__text {
     margin: 0;
-    color: $black;
+    color: var(--text-custom-link);
     font-size: 1.4rem;
   }
 }
@@ -43,9 +46,11 @@
 
   &__image {
     width: 30px;
+    fill: var(--color-svg);
   }
 
   &__text {
     margin: 0;
+    color: var(--text-custom-link);
   }
 }
