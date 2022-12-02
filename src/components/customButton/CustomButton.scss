@@ -27,8 +27,6 @@
   background-color: var(--white);
   border: 3px solid var(--red);
   color: var(--black);
-  // transition: box-shadow 300ms ease-in-out;
-  // transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 
   &:not(:disabled):hover {
     box-shadow: 0 0 40px 40px var(--red) inset;
@@ -39,7 +37,6 @@
 .style--flare {
   overflow: hidden;
   position: relative;
-  // transition: all 280ms ease-in-out;
 
   span {
     z-index: 20;
