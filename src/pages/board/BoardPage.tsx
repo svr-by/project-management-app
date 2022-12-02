@@ -11,10 +11,10 @@ import {
   getColumnsInBoardId,
   creatColumnInBoardId,
   updateOrderedColumnsInBoardId,
-  eraseColumnState
+  eraseColumnState,
 } from 'redux/slices/columnsSlice';
-import { updateTasksSet, getAllTasksInBoardId } from 'redux/slices/tasksSlice';
-import { TColParams, TColRes, TTaskResExt, TServerMessage } from 'core/types/server';
+import { updateTasksSet, getAllTasksInBoardId, changeTasksState } from 'redux/slices/tasksSlice';
+import { TColParams, TColRes, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { ERROR_MES, PATHS } from 'core/constants';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
@@ -33,13 +33,15 @@ export const BoardPage = () => {
     isLoading: isColumnLoading,
     message: columnMessage,
   } = useAppSelector(selectColumnsInBoardId);
-  const { tasks, isLoading: isTaskLoading } = useAppSelector(selectTasksInBoardId);
+  const { tasks } = useAppSelector(selectTasksInBoardId);
 
   const orderedColumns = Array.from(columns).sort((column1, column2) => {
     return column1.order - column2.order;
   });
 
   let columnsArr = orderedColumns;
+
+  const [tasksAll, setTasksAll] = useState(tasks);
 
   const {
     register,
@@ -82,7 +84,6 @@ export const BoardPage = () => {
     return () => {
       dispatch(eraseColumnState());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [boardId]);
 
   const getBoardTitle = () => {
@@ -96,7 +97,7 @@ export const BoardPage = () => {
   };
 
   const onDragEnd = async (result: DropResult) => {
-    const { source, destination, draggableId, type, mode } = result;
+    const { source, destination, type } = result;
     if (!destination) return;
 
     if (destination.droppableId === source.droppableId && destination.index === source.index)
@@ -129,31 +130,38 @@ export const BoardPage = () => {
         columnsArr[columnsArr.findIndex((column) => column._id === destination.droppableId)];
 
       if (sourceColumn === destinationColumn) {
-        const tasksArr = tasks.filter((el) => el.columnId === sourceColumn._id);
-        tasksArr.sort((task1, task2) => {
+        const tasksInColumnOne = tasksAll.filter((el) => el.columnId === sourceColumn._id);
+        tasksInColumnOne.sort((task1, task2) => {
           return task1.order - task2.order;
         });
 
-        const [removed] = tasksArr.splice(source.index, 1);
-        tasksArr.splice(destination.index, 0, removed);
-        const newTasksOrder = tasksArr.map((task, index: number) => ({
+        const [removed] = tasksInColumnOne.splice(source.index, 1);
+        tasksInColumnOne.splice(destination.index, 0, removed);
+        const newTasksOrder = tasksInColumnOne.map((task, index: number) => ({
           ...task,
           order: index + 1,
         }));
+
+        const newTasksAll = tasksAll
+          .filter((el) => el.columnId !== sourceColumn._id)
+          .concat(newTasksOrder);
+
+        dispatch(changeTasksState(newTasksAll));
 
         const tasksOrderList = newTasksOrder.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: task.columnId,
         }));
-
+        console.log(tasksAll);
+        console.log(tasksOrderList);
         await dispatch(updateTasksSet(tasksOrderList));
 
         await dispatch(getAllTasksInBoardId(boardId!));
 
         return;
       } else {
-        let sourceColumnTasks = tasks.filter((el) => el.columnId === sourceColumn._id);
+        let sourceColumnTasks = tasksAll.filter((el) => el.columnId === sourceColumn._id);
         sourceColumnTasks.sort((task1, task2) => {
           return task1.order - task2.order;
         });
@@ -164,9 +172,7 @@ export const BoardPage = () => {
           return { ...task, order: index + 1 };
         });
 
-        let destinationColumnTasks = tasks.filter(
-          (el) => el.columnId === destinationColumn._id
-        );
+        let destinationColumnTasks = tasksAll.filter((el) => el.columnId === destinationColumn._id);
         destinationColumnTasks.sort((task1, task2) => {
           return task1.order - task2.order;
         });
@@ -229,6 +235,7 @@ export const BoardPage = () => {
                             boardId={el.boardId}
                             title={el.title}
                             order={el.order}
+                            // tasks={tasksAll.filter((task) => task.columnId === el._id)}
                           />
                         </li>
                       );

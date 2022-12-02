@@ -125,6 +125,9 @@ const tasksSlice = createSlice({
     eraseTasksErr(state) {
       state.message = null;
     },
+    changeTasksState(state, action: PayloadAction<TTaskResExt[]>) {
+      state.tasks = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -178,5 +181,5 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { eraseTasksErr } = tasksSlice.actions;
+export const { eraseTasksErr, changeTasksState } = tasksSlice.actions;
 export default tasksSlice.reducer;
