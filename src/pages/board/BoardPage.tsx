@@ -12,9 +12,10 @@ import {
   creatColumnInBoardId,
   updateOrderedColumnsInBoardId,
   eraseColumnState,
+  changeColumnsState,
 } from 'redux/slices/columnsSlice';
 import { updateTasksSet, getAllTasksInBoardId, changeTasksState } from 'redux/slices/tasksSlice';
-import { TColParams, TColRes, TServerMessage } from 'core/types/server';
+import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { ERROR_MES, PATHS } from 'core/constants';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
@@ -33,13 +34,14 @@ export const BoardPage = () => {
     isLoading: isColumnLoading,
     message: columnMessage,
   } = useAppSelector(selectColumnsInBoardId);
+
+  const columnsInBoardOrdered = Array.from(columns).sort(
+    (column1, column2) => column1.order - column2.order
+  );
+
+  console.log('render=', columnsInBoardOrdered);
+
   const { tasks } = useAppSelector(selectTasksInBoardId);
-
-  const orderedColumns = Array.from(columns).sort((column1, column2) => {
-    return column1.order - column2.order;
-  });
-
-  let columnsArr = orderedColumns;
 
   const {
     register,
@@ -61,7 +63,7 @@ export const BoardPage = () => {
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
-    const orderNum = columnsArr.length;
+    const orderNum = columns.length;
     const newColumn: TColParams = {
       title: inputsData.title,
       order: orderNum + 1,
@@ -102,16 +104,19 @@ export const BoardPage = () => {
       return;
 
     if (type === 'column') {
-      let newColumnsOrder: TColRes[] = Array.from(columnsArr);
-      const [removed] = newColumnsOrder.splice(source.index, 1);
-      newColumnsOrder.splice(destination.index, 0, removed);
-      newColumnsOrder = newColumnsOrder.map((column, index: number) => ({
+      const columnsInBoard = Array.from(columnsInBoardOrdered);
+      const [removed] = columnsInBoard.splice(source.index, 1);
+      columnsInBoard.splice(destination.index, 0, removed);
+      const newColumnsOrder = columnsInBoard.map((column, index: number) => ({
         ...column,
         order: index + 1,
       }));
-      columnsArr = newColumnsOrder;
 
-      const columnsOrderList = columnsArr.map((column) => ({
+      console.log('dnd=', newColumnsOrder);
+
+      dispatch(changeColumnsState(newColumnsOrder));
+
+      const columnsOrderList = newColumnsOrder.map((column) => ({
         _id: column._id,
         order: column.order,
       }));
@@ -122,10 +127,10 @@ export const BoardPage = () => {
 
     if (type === 'task') {
       const sourceColumn =
-        columnsArr[columnsArr.findIndex((column) => column._id === source.droppableId)];
+        columns[columns.findIndex((column) => column._id === source.droppableId)];
 
       const destinationColumn =
-        columnsArr[columnsArr.findIndex((column) => column._id === destination.droppableId)];
+        columns[columns.findIndex((column) => column._id === destination.droppableId)];
 
       if (sourceColumn === destinationColumn) {
         const tasksInColumn = tasks
@@ -212,7 +217,7 @@ export const BoardPage = () => {
         <Droppable droppableId="columns" direction="horizontal" type="column">
           {(provided, snapshot) => (
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
-              {columns.map((el, index) => {
+              {columnsInBoardOrdered.map((el, index) => {
                 return (
                   <Draggable
                     key={el._id}

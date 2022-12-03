@@ -105,6 +105,9 @@ const columnsSlice = createSlice({
     eraseColumnState(state) {
       state.message = null;
     },
+    changeColumnsState(state, action: PayloadAction<TColRes[]>) {
+      state.columns = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -152,5 +155,5 @@ const columnsSlice = createSlice({
   },
 });
 
-export const { eraseColumnState } = columnsSlice.actions;
+export const { eraseColumnState, changeColumnsState } = columnsSlice.actions;
 export default columnsSlice.reducer;
