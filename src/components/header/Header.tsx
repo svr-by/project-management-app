@@ -5,8 +5,8 @@ import { signOut, checkToken } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch, AddBoardModal } from 'components';
-import LogoKanban from 'assets/img/kanban-1.svg';
+import { CustomLink, CustomSwitch, AddBoardModal, ThemeSwitcher } from 'components';
+import { ReactComponent as LogoKanban } from 'assets/img/kanban-1.svg';
 import './Header.scss';
 
 export const Header = () => {
@@ -51,11 +51,12 @@ export const Header = () => {
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
         <Link to={PATHS.WELCOME} className="logo__link">
-          <img src={LogoKanban} alt="LogoKanban" className="logo__image" />
+          <LogoKanban className="logo__image" />
           <p className="logo__description">Kanban</p>
         </Link>
       </div>
       <nav className="nav">
+        <ThemeSwitcher />
         <CustomSwitch />
         {isAuth ? (
           <>
