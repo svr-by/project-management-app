@@ -1,34 +1,37 @@
 @import "src/scss/variables";
 
 .welcome {
+  height: 100%;
   display: flex;
-  padding-bottom: 40px;
-  border-radius: 2rem;
+  justify-content: space-between;
+  gap: 10%;
+  padding-bottom: 3rem;
+    
+  &__image {
+    max-width: 50%;
+    object-fit: contain;
+  }
 }
 
 .description {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 3rem;
-  width: 30%;
+  align-items: flex-start;
+  color: var(--text);
 
   &__header {
+    margin: 2rem 0;
     font-family: 'Coolvetica';
     font-size: 4rem;
     font-weight: 400;
-    color: var(--text-color);
     letter-spacing: 0.2rem;
   }
 
   &__text {
-    font-size: 1.4rem;
-    color: var(--text-color);
+    margin: 0 0 3rem 0;
+    font-size: 1.2rem;
     letter-spacing: 0.05rem;
+    line-height: 1.5;
   }
-}
-
-.image {
-  width: 70%;
-  border-radius: 2rem;
 }

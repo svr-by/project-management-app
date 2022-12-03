@@ -1,6 +1,6 @@
 import { CustomLink } from 'components/customLink/CustomLink';
 import { PATHS } from 'core/constants';
-import KanbanBeautifulPicture from 'assets/img/kanban-g96044c9d3_1920.jpg';
+import KanbanPicture from 'assets/img/kanban-welcome.png';
 import './Welcome.scss';
 
 export const Welcome = () => {
@@ -13,9 +13,11 @@ export const Welcome = () => {
           timely completion. Trackers are widely used in project management, because they allow you
           to easily monitor all work processes and control the work of the team
         </p>
-        <CustomLink to={PATHS.MAIN}>Get started</CustomLink>
+        <CustomLink style="filled" to={PATHS.MAIN}>
+          Get started
+        </CustomLink>
       </div>
-      <img className="image" src={KanbanBeautifulPicture} alt="KanbanBeautifulPicture" />
+      <img className="welcome__image" src={KanbanPicture} alt="Kanban Picture" />
     </div>
   );
 };

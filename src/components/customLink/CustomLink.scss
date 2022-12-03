@@ -2,19 +2,30 @@
 
 .custom-link {
   text-decoration: none;
-  background-color: var(--background-custom-link);
+  background-color: transparent;
   border: 3px solid var(--red);
-  border-radius: 0.6em;
   padding: 0.5rem;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  color: var(--grey-light-one);
-  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  color: var(--text);
+  transition: box-shadow 0.5s ease-in-out, color 0.3s ease-in-out;
 
   &:hover {
     box-shadow: 0 0 40px 40px var(--red) inset;
     color: var(--white);
+  }
+
+  &.custom-link--filled {
+    text-transform: uppercase;
+    padding: 0.5rem 2rem;
+    background-color: var(--red);
+    color: var(--white);
+  }
+
+  &.custom-link--filled:hover {
+    box-shadow: 0 0 40px 40px var(--white) inset;
+    color: var(--text);
   }
 
   .active {

@@ -9,22 +9,21 @@ html {
   --grey: #535461;
   --grey-light: #9d9d9d;
   --grey-dark: #444551;
-  --black: #000000;
+  --black: #20101e;
   --red: #e84419;
   --pink: #ffc9c3;
   --pink-light: #f5ded4;
 
-  //logo
-  --logo: var(--red);
   //modal
   --background-color-modal: var(--white);
   //columns
   --grey-card-column: #f9f7fa;
   --box-shadow-card-colymn: #d2d7e0;
-
 }
 
 html[data-theme='dark'] {
+  //text
+  --text: var(--pink-light);
   //pages
   --background-pages: var(--grey);
   //header and footer
@@ -35,14 +34,13 @@ html[data-theme='dark'] {
   //board
   --background-card-column: var(--grey-card-column);
   --background-board-shadow-column: var(--box-shadow-card-colymn);
-  //welcome
-  --background-element-content: var(--grey);
-  --text-color: var(--pink-light);
   //svg
   --color-svg: var(--pink-light);
 }
 
 html[data-theme='light'] {
+  //text
+  --text: var(--black);
   //pages
   --background-pages: var(--white);
   //header
@@ -53,8 +51,6 @@ html[data-theme='light'] {
   //board
   --background-card-column: var(--grey-card-column);
   --background-board-shadow-column: var(--box-shadow-card-colymn);
-  //welcome
-  --text-color: var(--grey-text-color);
   //svg and label switch language
   --color-svg: var(--black);
 }
