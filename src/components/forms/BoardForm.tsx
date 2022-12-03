@@ -55,8 +55,8 @@ export const BoardForm = (props: TBoardFormProps) => {
         error={!!errors[InputNames.title]}
         helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
-          required: { value: true, message: ERROR_MES.EMPTY },
-          minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+          required: { value: true, message: t(ERROR_MES.EMPTY) },
+          minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
         })}
       />
       <TextField
@@ -66,7 +66,7 @@ export const BoardForm = (props: TBoardFormProps) => {
         error={!!errors[InputNames.description]}
         helperText={errors[InputNames.description]?.message}
         {...register(InputNames.description, {
-          maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+          maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
         })}
       />
       <Button type="submit" variant="contained" disabled={hasErrors}>

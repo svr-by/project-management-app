@@ -58,9 +58,9 @@ export const Header = () => {
         <CustomSwitch />
         {isAuth ? (
           <>
-            <CustomLink onClick={openModal}>Create board</CustomLink>
-            <CustomLink to={PATHS.PROFILE}>Edit profile</CustomLink>
-            <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+            <CustomLink onClick={openModal}>{t('Create board')}</CustomLink>
+            <CustomLink to={PATHS.PROFILE}>{t('Edit profile')}</CustomLink>
+            <CustomLink onClick={handleSignOut}>{t('Sign out')}</CustomLink>
           </>
         ) : (
           <>

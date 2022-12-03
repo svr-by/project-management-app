@@ -47,7 +47,7 @@ export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
         error={!!errors[InputNames.login]}
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
         {...register(InputNames.login, {
-          required: { value: true, message: ErrorMes.empty },
+          required: { value: true, message: t(ErrorMes.empty) },
         })}
       />
       <TextField
@@ -57,7 +57,7 @@ export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
         error={!!errors[InputNames.password]}
         helperText={errors[InputNames.password] ? errors[InputNames.password]?.message : ''}
         {...register(InputNames.password, {
-          required: { value: true, message: ErrorMes.empty },
+          required: { value: true, message: t(ErrorMes.empty) },
         })}
       />
       <Button type="submit" variant="contained" disabled={hasErrors}>

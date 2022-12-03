@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles';
 import { Switch, FormGroup, FormControlLabel } from '@mui/material';
 import { SwitchProps } from '@mui/material/Switch';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocalStorage } from 'usehooks-ts';
 import './customSwitch.scss';
 
 const IOSSwitch = styled((props: SwitchProps) => (
@@ -54,7 +54,7 @@ const IOSSwitch = styled((props: SwitchProps) => (
 }));
 
 export const CustomSwitch = () => {
-  const [lang, setLang] = useState('ru');
+  const [lang, setLang] = useLocalStorage('language', 'en');
   const { i18n } = useTranslation();
 
   const changeLanguage = () => {
@@ -65,7 +65,8 @@ export const CustomSwitch = () => {
   return (
     <FormGroup>
       <FormControlLabel
-        control={<IOSSwitch sx={{ m: 1 }} defaultChecked onChange={() => changeLanguage()} />}
+        control={<IOSSwitch sx={{ m: 1 }} onChange={() => changeLanguage()} />}
+        checked={lang !== 'en'}
         label={'Rus/En'}
       />
     </FormGroup>

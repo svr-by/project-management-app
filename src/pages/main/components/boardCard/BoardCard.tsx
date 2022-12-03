@@ -82,7 +82,7 @@ export const BoardCard = (props: TBoardCardProps) => {
         </Link>
         <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
         <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
-          <h3>Do you really want to delete board?</h3>
+          <h3>{t('Do you really want to delete board?')}</h3>
         </ConfModal>
       </>
     );
