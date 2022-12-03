@@ -3,7 +3,6 @@
 .welcome {
   display: flex;
   padding-bottom: 40px;
-  background-color: var(--background-element-content);
   border-radius: 2rem;
 }
 
@@ -19,7 +18,6 @@
     font-size: 4rem;
     font-weight: 400;
     color: var(--text-color);
-    text-shadow: 2px 2px 2px var(--text-color);
     letter-spacing: 0.2rem;
   }
 
