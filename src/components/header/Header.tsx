@@ -5,28 +5,24 @@ import { signOut, checkToken } from 'redux/slices/userSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch } from 'components';
-import LogoKanban from 'assets/img/kanban-1.svg';
+import { CustomLink, CustomSwitch, AddBoardModal, ThemeSwitcher } from 'components';
+import { ReactComponent as LogoKanban } from 'assets/img/kanban-1.svg';
 import './Header.scss';
 import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const { id: isAuth } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const [backColor, setBackColor] = useState(0);
   const { t } = useTranslation();
-
-  useEffect(() => {
-    user.id ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user.id]);
+  const [backColor, setBackColor] = useState(0);
+  const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
     dispatch(checkToken());
+    isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAuth]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -41,25 +37,39 @@ export const Header = () => {
     dispatch(signOut());
   };
 
+  const openModal = () => {
+    setAddModal(true);
+  };
+
+  const closeModal = () => {
+    setAddModal(false);
+  };
+
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
         <Link to={PATHS.WELCOME} className="logo__link">
-          <img src={LogoKanban} alt="LogoKanban" className="logo__image" />
+          <LogoKanban className="logo__image" />
           <p className="logo__description">Kanban</p>
         </Link>
       </div>
       <nav className="nav">
+        <ThemeSwitcher />
         <CustomSwitch />
-        {!user.id ? (
+        {isAuth ? (
+          <>
+            <CustomLink onClick={openModal}>Create board</CustomLink>
+            <CustomLink to={PATHS.PROFILE}>Edit profile</CustomLink>
+            <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+          </>
+        ) : (
           <>
             <CustomLink to={PATHS.SIGN_IN}>{t('sign in')}</CustomLink>
             <CustomLink to={PATHS.SIGN_UP}>{t('sign up')}</CustomLink>
           </>
-        ) : (
-          <CustomLink onClick={handleSignOut}>{t('Sign out')}</CustomLink>
         )}
       </nav>
+      {isAuth && <AddBoardModal isOpen={addModal} onCancel={closeModal} />}
     </header>
   );
 };

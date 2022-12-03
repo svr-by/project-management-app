@@ -1,7 +1,7 @@
 import { ReactNode, MouseEvent } from 'react';
-import './Button.scss';
+import './CustomButton.scss';
 
-interface IButtonProps {
+type TCustomButtonProps = {
   children?: ReactNode;
   className?: string;
   active?: boolean;
@@ -10,9 +10,10 @@ interface IButtonProps {
   disabled?: boolean;
   style?: 'flare' | 'shadow';
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
-}
+};
 
-export const Button = ({ children, className, active, onClick, style, ...atrs }: IButtonProps) => {
+export const CustomButton = (props: TCustomButtonProps) => {
+  const { children, className, active, onClick, style, ...atrs } = props;
   function renderClassName(className?: string, style?: string, active?: boolean) {
     let agrClass = 'button';
     agrClass = style === 'flare' ? `${agrClass} style--flare` : agrClass;
