@@ -7,6 +7,7 @@ import {
   deleteTaskInColumnId,
   updateTaskInColumnId,
   updateTasksSet,
+  changeTasksState,
 } from 'redux/slices/tasksSlice';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
@@ -66,18 +67,27 @@ function Task(props: TaskProps) {
   const handleDeleteTaskId = async () => {
     await dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
 
-    const newArrTasks = tasksInColumn.filter((el) => el._id !== taskId);
+    const newArrTasks = tasksInColumn
+      .filter((el) => el._id !== taskId)
+      .sort((task1, task2) => task1.order - task2.order);
 
     const orderedTasksInColumn = newArrTasks.map((task, index: number) => ({
       ...task,
       order: index + 1,
     }));
 
+    const newTasks = tasks
+      .filter((task) => task.columnId !== columnId)
+      .concat(orderedTasksInColumn);
+
+    dispatch(changeTasksState(newTasks));
+
     const tasksOrderList = orderedTasksInColumn.map((task) => ({
       _id: task._id,
       order: task.order,
       columnId: task.columnId,
     }));
+
     await dispatch(updateTasksSet(tasksOrderList));
 
     handleCancel();

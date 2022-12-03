@@ -153,8 +153,6 @@ export const BoardPage = () => {
 
         await dispatch(updateTasksSet(tasksOrderList));
 
-        await dispatch(getAllTasksInBoardId(boardId!));
-
         return;
       } else {
         const sourceColumnTasks = tasks
@@ -167,8 +165,6 @@ export const BoardPage = () => {
           return { ...task, order: index + 1 };
         });
 
-        console.log('1 - ', sourceColumnTasksSorted);
-
         const destinationColumnTasks = tasks
           .filter((el) => el.columnId === destinationColumn._id)
           .sort((task1, task2) => task1.order - task2.order);
@@ -178,8 +174,6 @@ export const BoardPage = () => {
         const destinationColumnTasksSorted = destinationColumnTasks.map((task, index) => {
           return { ...task, order: index + 1, columnId: destinationColumn._id };
         });
-
-        console.log('2 - ', destinationColumnTasksSorted);
 
         const newTasks = tasks
           .filter((el) => el.columnId !== sourceColumn._id)
@@ -202,8 +196,6 @@ export const BoardPage = () => {
           columnId: destinationColumn._id,
         }));
         await dispatch(updateTasksSet(destinationTasksOrderList));
-
-        await dispatch(getAllTasksInBoardId(boardId!));
       }
     }
   };
