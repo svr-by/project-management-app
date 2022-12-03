@@ -1,6 +1,5 @@
 import { ReactComponent as RSSchoolLogo } from 'assets/img/rs_school_js.svg';
 import { ReactComponent as GithubLogoUser } from 'assets/img/github-svgrepo-com.svg';
-import { ReactComponent as Copyright } from 'assets/img/copyright-svgrepo-com.svg';
 import './Footer.scss';
 
 export const Footer = () => {
@@ -48,7 +47,6 @@ export const Footer = () => {
         </a>
       </div>
       <div className="copyright">
-        {/* <Copyright className="copyright__image" /> */}
         <p className="copyright__text">© 2022 PMA</p>
       </div>
     </footer>

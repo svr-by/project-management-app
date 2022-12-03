@@ -4,11 +4,13 @@
   height: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10%;
   padding-bottom: 3rem;
     
   &__image {
-    max-width: 50%;
+    max-width: 45%;
+    max-height: 500px;
     object-fit: contain;
   }
 }

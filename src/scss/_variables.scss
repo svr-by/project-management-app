@@ -27,15 +27,14 @@ html[data-theme='dark'] {
   //pages
   --background-pages: var(--grey);
   //header and footer
-  --header-background-color: var(--grey);
   --header-background-color-scroll: var(--grey-dark);
-  --background-custom-link: var(--grey-light);
-  --text-custom-link: var(--pink-light);
   //board
   --background-card-column: var(--grey-card-column);
   --background-board-shadow-column: var(--box-shadow-card-colymn);
   //svg
   --color-svg: var(--pink-light);
+  //modal
+  --background-color-modal: var(--white-dark);
 }
 
 html[data-theme='light'] {
@@ -44,15 +43,14 @@ html[data-theme='light'] {
   //pages
   --background-pages: var(--white);
   //header
-  --header-background-color: var(--white);
   --header-background-color-scroll: var(--white-dark);
-  --background-custom-link: var(--white);
-  --text-custom-link: var(--black);
   //board
   --background-card-column: var(--grey-card-column);
   --background-board-shadow-column: var(--box-shadow-card-colymn);
-  //svg and label switch language
+  //svg
   --color-svg: var(--black);
+  //modal
+  --background-color-modal: var(--white);
 }
 
 
