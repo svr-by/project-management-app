@@ -17,7 +17,7 @@ import {
 import { updateTasksSet, getAllTasksInBoardId, changeTasksState } from 'redux/slices/tasksSlice';
 import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
-import { ERROR_MES, PATHS } from 'core/constants';
+import { PATHS } from 'core/constants';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { TBoardInfo } from 'core/types/boards';
@@ -259,8 +259,8 @@ export const BoardPage = () => {
             error={!!errors.title}
             helperText={errors.title?.message}
             {...register('title', {
-              required: { value: true, message: t(ERROR_MES.EMPTY) },
-              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+              required: { value: true, message: t('This field is required') },
+              minLength: { value: 4, message: t('The min length is 4 chars') },
             })}
           />
           <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>

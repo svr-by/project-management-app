@@ -44,7 +44,7 @@ li {
   justify-content: space-between;
   padding: 5px 0 10px;
   margin-bottom: 15px;
-  border-bottom: solid 2px #000;
+  border-bottom: solid 2px var(--white-dark);
 }
 
 .title-column-h3 {
@@ -110,7 +110,7 @@ li {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 8px rgb(0 0 0 / 10%);
-  background-color: var(--white);
+  border: 1px solid var(--background-button);
   cursor: pointer;
 }
 
@@ -134,8 +134,8 @@ li {
   width: 260px;
   margin-top: 20px;
   padding: 10px;
-  color: #5a5a5a;
-  background-color: transparent;
+  color: var(--text);
+  background-color: var(--background-button);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -143,7 +143,7 @@ li {
 }
 
 .add-button:hover {
-  background-color: #dddddd;
+  background-color: #afafaf; 
 }
 
 *::-webkit-scrollbar {

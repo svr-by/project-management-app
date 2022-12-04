@@ -2,16 +2,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Task } from './Task';
 import { ColumnTitle } from 'pages/board/components/ColumnTitle';
-import { Modal, ConfModal, ToastMessage } from 'components';
+import { Modal, ToastMessage } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectColumnsInBoardId, selectTasksInBoardId, selectUser } from 'redux/selectors';
+import { selectTasksInBoardId, selectUser } from 'redux/selectors';
 import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { useTranslation } from 'react-i18next';
-import {
-  deleteColumnInBoardId,
-  updateOrderedColumnsInBoardId,
-  changeColumnsState,
-} from 'redux/slices/columnsSlice';
 import { TTaskParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
@@ -33,7 +28,6 @@ const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector(selectColumnsInBoardId);
   const { id: userId } = useAppSelector(selectUser);
 
   const {
@@ -65,39 +59,6 @@ const Column = (props: TaskProps) => {
     setIsOpen(true);
   };
 
-  const [confModal, setConfModal] = useState(false);
-  const openConfModal = () => {
-    setConfModal(true);
-  };
-
-  const closeConfModal = () => {
-    setConfModal(false);
-  };
-
-  const handleDeleteColumnId = async () => {
-    await dispatch(deleteColumnInBoardId({ boardId, columnId }));
-
-    const newArrColumns = columns
-      .filter((el) => el._id !== columnId)
-      .sort((column1, column2) => column1.order - column2.order);
-
-    const orderedColumnsInBoard = newArrColumns.map((column, index: number) => ({
-      ...column,
-      order: index + 1,
-    }));
-
-    dispatch(changeColumnsState(orderedColumnsInBoard));
-
-    const columnsOrderList = orderedColumnsInBoard.map((column) => ({
-      _id: column._id,
-      order: column.order,
-    }));
-
-    await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
-
-    handleCancel();
-  };
-
   const onSubmitFn = async (inputsData: IFormInput) => {
     const orderNum = orderedTasks.length;
     const newTask: TTaskParams = {
@@ -116,10 +77,7 @@ const Column = (props: TaskProps) => {
   return (
     <>
       <div className="card-column">
-        <div className="title-column-box">
-          <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
-          <button className="close-button-column" onClick={openConfModal}></button>
-        </div>
+        <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
         <Droppable droppableId={columnId} type="task">
           {(provided) => (
             <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>
@@ -187,9 +145,6 @@ const Column = (props: TaskProps) => {
           </Button>
         </form>
       </Modal>
-      <ConfModal onSubmit={handleDeleteColumnId} isOpen={confModal} onCancel={closeConfModal}>
-        <h3 className="modal__title">{t('Do you really want to delete column?')}</h3>
-      </ConfModal>
       <ToastMessage message={taskMessage as TServerMessage} />
     </>
   );

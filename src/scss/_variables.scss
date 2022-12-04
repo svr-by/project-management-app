@@ -12,12 +12,14 @@ html {
   --black: #20101e;
   --red: #e84419;
   --red-dark: #c23a18;
+  --red-light: #fdd490;
   --pink: #ffc9c3;
   --pink-light: #f5ded4;
 
   //columns
   --grey-card-column: #f9f7fa;
   --box-shadow-card-colymn: #d2d7e0;
+  --background-board-shadow-column: var(--box-shadow-card-colymn);
 }
 
 html[data-theme='dark'] {
@@ -28,8 +30,8 @@ html[data-theme='dark'] {
   //header and footer
   --header-background-color-scroll: var(--grey-dark);
   //board
-  --background-card-column: var(--grey-card-column);
-  --background-board-shadow-column: var(--box-shadow-card-colymn);
+  --background-button: var(--grey-light);
+  --background-card-column: var(--grey);
   //svg
   --color-svg: var(--pink-light);
   //modal
@@ -44,8 +46,8 @@ html[data-theme='light'] {
   //header
   --header-background-color-scroll: var(--white-dark);
   //board
+  --background-button: var(--white-dark);
   --background-card-column: var(--grey-card-column);
-  --background-board-shadow-column: var(--box-shadow-card-colymn);
   //svg
   --color-svg: var(--black);
   //modal
