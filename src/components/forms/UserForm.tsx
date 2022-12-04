@@ -90,11 +90,11 @@ export const UserForm = (props: TUserFormProps) => {
         })}
       />
       <div className="form__btns">
-        <Button type="submit" variant="contained" disabled={hasErrors}>
+        <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>
           {submitBtn}
         </Button>
         {onDelete && (
-          <Button color="error" variant="contained" onClick={onDelete}>
+          <Button color="error" variant="outlined" onClick={onDelete}>
             Delete profile
           </Button>
         )}

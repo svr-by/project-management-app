@@ -15,10 +15,10 @@ export const ConfModal = ({ isOpen = false, onCancel, onSubmit, children }: TCon
       <div className="conf-modal">
         {children}
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" onClick={onSubmit}>
+          <Button className="conf-modal__btn" variant="contained" onClick={onSubmit}>
             OK
           </Button>
-          <Button variant="outlined" onClick={onCancel}>
+          <Button variant="outlined" color="error" onClick={onCancel}>
             Cancel
           </Button>
         </Stack>

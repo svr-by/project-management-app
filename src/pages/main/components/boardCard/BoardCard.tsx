@@ -10,7 +10,7 @@ import { Button, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import boardPrev from 'assets/img/board_prev.png';
+import { ReactComponent as BoardPrev } from 'assets/img/board_prev.svg';
 import './BoardCard.scss';
 
 type TBoardCardProps = {
@@ -54,10 +54,11 @@ export const BoardCard = (props: TBoardCardProps) => {
         <Link to={board._id} className="board">
           <div className="board__card">
             <h4 className="board__title">{boardObj.title}</h4>
-            <img src={boardPrev} className="board__img" />
+            <BoardPrev className="board__img" />
             <p className="board__desc">{boardObj.description}</p>
             <div className="board__btns">
               <Button
+                className="board__btn"
                 variant="outlined"
                 startIcon={<EditOutlinedIcon />}
                 size="small"
@@ -67,6 +68,7 @@ export const BoardCard = (props: TBoardCardProps) => {
                 Edit
               </Button>
               <Button
+                className="board__btn"
                 variant="outlined"
                 startIcon={<DeleteOutlineIcon />}
                 size="small"
@@ -80,7 +82,7 @@ export const BoardCard = (props: TBoardCardProps) => {
         </Link>
         <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
         <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
-          <h3>Do you really want to delete board?</h3>
+          <h3 className="modal__title">Do you really want to delete board?</h3>
         </ConfModal>
       </>
     );

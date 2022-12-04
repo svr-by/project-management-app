@@ -6,9 +6,9 @@
   min-width: 300px;
   min-height: 150px;
   text-decoration: none;
-  background-color: var(--white);
-  color: var(--black);
-  border: 1px solid var(--grey-dark);
+  background-color: var(--background-pages);
+  color: var(--text);
+  border: 1px solid var(--text);
   transition: all 0.3s;
 
   &__card {
@@ -41,8 +41,10 @@
   &__img {
     grid-area: img;
     width: 120px;
+    height: 100px;
     align-self: end;
     justify-self: end;
+    fill: var(--color-svg);
   }
 
   &__btns {
@@ -52,8 +54,16 @@
     gap: 0.5rem;
   }
 
+  &__btn:hover {
+    border-color: var(--red);
+  }
+
   &--empty {
     border-style: dashed;
+
+    &:hover {
+      border-color: var(--red);
+    }
   }
 
   &:hover {

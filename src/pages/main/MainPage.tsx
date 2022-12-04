@@ -32,7 +32,7 @@ export const MainPage = () => {
     <Spinner />
   ) : (
     <>
-      <h1>Main page</h1>
+      <h1 className="main-title">Boards</h1>
       <div className="board-list">
         {boards.map((board) => {
           return <BoardCard board={board} key={board._id} />;

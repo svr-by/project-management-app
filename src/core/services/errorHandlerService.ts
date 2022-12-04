@@ -2,21 +2,24 @@ import axios from 'axios';
 import { TServerMessage } from 'core/types/server';
 
 export function handlerError(err: unknown): TServerMessage {
-  let errorMes = 'Unexpected error';
+  let errorMes = 'Unexpected error!';
   if (axios.isAxiosError(err)) {
     if (err.response) {
       switch (err.response.status) {
         case 400:
-          errorMes = 'Bad Request';
+          errorMes = 'Bad Request!';
           break;
         case 401:
-          errorMes = 'Authorization error';
+          errorMes = 'Authorization error!';
+          break;
+        case 403:
+          errorMes = 'Invalid token! Please sign in!';
           break;
         case 404:
           errorMes = 'Not founded!';
           break;
         case 409:
-          errorMes = 'Already exist';
+          errorMes = 'It already exist';
           break;
       }
     } else if (err.request) {

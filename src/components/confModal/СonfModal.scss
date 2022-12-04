@@ -3,4 +3,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  & .conf-modal__btn {
+    background-color: var(--red);
+
+    &:hover {
+      background-color: var(--red-dark);
+    }
+  }
 }
