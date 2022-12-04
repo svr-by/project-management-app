@@ -19,7 +19,6 @@ export const Header = () => {
   useEffect(() => {
     dispatch(checkToken());
     isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth]);
 
   useEffect(() => {

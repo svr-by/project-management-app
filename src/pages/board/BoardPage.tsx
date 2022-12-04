@@ -219,7 +219,6 @@ export const BoardPage = () => {
                     key={el._id}
                     draggableId={el._id}
                     index={index}
-                    // disableInteractiveElementBlocking={isInteractiveElementsDisabled}
                   >
                     {(provided, snapshot) => {
                       return (
@@ -234,7 +233,6 @@ export const BoardPage = () => {
                             boardId={el.boardId}
                             title={el.title}
                             order={el.order}
-                            // tasks={tasksAll.filter((task) => task.columnId === el._id)}
                           />
                         </li>
                       );

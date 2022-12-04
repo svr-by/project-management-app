@@ -17,7 +17,6 @@ export const MainPage = () => {
     return () => {
       dispatch(eraseErr());
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openModal = () => {
