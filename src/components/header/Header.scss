@@ -23,6 +23,10 @@
 
   &__image {
     width: 150px;
+
+    @media (max-width: $tablet) {
+      width: 100px;
+    }
   }
 
   &__description {

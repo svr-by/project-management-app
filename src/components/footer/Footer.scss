@@ -3,22 +3,49 @@
 .footer {
   display: flex;
   justify-content: space-between;
+  gap: 3rem;
   background-color: var(--header-background-color);
+
+  @media (max-width: $mobile) {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
 }
 
-.school__image {
-  width: 100px;
-  transition: all 0.3s;
-  fill: var(--color-svg);
+.school {
+    &__image {
+    width: 100px;
+    transition: all 0.3s;
+    fill: var(--color-svg);
 
-  &:hover {
-    fill: var(--red);
+    &:hover {
+      fill: var(--red);
+    }
+
+    @media (max-width: $tablet) {
+      width: 70px;
+    }
+  }
+
+  @media (max-width: $mobile) {
+    order: 2;
   }
 }
 
 .github {
   display: flex;
   gap: 3rem;
+  
+  @media (max-width: $tablet) {
+    gap: 2rem;
+  }
+
+  @media (max-width: $mobile) {
+    width: 100%;
+    order: 1;
+    justify-content: center;
+    gap: 1rem;
+  }
 
   &__link {
     display: flex;
@@ -32,21 +59,37 @@
     &:hover .github__image{
       fill: var(--red);
     }
+
+    @media (max-width: $mobile) {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.3rem;
+    }
+
   }
 
   &__image {
     width: 30px;
     fill: var(--color-svg);
     transition: all 0.3s;
+
+    @media (max-width: $tablet) {
+      width: 20px;
+    }
   }
 
   &__text {
     margin: 0;
     color: var(--text-custom-link);
+
+    @media (max-width: $tablet) {
+      font-size: 0.8rem;
+    }
   }
 }
 
 .copyright {
+  order: 3;
   display: flex;
   align-items: center;
   gap: 0.7rem;
