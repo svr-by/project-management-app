@@ -7,7 +7,7 @@ import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
 import { EditBoardModal } from '../EditBoardModal';
-import { Button, IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
@@ -59,26 +59,16 @@ export const BoardCard = (props: TBoardCardProps) => {
             <BoardPrev className="board__img" />
             <p className="board__desc">{boardObj.description}</p>
             <div className="board__btns">
-              <Button
-                className="board__btn"
-                variant="outlined"
-                startIcon={<EditOutlinedIcon />}
-                size="small"
-                color="inherit"
-                onClick={openEditModal}
-              >
-                {t('Edit')}
-              </Button>
-              <Button
-                className="board__btn"
-                variant="outlined"
-                startIcon={<DeleteOutlineIcon />}
-                size="small"
-                color="inherit"
-                onClick={openConfModal}
-              >
-                {t('Delete')}
-              </Button>
+              <Tooltip title={t('Edit') || ''} placement="top-start">
+                <IconButton size="small" color="inherit" onClick={openEditModal}>
+                  <EditOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('Delete') || ''} placement="top-start">
+                <IconButton size="small" color="inherit" onClick={openConfModal}>
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         </Link>

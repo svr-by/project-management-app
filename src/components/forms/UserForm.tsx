@@ -95,7 +95,7 @@ export const UserForm = (props: TUserFormProps) => {
           {t(submitBtn)}
         </Button>
         {onDelete && (
-          <Button color="error" variant="contained" onClick={onDelete}>
+          <Button color="error" variant="outlined" onClick={onDelete}>
             {t('Delete profile')}
           </Button>
         )}

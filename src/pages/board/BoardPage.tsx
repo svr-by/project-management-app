@@ -88,9 +88,9 @@ export const BoardPage = () => {
     <>
       <Breadcrumbs>
         <Link underline="hover" to={`/${PATHS.MAIN}`} component={RouterLink}>
-          {t('Main')}
+          {t('Main page')}
         </Link>
-        <Typography>{`Board ${getBoardTitle()}`}</Typography>
+        <Typography>{`${getBoardTitle()}`}</Typography>
       </Breadcrumbs>
       <div className="container-tasks">
         <ul className="container-columns">
