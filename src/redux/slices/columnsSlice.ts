@@ -4,8 +4,9 @@ import {
   createColumn,
   updateColumnById,
   deleteColumnById,
+  changeColumnsList,
 } from 'api/services/columnsService';
-import { TColRes, TColParams } from 'core/types/server';
+import { TColRes, TColParams, TListColParams } from 'core/types/server';
 import { handlerError } from 'core/services/errorHandlerService';
 
 interface IGlobalStateColumns {
@@ -80,13 +81,32 @@ export const deleteColumnInBoardId = createAsyncThunk(
   }
 );
 
+export const updateOrderedColumnsInBoardId = createAsyncThunk(
+  'columns/updateOrderedColumnsInBoardId',
+  async (columns: TListColParams[], { rejectWithValue }) => {
+    try {
+      const data = await changeColumnsList(columns);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const columnsSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
     eraseColumnState(state) {
-      state.columns = [];
       state.message = null;
+    },
+    changeColumnsState(state, action: PayloadAction<TColRes[]>) {
+      state.columns = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -135,5 +155,5 @@ const columnsSlice = createSlice({
   },
 });
 
-export const { eraseColumnState } = columnsSlice.actions;
+export const { eraseColumnState, changeColumnsState } = columnsSlice.actions;
 export default columnsSlice.reducer;

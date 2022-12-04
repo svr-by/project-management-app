@@ -26,7 +26,7 @@ const ColumnTitle = (props: TTitleProps) => {
 
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>();
 

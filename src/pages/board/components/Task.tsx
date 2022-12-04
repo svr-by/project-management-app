@@ -3,12 +3,17 @@ import { useForm } from 'react-hook-form';
 import { Modal } from 'components/modal/Modal';
 import { ConfModal } from 'components/confModal/СonfModal';
 import { TTaskResExt, TTaskParamsExt } from 'core/types/server';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectTasksInBoardId } from 'redux/selectors';
-import { deleteTaskInColumnId, updateTaskInColumnId } from 'redux/slices/tasksSlice';
+import {
+  deleteTaskInColumnId,
+  updateTaskInColumnId,
+  updateTasksSet,
+  changeTasksState,
+} from 'redux/slices/tasksSlice';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
 import { useTranslation } from 'react-i18next';
+import { selectTasksInBoardId } from 'redux/selectors';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 type TaskProps = {
   boardId: string;
@@ -28,11 +33,12 @@ function Task(props: TaskProps) {
   const title = dataTask.title;
   const description = dataTask.description;
   const users = dataTask.users;
-  // const order = dataTask.order;
+  const userId = dataTask.userId;
+  const order = dataTask.order;
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  const { isLoading } = useAppSelector(selectTasksInBoardId);
+  const { tasks, isLoading } = useAppSelector(selectTasksInBoardId);
+  const tasksInColumn = tasks.filter((task) => task.columnId === columnId);
 
   const {
     register,
@@ -62,16 +68,40 @@ function Task(props: TaskProps) {
 
   const handleDeleteTaskId = async () => {
     await dispatch(deleteTaskInColumnId({ boardId, columnId, taskId }));
+
+    const newArrTasks = tasksInColumn
+      .filter((el) => el._id !== taskId)
+      .sort((task1, task2) => task1.order - task2.order);
+
+    const orderedTasksInColumn = newArrTasks.map((task, index: number) => ({
+      ...task,
+      order: index + 1,
+    }));
+
+    const newTasks = tasks
+      .filter((task) => task.columnId !== columnId)
+      .concat(orderedTasksInColumn);
+
+    dispatch(changeTasksState(newTasks));
+
+    const tasksOrderList = orderedTasksInColumn.map((task) => ({
+      _id: task._id,
+      order: task.order,
+      columnId: task.columnId,
+    }));
+
+    await dispatch(updateTasksSet(tasksOrderList));
+
     handleCancel();
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
     const updateTask: TTaskParamsExt = {
       title: inputsData.title,
-      order: 0,
+      order: order,
       description: inputsData.description,
       columnId: columnId,
-      userId: '',
+      userId: userId,
       users: users,
     };
 
@@ -81,12 +111,10 @@ function Task(props: TaskProps) {
 
   return (
     <>
-      <li className="task-item">
-        <div className="task-title" onClick={openModalChangeTask}>
-          {title}
-        </div>
-        <button className="close-button" onClick={openConfModal}></button>
-      </li>
+      <div className="task-title" onClick={openModalChangeTask}>
+        {title}
+      </div>
+      <button className="close-button" onClick={openConfModal}></button>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>{t('Update task')}</h3>
