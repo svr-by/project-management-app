@@ -5,8 +5,8 @@ import { getBoards, eraseErr } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { BoardCard } from './components/boardCard/BoardCard';
 import { AddBoardModal, Spinner, ToastMessage } from 'components';
-import './MainPage.scss';
 import { useTranslation } from 'react-i18next';
+import './MainPage.scss';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
