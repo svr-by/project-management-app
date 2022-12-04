@@ -215,11 +215,7 @@ export const BoardPage = () => {
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
               {columnsInBoardOrdered.map((el, index) => {
                 return (
-                  <Draggable
-                    key={el._id}
-                    draggableId={el._id}
-                    index={index}
-                  >
+                  <Draggable key={el._id} draggableId={el._id} index={index}>
                     {(provided, snapshot) => {
                       return (
                         <li

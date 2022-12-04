@@ -19,7 +19,7 @@ export const Header = () => {
   useEffect(() => {
     dispatch(checkToken());
     isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
-  }, [isAuth]);
+  }, [isAuth, dispatch, navigate]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
