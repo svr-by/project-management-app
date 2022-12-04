@@ -55,11 +55,7 @@ export const ThemeSwitcher = () => {
   const { chosenTheme, setChosenTheme } = useTheme(userTheme);
 
   const handleThemeClick = () => {
-    if (chosenTheme === 'dark') {
-      setChosenTheme('light');
-    } else {
-      setChosenTheme('dark');
-    }
+    setChosenTheme(chosenTheme === 'dark' ? 'light' : 'dark');
   };
 
   return <ThemeSwitch sx={{ m: 1 }} checked={chosenTheme === 'dark'} onChange={handleThemeClick} />;

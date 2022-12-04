@@ -6,10 +6,10 @@ import { eraseBoards } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch, AddBoardModal, ThemeSwitcher } from 'components';
+import { CustomLink, LangSwitch, AddBoardModal, ThemeSwitcher } from 'components';
 import LogoKanban from 'assets/img/logo.png';
-import './Header.scss';
 import { useTranslation } from 'react-i18next';
+import './Header.scss';
 
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
@@ -56,7 +56,7 @@ export const Header = () => {
       </div>
       <nav className="nav">
         <ThemeSwitcher />
-        <CustomSwitch />
+        <LangSwitch />
         {isAuth ? (
           <>
             <CustomLink onClick={openModal}>{t('Create board')}</CustomLink>

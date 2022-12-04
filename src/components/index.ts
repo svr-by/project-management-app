@@ -1,7 +1,7 @@
 export { AddBoardModal } from './addBoardModal/AddBoardModal';
 export { ConfModal } from './confModal/СonfModal';
 export { CustomLink } from './customLink/CustomLink';
-export { CustomSwitch } from './customSwitch/CustomSwitch';
+export { LangSwitch } from './langSwitch/LangSwitch';
 export { Footer } from './footer/Footer';
 export { Header } from './header/Header';
 export { Layout } from './layout/Layout';
