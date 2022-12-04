@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
+import { useTranslation } from 'react-i18next';
 import { RootState } from 'redux/store';
 import { addBoard } from 'redux/slices/boardsSlice';
 import { TBoardParams } from 'core/types/server';
@@ -16,6 +17,7 @@ type TAddBoardModalProps = {
 export const AddBoardModal = ({ isOpen, onCancel }: TAddBoardModalProps) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -35,7 +37,7 @@ export const AddBoardModal = ({ isOpen, onCancel }: TAddBoardModalProps) => {
 
   return (
     <Modal isOpen={isOpen} onCancel={onCancel}>
-      <BoardForm formTitle="Add board" onSubmit={onSubmit} />
+      <BoardForm formTitle={t('Add board')} onSubmit={onSubmit} />
     </Modal>
   );
 };

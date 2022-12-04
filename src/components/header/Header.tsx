@@ -8,12 +8,14 @@ import { PATHS } from 'core/constants';
 import { CustomLink, CustomSwitch, AddBoardModal, ThemeSwitcher } from 'components';
 import { ReactComponent as LogoKanban } from 'assets/img/kanban-1.svg';
 import './Header.scss';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [backColor, setBackColor] = useState(false);
+  const { t } = useTranslation();
+  const [backColor, setBackColor] = useState(0);
   const [addModal, setAddModal] = useState(false);
 
   useEffect(() => {
@@ -28,11 +30,7 @@ export const Header = () => {
   }, []);
 
   const handleScroll = () => {
-    if (window.scrollY > 0) {
-      setBackColor(true);
-    } else {
-      setBackColor(false);
-    }
+    setBackColor(window.scrollY);
   };
 
   const handleSignOut = () => {
@@ -60,14 +58,14 @@ export const Header = () => {
         <CustomSwitch />
         {isAuth ? (
           <>
-            <CustomLink onClick={openModal}>Create board</CustomLink>
-            <CustomLink to={PATHS.PROFILE}>Edit profile</CustomLink>
-            <CustomLink onClick={handleSignOut}>Sign out</CustomLink>
+            <CustomLink onClick={openModal}>{t('Create board')}</CustomLink>
+            <CustomLink to={PATHS.PROFILE}>{t('Edit profile')}</CustomLink>
+            <CustomLink onClick={handleSignOut}>{t('Sign out')}</CustomLink>
           </>
         ) : (
           <>
-            <CustomLink to={PATHS.SIGN_IN}>Sign in</CustomLink>
-            <CustomLink to={PATHS.SIGN_UP}>Sign up</CustomLink>
+            <CustomLink to={PATHS.SIGN_IN}>{t('sign in')}</CustomLink>
+            <CustomLink to={PATHS.SIGN_UP}>{t('sign up')}</CustomLink>
           </>
         )}
       </nav>

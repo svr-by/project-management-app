@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectTasksInBoardId } from 'redux/selectors';
 import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { deleteColumnInBoardId } from 'redux/slices/columnsSlice';
+import { useTranslation } from 'react-i18next';
 import { TTaskParams } from 'core/types/server';
 import { ERROR_MES } from 'core/constants';
 import { TServerMessage } from 'core/types/server';
@@ -26,6 +27,7 @@ interface IFormInput {
 
 const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const {
     tasks,
@@ -99,42 +101,42 @@ const Column = (props: TaskProps) => {
             ))}
           </ul>
           <button className="add-button" onClick={openModalCreatTask}>
-            + Add task
+            + {t('Add task')}
           </button>
         </div>
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>Add task</h3>
+          <h3>{t('Add task')}</h3>
           <TextField
-            label="Title"
+            label={t('Title')}
             autoComplete="off"
             error={!!errors.title}
             helperText={errors.title?.message}
             {...register('title', {
-              required: { value: true, message: ERROR_MES.EMPTY },
-              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
-              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+              required: { value: true, message: t(ERROR_MES.EMPTY) },
+              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+              maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
           <TextField
-            label="Description"
+            label={t('Description')}
             autoComplete="off"
             error={!!errors.description}
             helperText={errors.description?.message}
             {...register('description', {
-              required: { value: true, message: ERROR_MES.EMPTY },
-              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
-              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+              required: { value: true, message: t(ERROR_MES.EMPTY) },
+              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+              maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
           <Button type="submit" variant="contained" disabled={hasErrors || isTaskLoading}>
-            {!isTaskLoading ? 'Submit' : <CircularProgress size={24} />}
+            {!isTaskLoading ? t('Submit') : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>
       <ConfModal onSubmit={handleDeleteColumnId} isOpen={confModal} onCancel={closeConfModal}>
-        <h3>Do you really want to delete column?</h3>
+        <h3>{t('Do you really want to delete column?')}</h3>
       </ConfModal>
       <ToastMessage message={taskMessage as TServerMessage} />
     </>

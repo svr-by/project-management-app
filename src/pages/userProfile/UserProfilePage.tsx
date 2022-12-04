@@ -5,12 +5,14 @@ import { RootState } from 'redux/store';
 import { updateUser, deleteUser, eraseErr } from 'redux/slices/userSlice';
 import { TUserPrams, TServerMessage } from 'core/types/server';
 import { UserForm, ConfModal, Spinner, ToastMessage } from 'components';
+import { useTranslation } from 'react-i18next';
 import './UserProfilePage.scss';
 
 export const UserProfilePage = () => {
   const { name, login, id, isLoading, message } = useSelector((state: RootState) => state.user);
   const [confModal, setConfModal] = useState(false);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -39,7 +41,7 @@ export const UserProfilePage = () => {
   ) : (
     <>
       <div className="profile">
-        <h1>Edit profile</h1>
+        <h1>{t('Edit profile')}</h1>
         <UserForm
           submitBtn="Update profile"
           onSubmit={onSubmit}
@@ -48,7 +50,7 @@ export const UserProfilePage = () => {
           defaultLogin={login}
         />
         <ConfModal isOpen={confModal} onSubmit={onDelete} onCancel={closeConfModal}>
-          <h3>Do you really want to delete your profile?</h3>
+          <h3>{t('Do you really want to delete your profile?')}</h3>
         </ConfModal>
         <ToastMessage message={message as TServerMessage} />
       </div>
