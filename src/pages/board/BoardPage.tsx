@@ -39,8 +39,6 @@ export const BoardPage = () => {
     (column1, column2) => column1.order - column2.order
   );
 
-  console.log('render=', columnsInBoardOrdered);
-
   const { tasks } = useAppSelector(selectTasksInBoardId);
 
   const {
@@ -111,8 +109,6 @@ export const BoardPage = () => {
         ...column,
         order: index + 1,
       }));
-
-      console.log('dnd=', newColumnsOrder);
 
       dispatch(changeColumnsState(newColumnsOrder));
 

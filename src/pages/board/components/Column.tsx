@@ -84,8 +84,6 @@ const Column = (props: TaskProps) => {
       order: index + 1,
     }));
 
-    console.log('del=', orderedColumnsInBoard);
-
     dispatch(changeColumnsState(orderedColumnsInBoard));
 
     const columnsOrderList = orderedColumnsInBoard.map((column) => ({
