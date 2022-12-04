@@ -6,9 +6,11 @@ import { RootState } from 'redux/store';
 import { BoardCard } from './components/boardCard/BoardCard';
 import { AddBoardModal, Spinner, ToastMessage } from 'components';
 import './MainPage.scss';
+import { useTranslation } from 'react-i18next';
 
 export const MainPage = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { boards, isLoading, message } = useSelector((state: RootState) => state.boards);
   const [addModal, setAddModal] = useState(false);
 
@@ -32,7 +34,7 @@ export const MainPage = () => {
     <Spinner />
   ) : (
     <>
-      <h1 className="main-title">Boards</h1>
+      <h1 className="main-title">{t('Main page')}</h1>
       <div className="board-list">
         {boards.map((board) => {
           return <BoardCard board={board} key={board._id} />;

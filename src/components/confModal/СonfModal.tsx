@@ -1,5 +1,6 @@
 import { Button, Stack } from '@mui/material';
 import { Modal } from 'components/modal/Modal';
+import { useTranslation } from 'react-i18next';
 import './СonfModal.scss';
 
 type TConfModalProps = {
@@ -10,16 +11,18 @@ type TConfModalProps = {
 };
 
 export const ConfModal = ({ isOpen = false, onCancel, onSubmit, children }: TConfModalProps) => {
+  const { t } = useTranslation();
+
   return (
     <Modal isOpen={isOpen} onCancel={onCancel}>
       <div className="conf-modal">
         {children}
         <Stack direction="row" spacing={2}>
           <Button className="conf-modal__btn" variant="contained" onClick={onSubmit}>
-            OK
+            {t('OK')}
           </Button>
           <Button variant="outlined" color="error" onClick={onCancel}>
-            Cancel
+            {t('Cancel')}
           </Button>
         </Stack>
       </div>

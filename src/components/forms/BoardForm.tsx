@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TBoardInfo } from 'core/types/boards';
 import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -23,6 +24,7 @@ type TBoardFormProps = {
 
 export const BoardForm = (props: TBoardFormProps) => {
   const { formTitle, defaultTitle, defaultDesc, onSubmit } = props;
+  const { t } = useTranslation();
 
   const {
     register,
@@ -47,28 +49,28 @@ export const BoardForm = (props: TBoardFormProps) => {
     <form className="form form--modal" onSubmit={handleSubmit(onSubmitForm)} noValidate>
       <h3 className="modal__title">{formTitle}</h3>
       <TextField
-        label="Title"
+        label={t('Title')}
         defaultValue={defaultTitle}
         autoComplete="off"
         error={!!errors[InputNames.title]}
         helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
-          required: { value: true, message: ERROR_MES.EMPTY },
-          minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+          required: { value: true, message: t(ERROR_MES.EMPTY) },
+          minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
         })}
       />
       <TextField
-        label="Description"
+        label={t('Description')}
         defaultValue={defaultDesc}
         autoComplete="off"
         error={!!errors[InputNames.description]}
         helperText={errors[InputNames.description]?.message}
         {...register(InputNames.description, {
-          maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+          maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
         })}
       />
       <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>
-        Submit
+        {t('Submit')}
       </Button>
     </form>
   );

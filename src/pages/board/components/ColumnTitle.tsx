@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch } from 'redux/hooks';
 import { updateColumnInBoardId } from 'redux/slices/columnsSlice';
 import { ERROR_MES } from 'core/constants';
+import { useTranslation } from 'react-i18next';
 
 type TTitleProps = {
   boardId: string;
@@ -21,6 +22,7 @@ interface IFormInput {
 const ColumnTitle = (props: TTitleProps) => {
   const { boardId, columnId, title, order } = props;
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -56,8 +58,8 @@ const ColumnTitle = (props: TTitleProps) => {
         error={!!errors.title}
         helperText={errors.title?.message}
         {...register('title', {
-          required: { value: true, message: ERROR_MES.EMPTY },
-          maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+          required: { value: true, message: t(ERROR_MES.EMPTY) },
+          maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
         })}
       />
       <IconButton type="submit" form="form__column-title" disabled={hasErrors}>

@@ -7,10 +7,12 @@ import { signUp, singIn, eraseErr } from 'redux/slices/userSlice';
 import { TUserPrams, TServerMessage } from 'core/types/server';
 import { PATHS } from 'core/constants';
 import { UserForm, Spinner, ToastMessage } from 'components';
+import { useTranslation } from 'react-i18next';
 import './SignUpPage.scss';
 
 export const SignUpPage = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { isLoading, message } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -35,11 +37,11 @@ export const SignUpPage = () => {
   ) : (
     <>
       <div className="signup">
-        <h1>Create account</h1>
+        <h1>{t('Create account')}</h1>
         <UserForm submitBtn="Sign up" onSubmit={onSubmit} />
         <p>
-          Already have an account?
-          <Link to={`/${PATHS.SIGN_IN}`}>Sign in!</Link>
+          {t('Already have an account?')}
+          <Link to={`/${PATHS.SIGN_IN}`}>{t('sign in')}!</Link>
         </p>
       </div>
       <ToastMessage message={message as TServerMessage} />

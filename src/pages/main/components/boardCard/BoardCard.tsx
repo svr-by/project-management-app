@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
+import { useTranslation } from 'react-i18next';
 import { delBoard } from 'redux/slices/boardsSlice';
 import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
@@ -22,6 +23,7 @@ type TBoardCardProps = {
 export const BoardCard = (props: TBoardCardProps) => {
   const { board, empty = false, onClick } = props;
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [editModal, setEditModal] = useState(false);
   const [confModal, setConfModal] = useState(false);
 
@@ -65,7 +67,7 @@ export const BoardCard = (props: TBoardCardProps) => {
                 color="inherit"
                 onClick={openEditModal}
               >
-                Edit
+                {t('Edit')}
               </Button>
               <Button
                 className="board__btn"
@@ -75,14 +77,14 @@ export const BoardCard = (props: TBoardCardProps) => {
                 color="inherit"
                 onClick={openConfModal}
               >
-                Delete
+                {t('Delete')}
               </Button>
             </div>
           </div>
         </Link>
         <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
         <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
-          <h3 className="modal__title">Do you really want to delete board?</h3>
+          <h3 className="modal__title">{t('Do you really want to delete board?')}</h3>
         </ConfModal>
       </>
     );

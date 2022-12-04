@@ -17,6 +17,7 @@ import { TColParams, TServerMessage } from 'core/types/server';
 import { TBoardInfo } from 'core/types/boards';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { ERROR_MES, PATHS } from 'core/constants';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   title: string;
@@ -25,6 +26,7 @@ interface IFormInput {
 export const BoardPage = () => {
   const { boardId } = useParams();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const {
     columns,
     isLoading: isColumnLoading,
@@ -86,7 +88,7 @@ export const BoardPage = () => {
     <>
       <Breadcrumbs>
         <Link underline="hover" to={`/${PATHS.MAIN}`} component={RouterLink}>
-          Main
+          {t('Main')}
         </Link>
         <Typography>{`Board ${getBoardTitle()}`}</Typography>
       </Breadcrumbs>
@@ -104,7 +106,7 @@ export const BoardPage = () => {
         </ul>
         <div className="container-add-button">
           <button className="add-button" onClick={openModal}>
-            + Add column
+            + {t('Add column')}
           </button>
         </div>
       </div>
@@ -112,17 +114,17 @@ export const BoardPage = () => {
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
           <h3>Add column</h3>
           <TextField
-            label="Title"
+            label={t('Title')}
             autoComplete="off"
             error={!!errors.title}
             helperText={errors.title?.message}
             {...register('title', {
-              required: { value: true, message: ERROR_MES.EMPTY },
-              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
+              required: { value: true, message: t(ERROR_MES.EMPTY) },
+              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
             })}
           />
           <Button type="submit" variant="contained" disabled={hasErrors}>
-            Submit
+            {t('Submit')}
           </Button>
         </form>
       </Modal>

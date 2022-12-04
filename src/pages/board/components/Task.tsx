@@ -8,6 +8,7 @@ import { selectTasksInBoardId } from 'redux/selectors';
 import { deleteTaskInColumnId, updateTaskInColumnId } from 'redux/slices/tasksSlice';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
+import { useTranslation } from 'react-i18next';
 
 type TaskProps = {
   boardId: string;
@@ -29,6 +30,7 @@ function Task(props: TaskProps) {
   const users = dataTask.users;
   // const order = dataTask.order;
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const { isLoading } = useAppSelector(selectTasksInBoardId);
 
@@ -87,38 +89,38 @@ function Task(props: TaskProps) {
       </li>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>Update task</h3>
+          <h3>{t('Update task')}</h3>
           <TextField
-            label="Title"
+            label={t('Title')}
             defaultValue={title}
             autoComplete="off"
             error={!!errors.title}
             helperText={errors.title?.message}
             {...register('title', {
-              required: { value: true, message: ERROR_MES.EMPTY },
-              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
-              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+              required: { value: true, message: t(ERROR_MES.EMPTY) },
+              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+              maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
           <TextField
-            label="Description"
+            label={t('Description')}
             defaultValue={description}
             autoComplete="off"
             error={!!errors.description}
             helperText={errors.description?.message}
             {...register('description', {
-              required: { value: true, message: ERROR_MES.EMPTY },
-              minLength: { value: 5, message: ERROR_MES.MIN_LENGHTS_5 },
-              maxLength: { value: 100, message: ERROR_MES.MAX_LENGHTS_100 },
+              required: { value: true, message: t(ERROR_MES.EMPTY) },
+              minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+              maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
           <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
-            {!isLoading ? 'Submit' : <CircularProgress size={24} />}
+            {!isLoading ? t('Submit') : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>
       <ConfModal onSubmit={handleDeleteTaskId} isOpen={confModal} onCancel={closeConfModal}>
-        <h3>Do you really want to delete task?</h3>
+        <h3>{t('Do you really want to delete task?')}</h3>
       </ConfModal>
     </>
   );

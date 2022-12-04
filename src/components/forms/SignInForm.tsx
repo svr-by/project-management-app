@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { TSignInParams } from 'core/types/server';
 import { TextField, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 enum ErrorMes {
   empty = 'This field is required',
@@ -22,6 +23,7 @@ type TSignInFormProps = {
 };
 
 export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -40,26 +42,26 @@ export const SignInForm = ({ onSubmit }: TSignInFormProps) => {
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField
-        label="Login"
+        label={t('Login')}
         autoComplete="off"
         error={!!errors[InputNames.login]}
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
         {...register(InputNames.login, {
-          required: { value: true, message: ErrorMes.empty },
+          required: { value: true, message: t(ErrorMes.empty) },
         })}
       />
       <TextField
-        label="Password"
+        label={t('Password')}
         type="password"
         autoComplete="off"
         error={!!errors[InputNames.password]}
         helperText={errors[InputNames.password] ? errors[InputNames.password]?.message : ''}
         {...register(InputNames.password, {
-          required: { value: true, message: ErrorMes.empty },
+          required: { value: true, message: t(ErrorMes.empty) },
         })}
       />
       <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>
-        Sign in
+        {t('sign in')}
       </Button>
     </form>
   );

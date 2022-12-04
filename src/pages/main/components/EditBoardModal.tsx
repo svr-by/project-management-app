@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
+import { useTranslation } from 'react-i18next';
 import { updateBoard } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { TBoardParams, TBoardRes } from 'core/types/server';
@@ -17,6 +18,7 @@ export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps
 
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const onSubmit = (data: TBoardInfo) => {
     const boardInfo: TBoardInfo = { title: data.title, description: data.description };
@@ -32,7 +34,7 @@ export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps
   return (
     <Modal isOpen={isOpen} onCancel={onCancel}>
       <BoardForm
-        formTitle="Edit board"
+        formTitle={t('Edit board')}
         defaultTitle={boardObj.title}
         defaultDesc={boardObj.description}
         onSubmit={onSubmit}
