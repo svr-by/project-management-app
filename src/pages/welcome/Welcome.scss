@@ -5,13 +5,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10%;
+  gap: 3rem;
   padding-bottom: 3rem;
     
   &__image {
     max-width: 45%;
     max-height: 500px;
     object-fit: contain;
+  }
+
+  @media (max-width: $mobile) {
+    flex-direction: column;
+
+    &__image {
+      max-width: 80%;
+    }
   }
 }
 
@@ -22,12 +30,25 @@
   align-items: flex-start;
   color: var(--text);
 
+  @media (max-width: $mobile) {
+    align-items: center;
+    text-align: center;
+  }
+
   &__header {
     margin: 2rem 0;
     font-family: 'Coolvetica';
     font-size: 4rem;
     font-weight: 400;
     letter-spacing: 0.2rem;
+    
+    @media (max-width: $tablet) {
+      font-size: 2.5rem;
+    }
+
+    @media (max-width: $mobile) {
+      font-size: 2rem;
+    }
   }
 
   &__text {
@@ -35,5 +56,9 @@
     font-size: 1.2rem;
     letter-spacing: 0.05rem;
     line-height: 1.5;
+
+    @media (max-width: $tablet) {
+      font-size: 0.8rem;
+    }
   }
 }
