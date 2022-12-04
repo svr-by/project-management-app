@@ -89,6 +89,9 @@ const boardsSlice = createSlice({
     eraseErr(state) {
       state.message = null;
     },
+    eraseBoards(state) {
+      state.boards = [];
+    },
   },
   extraReducers(builder) {
     builder
@@ -132,5 +135,5 @@ const boardsSlice = createSlice({
   },
 });
 
-export const { eraseErr } = boardsSlice.actions;
+export const { eraseErr, eraseBoards } = boardsSlice.actions;
 export default boardsSlice.reducer;

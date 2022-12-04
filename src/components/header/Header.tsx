@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { signOut, checkToken } from 'redux/slices/userSlice';
+import { eraseBoards } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
@@ -37,6 +38,7 @@ export const Header = () => {
 
   const handleSignOut = () => {
     dispatch(signOut());
+    dispatch(eraseBoards());
   };
 
   const openModal = () => {
