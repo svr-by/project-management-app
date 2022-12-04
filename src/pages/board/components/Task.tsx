@@ -117,7 +117,7 @@ function Task(props: TaskProps) {
       <button className="close-button" onClick={openConfModal}></button>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>{t('Update task')}</h3>
+          <h3 className="modal__title">{t('Update task')}</h3>
           <TextField
             label={t('Title')}
             defaultValue={title}
@@ -142,13 +142,18 @@ function Task(props: TaskProps) {
               maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors || isLoading}>
+          <Button
+            type="submit"
+            className="form__btn"
+            variant="contained"
+            disabled={hasErrors || isLoading}
+          >
             {!isLoading ? t('Submit') : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>
       <ConfModal onSubmit={handleDeleteTaskId} isOpen={confModal} onCancel={closeConfModal}>
-        <h3>{t('Do you really want to delete task?')}</h3>
+        <h3 className="modal__title">{t('Do you really want to delete task?')}</h3>
       </ConfModal>
     </>
   );

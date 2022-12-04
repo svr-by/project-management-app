@@ -86,8 +86,6 @@ const Column = (props: TaskProps) => {
       order: index + 1,
     }));
 
-    console.log('del=', orderedColumnsInBoard);
-
     dispatch(changeColumnsState(orderedColumnsInBoard));
 
     const columnsOrderList = orderedColumnsInBoard.map((column) => ({
@@ -123,12 +121,12 @@ const Column = (props: TaskProps) => {
           <button className="close-button-column" onClick={openConfModal}></button>
         </div>
         <Droppable droppableId={columnId} type="task">
-          {(provided, snapshot) => (
+          {(provided) => (
             <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>
               {orderedTasks.map((el, index) => {
                 return (
                   <Draggable key={el._id} draggableId={el._id} index={index}>
-                    {(provided, snapshot) => (
+                    {(provided) => (
                       <li
                         className="task-item"
                         ref={provided.innerRef}
@@ -156,7 +154,7 @@ const Column = (props: TaskProps) => {
       </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>{t('Add task')}</h3>
+          <h3 className="modal__title">{t('Add task')}</h3>
           <TextField
             label={t('Title')}
             autoComplete="off"
@@ -179,13 +177,18 @@ const Column = (props: TaskProps) => {
               maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors || isTaskLoading}>
+          <Button
+            type="submit"
+            className="form__btn"
+            variant="contained"
+            disabled={hasErrors || isTaskLoading}
+          >
             {!isTaskLoading ? t('Submit') : <CircularProgress size={24} />}
           </Button>
         </form>
       </Modal>
       <ConfModal onSubmit={handleDeleteColumnId} isOpen={confModal} onCancel={closeConfModal}>
-        <h3>{t('Do you really want to delete column?')}</h3>
+        <h3 className="modal__title">{t('Do you really want to delete column?')}</h3>
       </ConfModal>
       <ToastMessage message={taskMessage as TServerMessage} />
     </>

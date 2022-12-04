@@ -41,8 +41,6 @@ export const BoardPage = () => {
     (column1, column2) => column1.order - column2.order
   );
 
-  console.log('render=', columnsInBoardOrdered);
-
   const { tasks } = useAppSelector(selectTasksInBoardId);
 
   const {
@@ -113,8 +111,6 @@ export const BoardPage = () => {
         ...column,
         order: index + 1,
       }));
-
-      console.log('dnd=', newColumnsOrder);
 
       dispatch(changeColumnsState(newColumnsOrder));
 
@@ -207,27 +203,24 @@ export const BoardPage = () => {
     }
   };
 
-  return (
+  return isColumnLoading ? (
+    <Spinner />
+  ) : (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Breadcrumbs>
-        <Link underline="hover" to={`/${PATHS.MAIN}`} component={RouterLink}>
+        <Link className="breadcrumbs__link" to={`/${PATHS.MAIN}`} component={RouterLink}>
           {t('Main page')}
         </Link>
         <Typography>{`${getBoardTitle()}`}</Typography>
       </Breadcrumbs>
       <div className="board-container">
         <Droppable droppableId="columns" direction="horizontal" type="column">
-          {(provided, snapshot) => (
+          {(provided) => (
             <ul className="container-columns" ref={provided.innerRef} {...provided.droppableProps}>
               {columnsInBoardOrdered.map((el, index) => {
                 return (
-                  <Draggable
-                    key={el._id}
-                    draggableId={el._id}
-                    index={index}
-                    // disableInteractiveElementBlocking={isInteractiveElementsDisabled}
-                  >
-                    {(provided, snapshot) => {
+                  <Draggable key={el._id} draggableId={el._id} index={index}>
+                    {(provided) => {
                       return (
                         <li
                           className="column"
@@ -240,7 +233,6 @@ export const BoardPage = () => {
                             boardId={el.boardId}
                             title={el.title}
                             order={el.order}
-                            // tasks={tasksAll.filter((task) => task.columnId === el._id)}
                           />
                         </li>
                       );
@@ -260,7 +252,7 @@ export const BoardPage = () => {
       </div>
       <Modal isOpen={isOpen} onCancel={handleCancel}>
         <form className="form form--modal" onSubmit={handleSubmit(onSubmitFn)} noValidate>
-          <h3>Add column</h3>
+          <h3 className="modal__title">Add column</h3>
           <TextField
             label={t('Title')}
             autoComplete="off"
@@ -271,13 +263,12 @@ export const BoardPage = () => {
               minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
             })}
           />
-          <Button type="submit" variant="contained" disabled={hasErrors}>
+          <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>
             {t('Submit')}
           </Button>
         </form>
       </Modal>
       <ToastMessage message={columnMessage as TServerMessage} />
-      <Spinner open={isColumnLoading} />
     </DragDropContext>
   );
 };
