@@ -18,6 +18,11 @@
     color: var(--white);
   }
 
+  @media (max-width: $tablet) {
+    font-size: 0.8rem;
+    min-width: 120px;
+  }
+
   &.custom-link--filled {
     text-transform: uppercase;
     padding: 0.5rem 2rem;

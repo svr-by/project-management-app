@@ -9,7 +9,10 @@ import { PATHS } from 'core/constants';
 import { CustomLink, LangSwitch, AddBoardModal, ThemeSwitcher } from 'components';
 import LogoKanban from 'assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import './Header.scss';
+import { SideMenu } from 'components/sideMenu/SideMenu';
 
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
@@ -18,6 +21,7 @@ export const Header = () => {
   const { t } = useTranslation();
   const [backColor, setBackColor] = useState(0);
   const [addModal, setAddModal] = useState(false);
+  const [sideMenu, setSideMenu] = useState(false);
 
   useEffect(() => {
     dispatch(checkToken());
@@ -47,6 +51,14 @@ export const Header = () => {
     setAddModal(false);
   };
 
+  const openMenu = () => {
+    setSideMenu(true);
+  };
+
+  const closeMenu = () => {
+    setSideMenu(false);
+  };
+
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
@@ -70,7 +82,17 @@ export const Header = () => {
           </>
         )}
       </nav>
-      {isAuth && <AddBoardModal isOpen={addModal} onCancel={closeModal} />}
+      <IconButton size="large" className="hamburger" onClick={openMenu}>
+        <MenuIcon />
+      </IconButton>
+      <AddBoardModal isOpen={addModal} onCancel={closeModal} />
+      <SideMenu
+        isOpen={sideMenu}
+        onClose={closeMenu}
+        isAuth={Boolean(isAuth)}
+        handleSignOut={handleSignOut}
+        openBoardModal={openModal}
+      />
     </header>
   );
 };
