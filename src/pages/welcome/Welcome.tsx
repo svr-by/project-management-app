@@ -1,8 +1,8 @@
 import { CustomLink } from 'components/customLink/CustomLink';
 import { PATHS } from 'core/constants';
-import KanbanBeautifulPicture from 'assets/img/kanban-g96044c9d3_1920.jpg';
-import './Welcome.scss';
 import { useTranslation } from 'react-i18next';
+import KanbanPicture from 'assets/img/kanban-welcome.png';
+import './Welcome.scss';
 
 export const Welcome = () => {
   const { t } = useTranslation();
@@ -12,9 +12,11 @@ export const Welcome = () => {
       <div className="description">
         <h1 className="description__header">{t('Task Manager')}</h1>
         <p className="description__text">{t('description program')}</p>
-        <CustomLink to={PATHS.BOARD_ID}>{t('Get started')}</CustomLink>
+        <CustomLink style="filled" to={PATHS.MAIN}>
+          {t('Get started')}
+        </CustomLink>
       </div>
-      <img className="image" src={KanbanBeautifulPicture} alt="KanbanBeautifulPicture" />
+      <img className="welcome__image" src={KanbanPicture} alt="Kanban Picture" />
     </div>
   );
 };

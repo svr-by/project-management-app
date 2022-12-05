@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'redux/hooks';
 import { signOut, checkToken } from 'redux/slices/userSlice';
+import { eraseBoards } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { PATHS } from 'core/constants';
-import { CustomLink, CustomSwitch, AddBoardModal, ThemeSwitcher } from 'components';
-import { ReactComponent as LogoKanban } from 'assets/img/kanban-1.svg';
-import './Header.scss';
+import { CustomLink, LangSwitch, AddBoardModal, ThemeSwitcher } from 'components';
+import LogoKanban from 'assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import './Header.scss';
+import { SideMenu } from 'components/sideMenu/SideMenu';
 
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
@@ -17,6 +21,7 @@ export const Header = () => {
   const { t } = useTranslation();
   const [backColor, setBackColor] = useState(0);
   const [addModal, setAddModal] = useState(false);
+  const [sideMenu, setSideMenu] = useState(false);
 
   useEffect(() => {
     dispatch(checkToken());
@@ -35,6 +40,7 @@ export const Header = () => {
 
   const handleSignOut = () => {
     dispatch(signOut());
+    dispatch(eraseBoards());
   };
 
   const openModal = () => {
@@ -45,17 +51,24 @@ export const Header = () => {
     setAddModal(false);
   };
 
+  const openMenu = () => {
+    setSideMenu(true);
+  };
+
+  const closeMenu = () => {
+    setSideMenu(false);
+  };
+
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
         <Link to={PATHS.WELCOME} className="logo__link">
-          <LogoKanban className="logo__image" />
-          <p className="logo__description">Kanban</p>
+          <img className="logo__image" src={LogoKanban} alt="Logo" />
         </Link>
       </div>
       <nav className="nav">
         <ThemeSwitcher />
-        <CustomSwitch />
+        <LangSwitch />
         {isAuth ? (
           <>
             <CustomLink onClick={openModal}>{t('Create board')}</CustomLink>
@@ -69,7 +82,17 @@ export const Header = () => {
           </>
         )}
       </nav>
-      {isAuth && <AddBoardModal isOpen={addModal} onCancel={closeModal} />}
+      <IconButton size="large" className="hamburger" onClick={openMenu}>
+        <MenuIcon />
+      </IconButton>
+      <AddBoardModal isOpen={addModal} onCancel={closeModal} />
+      <SideMenu
+        isOpen={sideMenu}
+        onClose={closeMenu}
+        isAuth={Boolean(isAuth)}
+        handleSignOut={handleSignOut}
+        openBoardModal={openModal}
+      />
     </header>
   );
 };

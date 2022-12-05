@@ -2,65 +2,56 @@ $tablet: 1024px;
 $mobile: 767px;
 $small-screen: 480px;
 
-html[data-theme='dark'] {
-  --grey-text-color: #313131;
-  --white: #ffffff;
-  --grey: #5e5e5e;
+html {
+  //colors
+  --white: #f6f0ed;
+  --white-dark: #d1ccca;
+  --grey: #535461;
   --grey-light: #9d9d9d;
-  --grey-dark: #313131;
-  --green: #389d2f;
-  --red: #e74c3c;
-  --black: #000000;
-  --grey-light-one: #d9d9d9;
-  --yellow: #e3cc00;
+  --grey-dark: #444551;
+  --black: #20101e;
+  --red: #e84419;
+  --red-dark: #c23a18;
+  --red-light: #fdd490;
+  --pink: #ffc9c3;
+  --pink-light: #f5ded4;
+
+  //columns
   --grey-card-column: #f9f7fa;
   --box-shadow-card-colymn: #d2d7e0;
-  //pages
-  --background-pages: var(--grey-light);
-  //header and footer
-  --header-background-color: var(--grey-light);
-  --header-background-color-scroll: var(--grey-text-color);
-  --background-custom-link: var(--grey-light);
-  --text-custom-link: var(--grey-light-one);
-  //modal
-  --background-color-modal: var(--white);
-  //board
-  --background-card-column: var(--grey-card-column);
   --background-board-shadow-column: var(--box-shadow-card-colymn);
-  //welcome
-  --background-element-content: #ececec;
-  --text-color: var(--grey);
+}
+
+html[data-theme='dark'] {
+  //text
+  --text: var(--pink-light);
+  //pages
+  --background-pages: var(--grey);
+  //header and footer
+  --header-background-color-scroll: var(--grey-dark);
+  //board
+  --background-button: var(--grey-light);
+  --background-card-column: var(--grey);
   //svg
-  --color-svg: var(--grey-light-one);
+  --color-svg: var(--pink-light);
+  //modal
+  --background-color-modal: var(--white-dark);
 }
 
 html[data-theme='light'] {
-  --white: #ffffff;
-  --pink: #ffc9c3;
-  --green: #389d2f;
-  --red: #e74c3c;
-  --black: #000000;
-  --yellow: #e3cc00;
-  --grey-dark: #313131;
-  --grey-card-column: #f9f7fa;
-  --box-shadow-card-colymn: #d2d7e0;
+  //text
+  --text: var(--black);
   //pages
   --background-pages: var(--white);
   //header
-  --header-background-color: var(--white);
-  --header-background-color-scroll: var(--pink);
-  --background-custom-link: var(--white);
-  --text-custom-link: var(--black);
+  --header-background-color-scroll: var(--white-dark);
+  //board
+  --background-button: var(--white-dark);
+  --background-card-column: var(--grey-card-column);
+  //svg
+  --color-svg: var(--black);
   //modal
   --background-color-modal: var(--white);
-  //board
-  --background-card-column: var(--grey-card-column);
-  --background-board-shadow-column: var(--box-shadow-card-colymn);
-  //welcome
-  --background-element-content: #ececec;
-  --text-color: var(--grey-text-color);
-  //svg and label switch language
-  --color-svg: var(--black);
 }
 
 

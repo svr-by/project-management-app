@@ -8,7 +8,7 @@ type TToastMessageProps = {
 };
 
 const SlideTransition = (props: SlideProps) => {
-  return <Slide {...props} direction="up" />;
+  return <Slide {...props} direction="down" />;
 };
 
 export const ToastMessage = ({ message }: TToastMessageProps) => {
@@ -29,7 +29,7 @@ export const ToastMessage = ({ message }: TToastMessageProps) => {
         onClose={handleClose}
         autoHideDuration={5000}
         TransitionComponent={SlideTransition}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         key={message.message}
       >
         <Alert severity={message.severity} variant="filled">

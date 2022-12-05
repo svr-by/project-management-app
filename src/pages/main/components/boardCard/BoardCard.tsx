@@ -7,11 +7,11 @@ import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
 import { EditBoardModal } from '../EditBoardModal';
-import { Button, IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import boardPrev from 'assets/img/board_prev.png';
+import { ReactComponent as BoardPrev } from 'assets/img/board_prev.svg';
 import './BoardCard.scss';
 
 type TBoardCardProps = {
@@ -56,33 +56,25 @@ export const BoardCard = (props: TBoardCardProps) => {
         <Link to={board._id} className="board">
           <div className="board__card">
             <h4 className="board__title">{boardObj.title}</h4>
-            <img src={boardPrev} className="board__img" />
+            <BoardPrev className="board__img" />
             <p className="board__desc">{boardObj.description}</p>
             <div className="board__btns">
-              <Button
-                variant="outlined"
-                startIcon={<EditOutlinedIcon />}
-                size="small"
-                color="inherit"
-                onClick={openEditModal}
-              >
-                {t('Edit')}
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<DeleteOutlineIcon />}
-                size="small"
-                color="inherit"
-                onClick={openConfModal}
-              >
-                {t('Delete')}
-              </Button>
+              <Tooltip title={t('Edit') || ''} placement="top-start">
+                <IconButton size="small" color="inherit" onClick={openEditModal}>
+                  <EditOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={t('Delete') || ''} placement="top-start">
+                <IconButton size="small" color="inherit" onClick={openConfModal}>
+                  <DeleteOutlineIcon />
+                </IconButton>
+              </Tooltip>
             </div>
           </div>
         </Link>
         <EditBoardModal isOpen={editModal} board={board} onCancel={closeEditModal} />
         <ConfModal isOpen={confModal} onSubmit={handleDelete} onCancel={closeConfModal}>
-          <h3>{t('Do you really want to delete board?')}</h3>
+          <h3 className="modal__title">{t('Do you really want to delete board?')}</h3>
         </ConfModal>
       </>
     );

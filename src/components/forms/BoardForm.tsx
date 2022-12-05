@@ -47,7 +47,7 @@ export const BoardForm = (props: TBoardFormProps) => {
 
   return (
     <form className="form form--modal" onSubmit={handleSubmit(onSubmitForm)} noValidate>
-      <h3>{formTitle}</h3>
+      <h3 className="modal__title">{formTitle}</h3>
       <TextField
         label={t('Title')}
         defaultValue={defaultTitle}
@@ -69,7 +69,7 @@ export const BoardForm = (props: TBoardFormProps) => {
           maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
         })}
       />
-      <Button type="submit" variant="contained" disabled={hasErrors}>
+      <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>
         {t('Submit')}
       </Button>
     </form>

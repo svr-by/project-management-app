@@ -27,8 +27,8 @@ function App() {
               <Route path={PATHS.BOARD_ID} element={<BoardPage />} />
             </Route>
           </Route>
-          <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
+        <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
       </Routes>
     </div>
   );

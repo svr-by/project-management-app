@@ -1,8 +1,7 @@
 export { AddBoardModal } from './addBoardModal/AddBoardModal';
 export { ConfModal } from './confModal/СonfModal';
-export { CustomButton } from './customButton/CustomButton';
 export { CustomLink } from './customLink/CustomLink';
-export { CustomSwitch } from './customSwitch/CustomSwitch';
+export { LangSwitch } from './langSwitch/LangSwitch';
 export { Footer } from './footer/Footer';
 export { Header } from './header/Header';
 export { Layout } from './layout/Layout';
@@ -13,4 +12,4 @@ export { SignInForm } from './forms/SignInForm';
 export { BoardForm } from './forms/BoardForm';
 export { Spinner } from './spinner/Spinner';
 export { ToastMessage } from './toastMessage/ToastMessage';
-export { ThemeSwitcher } from './changeTheme/ThemeSwitcher';
+export { ThemeSwitcher } from './themeSwitcher/ThemeSwitcher';

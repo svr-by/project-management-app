@@ -1,8 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
-export const useTheme = () => {
-  const userTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+export const useTheme = (userTheme: 'dark' | 'light') => {
   const [chosenTheme, setChosenTheme] = useLocalStorage('theme', userTheme);
 
   useLayoutEffect(() => {

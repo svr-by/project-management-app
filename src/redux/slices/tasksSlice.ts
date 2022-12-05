@@ -5,8 +5,9 @@ import {
   deleteTaskById,
   getTaskSetByBoard,
   updateTaskById,
+  updateTaskSet,
 } from 'api/services/tasksService';
-import { TTaskResExt, TTaskParams, TTaskParamsExt } from 'core/types/server';
+import { TTaskResExt, TTaskParams, TTaskParamsExt, TTaskSet } from 'core/types/server';
 import { handlerError } from 'core/services/errorHandlerService';
 
 interface IGlobalStateTasks {
@@ -100,12 +101,32 @@ export const deleteTaskInColumnId = createAsyncThunk(
   }
 );
 
+export const updateTasksSet = createAsyncThunk(
+  'tasks/updateTasksSet',
+  async (tasks: TTaskSet[], { rejectWithValue }) => {
+    try {
+      const data = await updateTaskSet(tasks);
+
+      if (!data) {
+        throw new Error('Error!');
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
     eraseTasksErr(state) {
       state.message = null;
+    },
+    changeTasksState(state, action: PayloadAction<TTaskResExt[]>) {
+      state.tasks = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -160,5 +181,5 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { eraseTasksErr } = tasksSlice.actions;
+export const { eraseTasksErr, changeTasksState } = tasksSlice.actions;
 export default tasksSlice.reducer;

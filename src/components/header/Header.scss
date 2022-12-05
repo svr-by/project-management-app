@@ -6,7 +6,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  background-color: var(--header-background-color);
+  background-color: var(--background-pages);
   transition: background-color 300ms ease-in-out;
   z-index: 2;
 }
@@ -19,21 +19,14 @@
     justify-content: space-between;
     align-items: center;
     text-decoration: none;
-    color: var(--grey-light-one);
   }
 
   &__image {
-    width: 50px;
-    height: 50px;
-    fill: var(--color-svg);
-  }
+    width: 150px;
 
-  &__description {
-    font-size: 2rem;
-    font-weight: bold;
-    line-height: 2rem;
-    padding: 0 1rem;
-    margin: 0;
+    @media (max-width: $tablet) {
+      width: 100px;
+    }
   }
 }
 
@@ -42,6 +35,22 @@
   gap: 1rem;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: $tablet) {
+    gap: 0.8rem;
+  }
+
+  @media (max-width: $mobile) {
+    display: none;
+  }
+}
+
+button.hamburger {
+  display: none;
+
+  @media (max-width: $mobile) {
+    display: block;
+  }
 }
 
 .scroll {

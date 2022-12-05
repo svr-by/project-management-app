@@ -8,16 +8,17 @@ li {
   display: block;
 }
 
-.container-tasks {
+.board-container {
+  padding: 10px 0;
   display: flex;
   flex-wrap: nowrap;
   gap: 15px;
-  padding: 10px 20px;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 250px);
   overflow: auto;
 }
 
 .container-columns {
+  padding: 0 5px;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -31,6 +32,7 @@ li {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  max-height: 100%;
   background-color: var(--background-card-column);
   box-shadow: 0 0 10px 0 var(--box-shadow-card-colymn);
   border-radius: 8px;
@@ -42,7 +44,7 @@ li {
   justify-content: space-between;
   padding: 5px 0 10px;
   margin-bottom: 15px;
-  border-bottom: solid 2px #000;
+  border-bottom: solid 2px var(--white-dark);
 }
 
 .title-column-h3 {
@@ -108,7 +110,7 @@ li {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0 8px rgb(0 0 0 / 10%);
-  background-color: var(--white);
+  border: 1px solid var(--background-button);
   cursor: pointer;
 }
 
@@ -132,8 +134,8 @@ li {
   width: 260px;
   margin-top: 20px;
   padding: 10px;
-  color: #5a5a5a;
-  background-color: transparent;
+  color: var(--text);
+  background-color: var(--background-button);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -141,5 +143,31 @@ li {
 }
 
 .add-button:hover {
-  background-color: #dddddd;
+  background-color: #afafaf; 
+}
+
+*::-webkit-scrollbar {
+  position: absolute;
+  width: 5px;
+  height: 7px;
+  margin-right: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: var(--red);
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgb(0 0 0 / 20%);
+  border-radius: 10px;
+}
+
+a.breadcrumbs__link {
+  text-decoration: none;
+  color: var(--text);
+
+  &:hover {
+    color: var(--red);
+  }
 }

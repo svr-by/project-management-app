@@ -1,6 +1,6 @@
 {
-  "Task Manager": "Task Manager",
-  "description program": "It is a project management software that allows you to centrally manage tasks and their timely completion. Trackers are widely used in project management, because they allow you to easily monitor all work processes and control the work of the team",
+  "Task Manager": "Project Manager",
+  "description program": "It is a project management software that allows you to centrally manage tasks and their timely completion. Trackers are widely used in project management, because they allow you to easily monitor all work processes and control the work of the team.",
   "Get started": "Get started",
   "sign in": "Sign in",
   "sign up": "Sign up",
@@ -11,7 +11,7 @@
   "Create account": "Create account",
   "Already have an account?": "Already have an account?",
   "Name": "Name",
-  "Main page": "Main page",
+  "Main page": "Boards",
   "Edit": "Edit",
   "Delete": "Delete",
   "Edit board": "Edit board",
@@ -29,6 +29,7 @@
   "Sign up" : "SIGN UP",
   "Edit profile" : "Edit profile",
   "Create board" : "Create board",
+  "The min length is 4 chars" : "The min length is 4 chars",
   "The min length is 5 chars" : "The min length is 5 chars",
   "The max length is 100 chars" : "The max length is 100 chars",
   "OK" : "OK",
@@ -40,5 +41,7 @@
   "Add column" : "Add column",
   "Do you really want to delete your profile?" : "Do you really want to delete your profile?",
   "Delete profile" : "Delete profile",
-  "Main" : "Main"
+  "Main" : "Main",
+  "Go to main page" : "Go to main page",
+  "Not found title" : "Sorry, we couldn’t find what you’re looking for."
 }
