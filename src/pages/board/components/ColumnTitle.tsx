@@ -84,7 +84,7 @@ const ColumnTitle = (props: TTitleProps) => {
       order: column.order,
     }));
 
-    await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
+    if (columnsOrderList.length) await dispatch(updateOrderedColumnsInBoardId(columnsOrderList));
   };
 
   return isEdit ? (
