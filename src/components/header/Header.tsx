@@ -11,8 +11,9 @@ import LogoKanban from 'assets/img/logo.png';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import './Header.scss';
 import { SideMenu } from 'components/sideMenu/SideMenu';
+import { Tooltip } from '@mui/material';
+import './Header.scss';
 
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
@@ -62,9 +63,19 @@ export const Header = () => {
   return (
     <header className={backColor ? 'header scroll' : 'header'}>
       <div className="logo">
-        <Link to={PATHS.WELCOME} className="logo__link">
-          <img className="logo__image" src={LogoKanban} alt="Logo" />
-        </Link>
+        {isAuth ? (
+          <Tooltip title={t('Main page') || ''} placement="bottom-start">
+            <Link to={PATHS.MAIN} className="logo__link">
+              <img className="logo__image" src={LogoKanban} alt="Logo" />
+            </Link>
+          </Tooltip>
+        ) : (
+          <Tooltip title={t('Welcome') || ''} placement="bottom-start">
+            <Link to={PATHS.WELCOME} className="logo__link">
+              <img className="logo__image" src={LogoKanban} alt="Logo" />
+            </Link>
+          </Tooltip>
+        )}
       </div>
       <nav className="nav">
         <ThemeSwitcher />

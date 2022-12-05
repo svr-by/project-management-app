@@ -25,6 +25,7 @@ html {
 html[data-theme='dark'] {
   //text
   --text: var(--pink-light);
+  --border: var(--pink-light);
   //pages
   --background-pages: var(--grey);
   //header and footer
@@ -40,7 +41,7 @@ html[data-theme='dark'] {
 
 html[data-theme='light'] {
   //text
-  --text: var(--black);
+  --border: var(--black);
   //pages
   --background-pages: var(--white);
   //header
