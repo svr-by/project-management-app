@@ -90,7 +90,7 @@ function Task(props: TaskProps) {
       columnId: task.columnId,
     }));
 
-    await dispatch(updateTasksSet(tasksOrderList));
+    if (tasksOrderList.length) await dispatch(updateTasksSet(tasksOrderList));
 
     handleCancel();
   };
