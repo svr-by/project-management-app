@@ -115,10 +115,7 @@ const Column = (props: TaskProps) => {
   return (
     <>
       <div className="card-column">
-        <div className="title-column-box">
-          <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
-          <button className="close-button-column" onClick={openConfModal}></button>
-        </div>
+        <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
         <Droppable droppableId={columnId} type="task">
           {(provided) => (
             <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>

@@ -191,14 +191,15 @@ export const BoardPage = () => {
           order: task.order,
           columnId: sourceColumn._id,
         }));
-        await dispatch(updateTasksSet(sourceTasksOrderList));
+        if (sourceTasksOrderList.length) await dispatch(updateTasksSet(sourceTasksOrderList));
 
         const destinationTasksOrderList = destinationColumnTasksSorted.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: destinationColumn._id,
         }));
-        await dispatch(updateTasksSet(destinationTasksOrderList));
+        if (destinationTasksOrderList.length)
+          await dispatch(updateTasksSet(destinationTasksOrderList));
       }
     }
   };
