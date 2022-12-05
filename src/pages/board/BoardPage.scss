@@ -13,8 +13,16 @@ li {
   display: flex;
   flex-wrap: nowrap;
   gap: 15px;
-  height: calc(100vh - 250px);
+  height: calc(100vh - 270px);
   overflow: auto;
+
+  @media (max-width: $mobile) {
+    height: calc(100vh - 300px);
+  }
+
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+  }
 }
 
 .container-columns {
@@ -22,10 +30,24 @@ li {
   display: flex;
   flex-direction: row;
   gap: 15px;
+
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .column {
   width: 300px;
+
+  @media (max-width: $mobile) {
+    width: 250px;
+  }
+
+  @media (max-width: $small-screen) {
+    width: 90%;
+    min-width: 230px;
+  }
 }
 
 .card-column {
@@ -57,6 +79,14 @@ li {
   cursor: pointer;
   resize: none;
   overflow-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  white-space: nowrap;
+
+  @media (max-width: $mobile) {
+    font-size: 1rem;
+  }
 }
 
 .title-input {
@@ -123,10 +153,20 @@ li {
   width: 240px;
   overflow-wrap: break-word;
   word-break: break-word;
+
+  @media (max-width: $mobile) {
+    font-size: 0.8rem;
+  }
 }
 
 .container-add-button {
   width: 280px;
+
+  @media (max-width: $small-screen) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .add-button {
@@ -140,6 +180,11 @@ li {
   border-radius: 8px;
   cursor: pointer;
   transition: .2s linear;
+
+  @media (max-width: $mobile) {
+    width: 210px;
+    font-size: 0.8rem;
+  }
 }
 
 .add-button:hover {
