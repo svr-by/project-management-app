@@ -6,16 +6,16 @@ import { Modal, ConfModal, ToastMessage } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { selectColumnsInBoardId, selectTasksInBoardId, selectUser } from 'redux/selectors';
 import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
-import { useTranslation } from 'react-i18next';
-import { TTaskParams, TServerMessage } from 'core/types/server';
-import { TextField, Button, CircularProgress } from '@mui/material';
-import { ERROR_MES } from 'core/constants';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
 import {
   deleteColumnInBoardId,
   updateOrderedColumnsInBoardId,
   changeColumnsState,
 } from 'redux/slices/columnsSlice';
+import { TTaskParams, TServerMessage } from 'core/types/server';
+import { useTranslation } from 'react-i18next';
+import { TextField, Button, CircularProgress } from '@mui/material';
+import { ERROR_MES } from 'core/constants';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 type TaskProps = {
   boardId: string;
@@ -33,9 +33,8 @@ const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { id: userId } = useAppSelector(selectUser);
-
   const { columns } = useAppSelector(selectColumnsInBoardId);
+  const { id: userId } = useAppSelector(selectUser);
 
   const {
     tasks,
@@ -70,7 +69,6 @@ const Column = (props: TaskProps) => {
   const openConfModal = () => {
     setConfModal(true);
   };
-
   const closeConfModal = () => {
     setConfModal(false);
   };
@@ -117,7 +115,10 @@ const Column = (props: TaskProps) => {
   return (
     <>
       <div className="card-column">
-        <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
+        <div className="title-column-box">
+          <ColumnTitle boardId={boardId} columnId={columnId} title={title} order={order} />
+          <button className="close-button-column" onClick={openConfModal}></button>
+        </div>
         <Droppable droppableId={columnId} type="task">
           {(provided) => (
             <ul className="tasks-list" ref={provided.innerRef} {...provided.droppableProps}>
