@@ -18,9 +18,9 @@ import { updateTasksSet, getAllTasksInBoardId, changeTasksState } from 'redux/sl
 import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { PATHS } from 'core/constants';
-import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { TBoardInfo } from 'core/types/boards';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   title: string;
@@ -191,14 +191,15 @@ export const BoardPage = () => {
           order: task.order,
           columnId: sourceColumn._id,
         }));
-        await dispatch(updateTasksSet(sourceTasksOrderList));
+        if (sourceTasksOrderList.length) await dispatch(updateTasksSet(sourceTasksOrderList));
 
         const destinationTasksOrderList = destinationColumnTasksSorted.map((task) => ({
           _id: task._id,
           order: task.order,
           columnId: destinationColumn._id,
         }));
-        await dispatch(updateTasksSet(destinationTasksOrderList));
+        if (destinationTasksOrderList.length)
+          await dispatch(updateTasksSet(destinationTasksOrderList));
       }
     }
   };
