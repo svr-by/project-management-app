@@ -18,9 +18,9 @@ import { updateTasksSet, getAllTasksInBoardId, changeTasksState } from 'redux/sl
 import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { PATHS } from 'core/constants';
-import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { TBoardInfo } from 'core/types/boards';
+import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
   title: string;
