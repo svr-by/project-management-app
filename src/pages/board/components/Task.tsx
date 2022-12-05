@@ -11,9 +11,9 @@ import {
 } from 'redux/slices/tasksSlice';
 import { TextField, Button, CircularProgress } from '@mui/material';
 import { ERROR_MES } from 'core/constants';
-import { useTranslation } from 'react-i18next';
 import { selectTasksInBoardId } from 'redux/selectors';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useTranslation } from 'react-i18next';
 
 type TaskProps = {
   boardId: string;
@@ -90,7 +90,7 @@ function Task(props: TaskProps) {
       columnId: task.columnId,
     }));
 
-    await dispatch(updateTasksSet(tasksOrderList));
+    if (tasksOrderList.length) await dispatch(updateTasksSet(tasksOrderList));
 
     handleCancel();
   };
