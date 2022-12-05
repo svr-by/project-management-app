@@ -95,8 +95,6 @@ export const SideMenu = (props: TSideMenu) => {
           )}
           <ListItem disablePadding className="side-menu__switch">
             <ThemeSwitcher />
-          </ListItem>
-          <ListItem disablePadding className="side-menu__switch">
             <LangSwitch />
           </ListItem>
         </List>
