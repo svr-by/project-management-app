@@ -4,7 +4,7 @@ import { Task } from './Task';
 import { ColumnTitle } from 'pages/board/components/ColumnTitle';
 import { Modal, ToastMessage } from 'components';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectColumnsInBoardId, selectTasksInBoardId, selectUser } from 'redux/selectors';
+import { selectTasksInBoardId, selectUser } from 'redux/selectors';
 import { creatTasksInColumnId } from 'redux/slices/tasksSlice';
 import { TTaskParams, TServerMessage } from 'core/types/server';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +28,6 @@ const Column = (props: TaskProps) => {
   const { boardId, columnId, title, order } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { columns } = useAppSelector(selectColumnsInBoardId);
   const { id: userId } = useAppSelector(selectUser);
 
   const {
