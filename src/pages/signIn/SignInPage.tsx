@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { singIn, eraseErr } from 'redux/slices/userSlice';
 import { useAppDispatch } from 'redux/hooks';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,14 @@ import './SignInPage.scss';
 export const SignInPage = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isLoading, message } = useSelector((state: RootState) => state.user);
+  const { id: isAuth, isLoading, message } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuth) {
+      navigate(PATHS.MAIN);
+    }
+  }, [navigate, isAuth]);
 
   useEffect(() => {
     return () => {
@@ -33,8 +40,7 @@ export const SignInPage = () => {
         <h1>{t('Sign in to your account')}</h1>
         <SignInForm onSubmit={onSubmit} />
         <p>
-          {t('No account?')}
-          <Link to={`/${PATHS.SIGN_UP}`}>{t('sign up')}!</Link>
+          {t('No account?')} <Link to={`/${PATHS.SIGN_UP}`}>{t('sign up')}!</Link>
         </p>
       </div>
       <ToastMessage message={message as TServerMessage} />

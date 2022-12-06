@@ -16,8 +16,8 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Welcome />} />
+        <Route path={PATHS.WELCOME} element={<Layout />}>
+          <Route index path={PATHS.WELCOME} element={<Welcome />} />
           <Route path={PATHS.SIGN_IN} element={<SignInPage />} />
           <Route path={PATHS.SIGN_UP} element={<SignUpPage />} />
           <Route path={PATHS.PROFILE} element={<UserProfilePage />} />
@@ -27,8 +27,8 @@ function App() {
               <Route path={PATHS.BOARD_ID} element={<BoardPage />} />
             </Route>
           </Route>
+          <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
-        <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
       </Routes>
     </div>
   );

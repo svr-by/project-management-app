@@ -209,10 +209,10 @@ export const BoardPage = () => {
   ) : (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Breadcrumbs>
-        <Link className="breadcrumbs__link" to={`/${PATHS.MAIN}`} component={RouterLink}>
+        <Link className="breadcrumbs__link" to={PATHS.MAIN} component={RouterLink}>
           {t('Main page')}
         </Link>
-        <Typography>{`${getBoardTitle()}`}</Typography>
+        <Typography className="breadcrumbs__board">{getBoardTitle()}</Typography>
       </Breadcrumbs>
       <div className="board-container">
         <Droppable droppableId="columns" direction="horizontal" type="column">

@@ -4,7 +4,7 @@ import { useAppDispatch } from 'redux/hooks';
 import { signOut, checkToken } from 'redux/slices/userSlice';
 import { eraseBoards } from 'redux/slices/boardsSlice';
 import { RootState } from 'redux/store';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PATHS } from 'core/constants';
 import { CustomLink, LangSwitch, AddBoardModal, ThemeSwitcher } from 'components';
 import LogoKanban from 'assets/img/logo.png';
@@ -18,7 +18,6 @@ import './Header.scss';
 export const Header = () => {
   const { id: isAuth } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const [backColor, setBackColor] = useState(0);
   const [addModal, setAddModal] = useState(false);
@@ -26,9 +25,7 @@ export const Header = () => {
 
   useEffect(() => {
     dispatch(checkToken());
-    isAuth ? navigate(PATHS.MAIN) : navigate(PATHS.WELCOME);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuth]);
+  }, [dispatch, isAuth]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
