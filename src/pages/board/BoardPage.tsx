@@ -262,6 +262,7 @@ export const BoardPage = () => {
             {...register('title', {
               required: { value: true, message: t('This field is required') },
               minLength: { value: 4, message: t('The min length is 4 chars') },
+              pattern: { value: /^[a-zа-яё]+$/iu, message: t('Invalid characters') },
             })}
           />
           <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>

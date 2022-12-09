@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { TBoardInfo } from 'core/types/boards';
 import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { ERROR_MES } from 'core/constants';
 
 enum InputNames {
   title = 'title',
@@ -55,8 +54,9 @@ export const BoardForm = (props: TBoardFormProps) => {
         error={!!errors[InputNames.title]}
         helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
-          required: { value: true, message: t(ERROR_MES.EMPTY) },
-          minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
+          required: { value: true, message: t('This field is required') },
+          minLength: { value: 5, message: t('The min length is 5 chars') },
+          pattern: { value: /^[a-zа-яё]+$/iu, message: t('Invalid characters') },
         })}
       />
       <TextField
@@ -66,7 +66,7 @@ export const BoardForm = (props: TBoardFormProps) => {
         error={!!errors[InputNames.description]}
         helperText={errors[InputNames.description]?.message}
         {...register(InputNames.description, {
-          maxLength: { value: 100, message: t(ERROR_MES.MAX_LENGHTS_100) },
+          maxLength: { value: 100, message: t('The max length is 100 chars') },
         })}
       />
       <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>

@@ -83,6 +83,7 @@ li {
   overflow: hidden;
   word-break: break-word;
   white-space: nowrap;
+  text-transform: uppercase;
 
   @media (max-width: $mobile) {
     font-size: 1rem;

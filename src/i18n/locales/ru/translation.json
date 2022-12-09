@@ -22,6 +22,7 @@
   "Sign out": "Выход",
   "New password" : "Новый пароль",
   "This field is required" : "Это поле обязательно",
+  "Invalid characters" : "Недопустимые символы",
   "Min 4 letters for username" : "Минимальная длина 4 символа",
   "Min 4 letters for login" : "Минимум 4 символа для логина",
   "Min 8 letters for password" : "Минимум 8 символов для пароля",
