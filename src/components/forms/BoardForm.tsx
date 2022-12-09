@@ -65,6 +65,9 @@ export const BoardForm = (props: TBoardFormProps) => {
         autoComplete="off"
         error={!!errors[InputNames.description]}
         helperText={errors[InputNames.description]?.message}
+        multiline
+        minRows={4}
+        maxRows={4}
         {...register(InputNames.description, {
           maxLength: { value: 100, message: t('The max length is 100 chars') },
         })}

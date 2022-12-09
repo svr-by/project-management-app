@@ -40,7 +40,7 @@ export const SignInPage = () => {
         <h1>{t('Sign in to your account')}</h1>
         <SignInForm onSubmit={onSubmit} />
         <p>
-          {t('No account?')} <Link to={`/${PATHS.SIGN_UP}`}>{t('sign up')}!</Link>
+          {t('No account?')} <Link to={PATHS.SIGN_UP}>{t('sign up')}!</Link>
         </p>
       </div>
       <ToastMessage message={message as TServerMessage} />

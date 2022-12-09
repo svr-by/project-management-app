@@ -136,6 +136,9 @@ function Task(props: TaskProps) {
             autoComplete="off"
             error={!!errors.description}
             helperText={errors.description?.message}
+            multiline
+            minRows={4}
+            maxRows={4}
             {...register('description', {
               required: { value: true, message: t(ERROR_MES.EMPTY) },
               minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },
