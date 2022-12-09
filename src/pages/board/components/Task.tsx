@@ -96,16 +96,17 @@ function Task(props: TaskProps) {
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
-    const updateTask: TTaskParamsExt = {
-      title: inputsData.title,
-      order: order,
-      description: inputsData.description,
-      columnId: columnId,
-      userId: userId,
-      users: users,
-    };
-
-    await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask }));
+    if (title !== inputsData.title || description !== inputsData.description) {
+      const updateTask: TTaskParamsExt = {
+        title: inputsData.title,
+        order: order,
+        description: inputsData.description,
+        columnId: columnId,
+        userId: userId,
+        users: users,
+      };
+      await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask }));
+    }
     handleCancel();
   };
 

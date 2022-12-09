@@ -48,11 +48,13 @@ const ColumnTitle = (props: TTitleProps) => {
   };
 
   const handleChangeTitleColumn = async (inputsData: IFormInput) => {
-    const newColumn = {
-      title: inputsData.title,
-      order: order,
-    };
-    await dispatch(updateColumnInBoardId({ boardId, columnId, newColumn }));
+    if (title !== inputsData.title) {
+      const newColumn = {
+        title: inputsData.title,
+        order: order,
+      };
+      await dispatch(updateColumnInBoardId({ boardId, columnId, newColumn }));
+    }
     hideInput();
   };
 
