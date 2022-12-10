@@ -96,16 +96,17 @@ function Task(props: TaskProps) {
   };
 
   const onSubmitFn = async (inputsData: IFormInput) => {
-    const updateTask: TTaskParamsExt = {
-      title: inputsData.title,
-      order: order,
-      description: inputsData.description,
-      columnId: columnId,
-      userId: userId,
-      users: users,
-    };
-
-    await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask }));
+    if (title !== inputsData.title || description !== inputsData.description) {
+      const updateTask: TTaskParamsExt = {
+        title: inputsData.title,
+        order: order,
+        description: inputsData.description,
+        columnId: columnId,
+        userId: userId,
+        users: users,
+      };
+      await dispatch(updateTaskInColumnId({ boardId, columnId, taskId, updateTask }));
+    }
     handleCancel();
   };
 
@@ -136,6 +137,9 @@ function Task(props: TaskProps) {
             autoComplete="off"
             error={!!errors.description}
             helperText={errors.description?.message}
+            multiline
+            minRows={4}
+            maxRows={4}
             {...register('description', {
               required: { value: true, message: t(ERROR_MES.EMPTY) },
               minLength: { value: 5, message: t(ERROR_MES.MIN_LENGHTS_5) },

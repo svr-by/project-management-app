@@ -21,13 +21,14 @@ export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps
   const { t } = useTranslation();
 
   const onSubmit = (data: TBoardInfo) => {
-    const boardInfo: TBoardInfo = { title: data.title, description: data.description };
-    const editedBoard: TBoardParams = {
-      title: JSON.stringify(boardInfo),
-      owner: user.id,
-      users: [],
-    };
-    dispatch(updateBoard({ id: board._id, board: editedBoard }));
+    if (boardObj.title !== data.title || boardObj.description !== data.description) {
+      const editedBoard: TBoardParams = {
+        title: JSON.stringify(data),
+        owner: user.id,
+        users: [],
+      };
+      dispatch(updateBoard({ id: board._id, board: editedBoard }));
+    }
     onCancel();
   };
 

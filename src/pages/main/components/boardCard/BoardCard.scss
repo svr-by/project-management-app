@@ -30,6 +30,10 @@
     margin: 0;
     font-size: 1.2rem;
     text-transform: uppercase;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;
+    white-space: nowrap;
   }
 
   &__desc {

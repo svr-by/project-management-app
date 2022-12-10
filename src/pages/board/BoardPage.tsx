@@ -209,10 +209,10 @@ export const BoardPage = () => {
   ) : (
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <Breadcrumbs>
-        <Link className="breadcrumbs__link" to={`/${PATHS.MAIN}`} component={RouterLink}>
+        <Link className="breadcrumbs__link" to={PATHS.MAIN} component={RouterLink}>
           {t('Main page')}
         </Link>
-        <Typography>{`${getBoardTitle()}`}</Typography>
+        <Typography className="breadcrumbs__board">{getBoardTitle()}</Typography>
       </Breadcrumbs>
       <div className="board-container">
         <Droppable droppableId="columns" direction="horizontal" type="column">
@@ -262,6 +262,7 @@ export const BoardPage = () => {
             {...register('title', {
               required: { value: true, message: t('This field is required') },
               minLength: { value: 4, message: t('The min length is 4 chars') },
+              pattern: { value: /^[a-zа-яё]+$/iu, message: t('Invalid characters') },
             })}
           />
           <Button type="submit" className="form__btn" variant="contained" disabled={hasErrors}>

@@ -22,6 +22,7 @@
   "Sign out": "Sign out",
   "New password" : "New password",
   "This field is required" : "This field is required",
+  "Invalid characters" : "Invalid characters",
   "Min 4 letters for username" : "Min 4 letters for username",
   "Min 4 letters for login" : "Min 4 letters for login",
   "Min 8 letters for password" : "Min 8 letters for password",

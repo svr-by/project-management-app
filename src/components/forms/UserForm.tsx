@@ -4,14 +4,6 @@ import { TextField, Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-enum ErrorMes {
-  empty = 'This field is required',
-  minName = 'Min 4 letters for username',
-  minLogin = 'Min 4 letters for login',
-  minPass = 'Min 8 letters for password',
-  pattern = 'Invalid characters',
-}
-
 enum InputNames {
   name = 'name',
   login = 'login',
@@ -65,8 +57,8 @@ export const UserForm = (props: TUserFormProps) => {
         error={!!errors[InputNames.name]}
         helperText={errors[InputNames.name] ? errors[InputNames.name]?.message : ''}
         {...register(InputNames.name, {
-          required: { value: true, message: t(ErrorMes.empty) },
-          minLength: { value: 4, message: t(ErrorMes.minName) },
+          required: { value: true, message: t('This field is required') },
+          minLength: { value: 4, message: t('Min 4 letters for username') },
         })}
       />
       <TextField
@@ -75,8 +67,8 @@ export const UserForm = (props: TUserFormProps) => {
         error={!!errors[InputNames.login]}
         helperText={errors[InputNames.login] ? errors[InputNames.login]?.message : ''}
         {...register(InputNames.login, {
-          required: { value: true, message: t(ErrorMes.empty) },
-          minLength: { value: 4, message: t(ErrorMes.minLogin) },
+          required: { value: true, message: t('This field is required') },
+          minLength: { value: 4, message: t('Min 4 letters for login') },
         })}
       />
       <TextField
@@ -86,8 +78,8 @@ export const UserForm = (props: TUserFormProps) => {
         error={!!errors[InputNames.password]}
         helperText={errors[InputNames.password] ? errors[InputNames.password]?.message : ''}
         {...register(InputNames.password, {
-          required: { value: true, message: t(ErrorMes.empty) },
-          minLength: { value: 8, message: t(ErrorMes.minPass) },
+          required: { value: true, message: t('This field is required') },
+          minLength: { value: 8, message: t('Min 8 letters for password') },
         })}
       />
       <div className="form__btns">

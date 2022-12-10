@@ -83,6 +83,7 @@ li {
   overflow: hidden;
   word-break: break-word;
   white-space: nowrap;
+  text-transform: uppercase;
 
   @media (max-width: $mobile) {
     font-size: 1rem;
@@ -215,4 +216,8 @@ a.breadcrumbs__link {
   &:hover {
     color: var(--red);
   }
+}
+
+.breadcrumbs__board {
+  text-transform: uppercase;
 }

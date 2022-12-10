@@ -31,11 +31,7 @@
   }
 
   &.custom-link--filled:hover {
-    box-shadow: 0 0 40px 40px var(--white) inset;
+    box-shadow: 0 0 40px 40px var(--background-pages) inset;
     color: var(--text);
-  }
-
-  .active {
-    color: var(--yellow);
   }
 }
