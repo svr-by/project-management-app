@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { RootState } from 'redux/store';
 import { useAppDispatch } from 'redux/hooks';
 import { signUp, singIn, eraseErr } from 'redux/slices/userSlice';
@@ -13,7 +13,7 @@ import './SignUpPage.scss';
 export const SignUpPage = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isLoading, message } = useSelector((state: RootState) => state.user);
+  const { id: isAuth, isLoading, message } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     return () => {
@@ -32,8 +32,8 @@ export const SignUpPage = () => {
     }
   };
 
-  return isLoading ? (
-    <Spinner />
+  return isAuth ? (
+    <Navigate to={PATHS.MAIN} />
   ) : (
     <>
       <div className="signup">
@@ -44,6 +44,7 @@ export const SignUpPage = () => {
         </p>
       </div>
       <ToastMessage message={message as TServerMessage} />
+      <Spinner backdrop open={isLoading} />
     </>
   );
 };
