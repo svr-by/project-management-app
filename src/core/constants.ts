@@ -1,4 +1,4 @@
-export const SERVER_URL = 'https://pma-backend-svr.up.railway.app/';
+export const SERVER_URL = 'https://svr-pma-backend.adaptable.app/';
 
 export enum PATHS {
   WELCOME = '/',
