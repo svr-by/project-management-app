@@ -1,0 +1,15 @@
+.not-found-page {
+  margin: 0 auto;
+  max-width: 700px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+}

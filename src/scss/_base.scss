@@ -1,0 +1,37 @@
+@import "src/scss/variables";
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: var(--background-pages);
+}
+
+* {
+  box-sizing: inherit;
+  font-family: 'Open Sans';
+  color: var(--text);
+}
+
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+
+header,
+main,
+footer {
+  padding: 1rem 2rem;
+
+  @media (max-width: $tablet) {
+    padding: 1rem;
+  }
+}
+
+main {
+  flex-grow: 1;
+}
