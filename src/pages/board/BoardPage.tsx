@@ -19,7 +19,6 @@ import { TColParams, TServerMessage } from 'core/types/server';
 import { TextField, Button, Breadcrumbs, Link, Typography } from '@mui/material';
 import { PATHS } from 'core/constants';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-import { TBoardInfo } from 'core/types/boards';
 import { useTranslation } from 'react-i18next';
 
 interface IFormInput {
@@ -87,9 +86,7 @@ export const BoardPage = () => {
   }, [boardId, dispatch]);
 
   const getBoardTitle = () => {
-    const boardTitle = boards.find((board) => board._id === boardId)?.title || '';
-    const boardObj: TBoardInfo = JSON.parse(boardTitle);
-    return boardObj.title;
+    return boards.find((board) => board._id === boardId)?.title || '';
   };
 
   const onDragStart = () => {

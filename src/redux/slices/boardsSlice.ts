@@ -107,8 +107,11 @@ const boardsSlice = createSlice({
       .addCase(updateBoard.fulfilled, (state, action) => {
         const boardId = action.payload.board._id;
         const boardNewTitle = action.payload.board.title;
+        const boardNewDescription = action.payload.board.description;
         state.boards = state.boards.map((board) =>
-          board._id !== boardId ? board : { ...board, title: boardNewTitle }
+          board._id !== boardId
+            ? board
+            : { ...board, title: boardNewTitle, description: boardNewDescription }
         );
         state.isLoading = false;
         state.message = action.payload?.message || null;

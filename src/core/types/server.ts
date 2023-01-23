@@ -21,6 +21,7 @@ export type TUserRes = {
 
 export type TBoardParams = {
   title: string;
+  description: string;
   owner: string;
   users: string[];
 };
@@ -28,6 +29,7 @@ export type TBoardParams = {
 export type TBoardRes = {
   _id: string;
   title: string;
+  description: string;
   owner: string;
   users: string[];
 };

@@ -21,10 +21,10 @@ export const AddBoardModal = ({ isOpen, onCancel }: TAddBoardModalProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onSubmit = (data: TBoardInfo) => {
-    const boardInfo: TBoardInfo = { title: data.title, description: data.description };
+  const onSubmit = ({ title, description }: TBoardInfo) => {
     const board: TBoardParams = {
-      title: JSON.stringify(boardInfo),
+      title,
+      description,
       owner: user.id,
       users: [],
     };

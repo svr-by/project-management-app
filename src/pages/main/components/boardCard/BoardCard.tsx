@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'redux/hooks';
 import { useTranslation } from 'react-i18next';
 import { delBoard } from 'redux/slices/boardsSlice';
-import { TBoardInfo } from 'core/types/boards';
 import { TBoardRes } from 'core/types/server';
 import { ConfModal } from 'components';
 import { EditBoardModal } from '../EditBoardModal';
@@ -28,8 +27,6 @@ export const BoardCard = (props: TBoardCardProps) => {
   const [confModal, setConfModal] = useState(false);
 
   if (!empty && board) {
-    const boardObj: TBoardInfo = JSON.parse(board.title);
-
     const openEditModal = (e: MouseEvent) => {
       e.preventDefault();
       setEditModal(true);
@@ -55,9 +52,9 @@ export const BoardCard = (props: TBoardCardProps) => {
       <>
         <Link to={board._id} className="board">
           <div className="board__card">
-            <h4 className="board__title">{boardObj.title}</h4>
+            <h4 className="board__title">{board.title}</h4>
             <BoardPrev className="board__img" />
-            <p className="board__desc">{boardObj.description}</p>
+            <p className="board__desc">{board.description}</p>
             <div className="board__btns">
               <Tooltip title={t('Edit') || ''} placement="top-start">
                 <IconButton size="small" color="inherit" onClick={openEditModal}>

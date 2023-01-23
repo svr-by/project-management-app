@@ -14,16 +14,15 @@ type TEditBoardModalProps = {
 };
 
 export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps) => {
-  const boardObj: TBoardInfo = JSON.parse(board.title);
-
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const onSubmit = (data: TBoardInfo) => {
-    if (boardObj.title !== data.title || boardObj.description !== data.description) {
+  const onSubmit = ({ title, description }: TBoardInfo) => {
+    if (board.title !== title || board.description !== description) {
       const editedBoard: TBoardParams = {
-        title: JSON.stringify(data),
+        title,
+        description,
         owner: user.id,
         users: [],
       };
@@ -36,8 +35,8 @@ export const EditBoardModal = ({ isOpen, onCancel, board }: TEditBoardModalProps
     <Modal isOpen={isOpen} onCancel={onCancel}>
       <BoardForm
         formTitle={t('Edit board')}
-        defaultTitle={boardObj.title}
-        defaultDesc={boardObj.description}
+        defaultTitle={board.title}
+        defaultDesc={board.description}
         onSubmit={onSubmit}
       />
     </Modal>
