@@ -55,7 +55,7 @@ export const BoardForm = (props: TBoardFormProps) => {
         helperText={errors[InputNames.title]?.message}
         {...register(InputNames.title, {
           required: { value: true, message: t('This field is required') },
-          minLength: { value: 5, message: t('The min length is 5 chars') },
+          minLength: { value: 3, message: t('The min length is 3 chars') },
           pattern: { value: /^[a-zа-яё]+$/iu, message: t('Invalid characters') },
         })}
       />
@@ -69,6 +69,7 @@ export const BoardForm = (props: TBoardFormProps) => {
         minRows={4}
         maxRows={4}
         {...register(InputNames.description, {
+          required: { value: true, message: t('This field is required') },
           maxLength: { value: 100, message: t('The max length is 100 chars') },
         })}
       />
