@@ -1,0 +1,17 @@
+@import "src/scss/variables";
+
+.board-list {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.main-title {
+  margin: 2rem 0;
+  font-family: 'Coolvetica';
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.2rem;
+}
+

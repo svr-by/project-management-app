@@ -1,0 +1,58 @@
+@import "src/scss/variables";
+
+.header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--background-pages);
+  transition: background-color 300ms ease-in-out;
+  z-index: 2;
+}
+
+.logo {
+  width: 200px;
+
+  &__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  &__image {
+    width: 150px;
+
+    @media (max-width: $tablet) {
+      width: 100px;
+    }
+  }
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: $tablet) {
+    gap: 0.8rem;
+  }
+
+  @media (max-width: $mobile) {
+    display: none;
+  }
+}
+
+button.hamburger {
+  display: none;
+
+  @media (max-width: $mobile) {
+    display: block;
+  }
+}
+
+.scroll {
+  background-color: var(--header-background-color-scroll);
+}

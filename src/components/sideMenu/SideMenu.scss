@@ -1,0 +1,13 @@
+.side-menu {
+  &__nav {
+    width: 250px;
+  }
+
+  &__switch {
+    justify-content: space-around !important;
+  }
+
+  & .MuiPaper-root {
+    background-color: var(--background-card-column);
+  }
+};

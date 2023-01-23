@@ -1,0 +1,37 @@
+@import "src/scss/variables";
+
+.custom-link {
+  text-decoration: none;
+  background-color: transparent;
+  border: 3px solid var(--red);
+  padding: 0.5rem;
+  min-width: 150px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--text);
+  transition: box-shadow 0.5s ease-in-out, color 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 0 40px 40px var(--red) inset;
+    color: var(--white);
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 0.8rem;
+    min-width: 120px;
+  }
+
+  &.custom-link--filled {
+    text-transform: uppercase;
+    padding: 0.5rem 2rem;
+    background-color: var(--red);
+    color: var(--white);
+  }
+
+  &.custom-link--filled:hover {
+    box-shadow: 0 0 40px 40px var(--background-pages) inset;
+    color: var(--text);
+  }
+}
